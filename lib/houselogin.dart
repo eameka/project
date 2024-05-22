@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'educate.dart';
 
 class MyHouseLogin extends StatefulWidget {
   const MyHouseLogin({
@@ -115,7 +116,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
             ],
           ),
           const SizedBox(height: 15),
-          ElevatedButton(child: const Text('Login'), onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const MyHouseLogin(),)),),
+          ElevatedButton(child: const Text('Login'), onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const Educate(),)),),
         ],
       ),
     );

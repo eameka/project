@@ -53,7 +53,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25),),
         ),
-        bottom: const PreferredSize(preferredSize: Size.fromHeight(200), 
+        bottom: const PreferredSize(preferredSize: Size.fromHeight(150), 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +63,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children:  [
                   Text('Create Account', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),),
-                  SizedBox(height: 20,),
+                  SizedBox(height: 10,),
                 ],
             ),
                Text(' Fill in your details to join', style: TextStyle(fontSize: 15, color: Colors.black),),
@@ -74,7 +74,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
       body: Center(
         child: Column(
           children: [
-                const SizedBox(height: 40),
+                const SizedBox(height: 20),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -93,7 +93,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -123,7 +123,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -140,7 +140,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 5),
                 Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -174,7 +174,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                   onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const MyHouseSignup(),)),
                   child: const Text('Sign up'),
                 ),
-                 const SizedBox(height: 20),
+                 const SizedBox(height: 30),
                  const Divider(
                         color: Colors.black,
                         thickness: 3,
