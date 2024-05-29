@@ -15,7 +15,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
   
 
   bool passwordVisible = false;
-  final _mailController = TextEditingController();
+  final _contactController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
@@ -27,7 +27,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
   @override
   void dispose() {
     super.dispose();
-    _mailController.dispose();
+    _contactController.dispose();
     _passwordController.dispose();
   }
 
@@ -69,12 +69,12 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
           ),
           const SizedBox(height: 25),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top:8.0, bottom: 8.0, left: 35.0, right: 35.0),
             child: TextFormField(
-              controller: _mailController,
+              controller: _contactController,
               decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.mail),
-                labelText: 'Household E-mail',
+                prefixIcon: Icon(Icons.phone),
+                labelText: 'Contact',
                 border: OutlineInputBorder(
                    borderRadius: BorderRadius.all(Radius.circular(25),
                    ),
@@ -84,7 +84,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
           ),
           const SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(top:8.0, bottom: 8.0, left: 35.0, right: 35.0),
             child: TextFormField(
               obscureText: true,
               controller: _passwordController,
@@ -115,7 +115,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
                Text('Forgot password?'),
             ],
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 10),
           ElevatedButton(child: const Text('Login'), onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const Educate(),)),),
         ],
       ),

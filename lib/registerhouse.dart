@@ -1,5 +1,6 @@
 import 'package:custom_signin_buttons/custom_signin_buttons.dart';
 import 'package:flutter/material.dart';
+import 'notify.dart';
 
 
 class MyHouseSignup extends StatefulWidget {
@@ -16,8 +17,8 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
 
   final _householdController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _mailController = TextEditingController();
   final _addressController = TextEditingController();
+  final _contactController = TextEditingController();
   bool passwordVisible = false;
   bool _isChecked = false;
 
@@ -32,8 +33,8 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
       super.dispose();
     _householdController.dispose();
     _passwordController.dispose(); 
-    _mailController.dispose();
-    _addressController.dispose();  
+    _addressController.dispose();
+    _contactController.dispose();  
     }
 
   @override
@@ -77,7 +78,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 const SizedBox(height: 20),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top:8.0, bottom: 8.0, left: 35.0, right: 35.0),
                     child: TextFormField(
                       controller: _householdController,
                       decoration: const InputDecoration(
@@ -96,7 +97,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 const SizedBox(height: 5),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top:8.0, bottom: 8.0, left: 35.0, right: 35.0),
                     child: TextFormField(
                       controller: _passwordController,
                       obscureText: true,
@@ -126,12 +127,12 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 const SizedBox(height: 5),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top:8.0, bottom: 8.0, left: 35.0, right: 35.0),
                     child: TextFormField(
-                      controller: _mailController,
+                      controller: _addressController,
                       decoration: const InputDecoration(
-                        labelText: 'E-mail',
-                        prefixIcon: Icon(Icons.mail),
+                        labelText: 'House Address',
+                        prefixIcon: Icon(Icons.location_city),
                         border: OutlineInputBorder(
                            borderRadius: BorderRadius.all(Radius.circular(25),
                           ),
@@ -143,12 +144,12 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 const SizedBox(height: 5),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top:8.0, bottom: 8.0, left: 35.0, right: 35.0),
                     child: TextFormField(
-                      controller: _addressController,
+                      controller: _contactController,
                       decoration: const InputDecoration(
-                        labelText: 'Household address',
-                        prefixIcon: Icon(Icons.location_city),
+                        labelText: 'Contact',
+                        prefixIcon: Icon(Icons.phone),
                         border: OutlineInputBorder(
                            borderRadius: BorderRadius.all(Radius.circular(25),
                           ),
@@ -171,18 +172,44 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                  ),
                    const SizedBox(height: 15),
                 ElevatedButton(
-                  onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const MyHouseSignup(),)),
+                  onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const Notify(),)),
                   child: const Text('Sign up'),
                 ),
                  const SizedBox(height: 30),
-                 const Divider(
-                        color: Colors.black,
-                        thickness: 3,
-                        height: 3.0,
-                        indent: 20,
-                        endIndent: 20,
-                 ),
-                  const SizedBox(height: 25),
+                  Container(
+                margin: const EdgeInsets.fromLTRB(3, 0, 0, 50),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 8, 0, 6),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF070707),
+                        ),
+                          width: 111,
+                          height: 1,
+                      ),
+                    ),
+                    const Text(
+                      'Or Register with',
+                     
+                    ),
+                    Container(
+                      margin: const EdgeInsets.fromLTRB(0, 8, 0, 6),
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF070707),
+                        ),
+                          width: 113,
+                          height: 1,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+                  const SizedBox(height: 10),
                  SignInButton(
                   button: Button.Google,
                   small: true,
