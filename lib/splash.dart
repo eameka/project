@@ -18,12 +18,12 @@ class _MysplashState extends State<Mysplash> {
     
     return AnimatedSplashScreen(
       splash:  Image.asset('assets/s.png'),
-      backgroundColor: Colors.white,
+      backgroundColor: const Color.fromARGB(255, 103, 196, 107),
       nextScreen: const MyAccount(),
       splashIconSize: 250,
-      duration: 5000,
+      duration: 3000,
       splashTransition: SplashTransition.slideTransition,
-      pageTransitionType: PageTransitionType.leftToRightWithFade,
+      pageTransitionType: PageTransitionType.leftToRight,
     );
   }
 }

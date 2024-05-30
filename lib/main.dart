@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Eco-Planet',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(102, 80, 245, 116),
+          seedColor:const Color.fromARGB(255, 202, 255, 204),
         ),
         useMaterial3: true,
       ),

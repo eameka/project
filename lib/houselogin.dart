@@ -40,13 +40,33 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: const Color.fromARGB(255, 103, 196, 107),
          leading:  IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
+         shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25),),
+        ),
+        bottom: const PreferredSize(preferredSize: Size.fromHeight(150), 
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children:  [
+                  Text('Login', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),),
+                  SizedBox(height: 10,),
+                ],
+            ),
+               Text(' Fill in your details to login', style: TextStyle(fontSize: 15, color: Colors.black),),
+                SizedBox(height: 30,)
+          ],
+        ), ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
