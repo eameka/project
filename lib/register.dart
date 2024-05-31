@@ -76,7 +76,7 @@ class _MyAccountState extends State<MyAccount> {
                   )),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                Color.fromARGB(255, 103, 196, 107),
+               const Color.fromARGB(255, 103, 196, 107),
               )),
               child: const Text(
                 "Register Waste Company account",
