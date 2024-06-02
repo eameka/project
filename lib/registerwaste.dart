@@ -1,5 +1,4 @@
 import 'package:custom_signin_buttons/custom_signin_buttons.dart';
-import 'package:ecowaste/settings.dart';
 import 'package:flutter/material.dart';
 
 class MyWasteSignup extends StatefulWidget {
@@ -140,7 +139,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
               ElevatedButton(
                
                 child: const Text('Sign up'),
-                 onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const Settings(),)),
+                 onPressed: () {},
               ),
                const SizedBox(height: 30),
                  Container(

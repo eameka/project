@@ -1,6 +1,7 @@
 import 'package:custom_signin_buttons/custom_signin_buttons.dart';
+import 'package:ecowaste/form.dart';
 import 'package:flutter/material.dart';
-import 'notify.dart';
+
 
 
 class MyHouseSignup extends StatefulWidget {
@@ -172,7 +173,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                  ),
                    const SizedBox(height: 15),
                 ElevatedButton(
-                  onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const Notify(),)),
+                  onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const MyForm(),)),
                   child: const Text('Sign up'),
                 ),
                  const SizedBox(height: 30),

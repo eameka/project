@@ -1,4 +1,3 @@
-import 'package:ecowaste/form.dart';
 import 'package:flutter/material.dart';
 
 class MywasteLogin extends StatefulWidget {
@@ -129,7 +128,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
           const SizedBox(height: 15),
           ElevatedButton(
             child: const Text('Login'),
-             onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const MyForm(),)),),
+             onPressed: (){},),
         ],
       ),
     );

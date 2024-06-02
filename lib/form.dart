@@ -1,3 +1,4 @@
+import 'package:ecowaste/settings.dart';
 import 'package:flutter/material.dart';
 
 class MyForm extends StatefulWidget {
@@ -178,7 +179,7 @@ class _MyFormState extends State<MyForm> {
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(onPressed: (){}, child: const Text('Continue')),
+                child: ElevatedButton(onPressed: ()=> Navigator.push(context,MaterialPageRoute(builder: (context) => const Settings(),)), child: const Text('Continue')),
               ),
             ],
           ),

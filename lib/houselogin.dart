@@ -1,6 +1,5 @@
-
+import 'package:ecowaste/settings.dart';
 import 'package:flutter/material.dart';
-import 'educate.dart';
 
 class MyHouseLogin extends StatefulWidget {
   const MyHouseLogin({
@@ -136,7 +135,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
             ],
           ),
           const SizedBox(height: 10),
-          ElevatedButton(child: const Text('Login'), onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const Educate(),)),),
+          ElevatedButton(child: const Text('Login'), onPressed: () => Navigator.push(context,MaterialPageRoute(builder: (context) => const Settings(),)),),
         ],
       ),
     );
