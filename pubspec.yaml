@@ -39,6 +39,9 @@ dependencies:
   page_transition: ^2.1.0
   custom_signin_buttons: ^1.0.2
   flutter_inappwebview: ^6.0.0
+  firebase_core: ^2.32.0
+  firebase_auth: ^4.20.0
+  firebase_storage: ^11.7.7
 
 dev_dependencies:
   flutter_test:

@@ -32,6 +32,29 @@
   <title>ecowaste</title>
   <link rel="manifest" href="manifest.json">
 
+  <script type="module">
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCAsrVpw981ZYnfZSBRTbm7euY6wmLcBSs",
+  authDomain: "wasteapp-1fb69.firebaseapp.com",
+  projectId: "wasteapp-1fb69",
+  storageBucket: "wasteapp-1fb69.appspot.com",
+  messagingSenderId: "523222427904",
+  appId: "1:523222427904:web:1620fbd0a7740254082be5",
+  measurementId: "G-0Z58HYS5FD"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+  </script>
+
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "523222427904",
+    "project_id": "wasteapp-1fb69",
+    "storage_bucket": "wasteapp-1fb69.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523222427904:android:c7a94bdd8abf3576082be5",
+        "android_client_info": {
+          "package_name": "com.example.ecowaste"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKxs1wLCyIEsz1U1_es2imWscU6vu2jGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
