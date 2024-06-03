@@ -11,7 +11,7 @@ class _NotifyState extends State<Notify> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: const Text(
           'Notify',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
@@ -24,7 +24,7 @@ class _NotifyState extends State<Notify> {
             Navigator.pop(context);
           },
         ),
-      ),
+      ),*/
       body: Center(
         
         child: Container(

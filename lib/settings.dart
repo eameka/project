@@ -29,7 +29,7 @@ class _SettingsState extends State<Settings> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Settings', style: TextStyle(color: Colors.black)),
+        title: const Text('SmartWaste', style: TextStyle(color: Colors.black)),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
