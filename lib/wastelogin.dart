@@ -1,4 +1,7 @@
+import 'package:ecowaste/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class MywasteLogin extends StatefulWidget {
   const MywasteLogin({
@@ -10,28 +13,27 @@ class MywasteLogin extends StatefulWidget {
 }
 
 class _MywasteLoginState extends State<MywasteLogin> {
-   
-
-   bool passwordVisible = false;
-  final _contactController = TextEditingController();
+  final _auth = AuthService();
+  bool passwordVisible = false;
+  final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
 
- @override 
-    void initState(){ 
-      super.initState(); 
-      passwordVisible=true; 
-    }  
+  @override
+  void initState() {
+    super.initState();
+    passwordVisible = true;
+  }
 
-     @override
-    void dispose(){
-      super.dispose();
-    _contactController.dispose();
-    _passwordController.dispose();   
-    } 
+  @override
+  void dispose() {
+    super.dispose();
+    _mailController.dispose();
+    _passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return   Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text(
           'Account Details',
@@ -39,32 +41,50 @@ class _MywasteLoginState extends State<MywasteLogin> {
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 202, 255, 204),
-         leading:  IconButton(
+        leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25),),
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
+          ),
         ),
-        bottom: const PreferredSize(preferredSize: Size.fromHeight(200), 
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(
+        bottom: const PreferredSize(
+          preferredSize: Size.fromHeight(200),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children:  [
-                  Text('Login', style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),),
-                  SizedBox(height: 20,),
+                children: [
+                  Text(
+                    'Login',
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
-            ),
-               Text(' Fill in your details to login', style: TextStyle(fontSize: 15, color: Colors.black),),
-                SizedBox(height: 30,)
-          ],
-        ), ),
+              ),
+              Text(
+                ' Fill in your details to login',
+                style: TextStyle(fontSize: 15, color: Colors.black),
+              ),
+              SizedBox(
+                height: 30,
+              )
+            ],
+          ),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -72,8 +92,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
           const SizedBox(height: 10),
           const Text(
             'Heya! Welcome Back',
-            style:
-                TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
           ),
           const SizedBox(height: 10),
           const Text(
@@ -87,50 +106,78 @@ class _MywasteLoginState extends State<MywasteLogin> {
           ),
           const SizedBox(height: 25),
           Padding(
-            padding: const EdgeInsets.only(top:8.0, bottom: 8.0, left: 35.0, right: 35.0),
+            padding: const EdgeInsets.only(
+                top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
             child: TextFormField(
-              controller: _contactController,
+              controller: _mailController,
               decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.phone),
-                labelText: 'Contact',
+                prefixIcon: Icon(Icons.mail),
+                labelText: 'E-mail',
                 border: OutlineInputBorder(
-                   borderRadius: BorderRadius.all(Radius.circular(25),),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
+                  ),
                 ),
               ),
             ),
           ),
           const SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.only(top:8.0, bottom: 8.0, left: 35.0, right: 35.0),
+            padding: const EdgeInsets.only(
+                top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
             child: TextFormField(
               obscureText: true,
               controller: _passwordController,
               decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.lock),
-                  labelText: 'Password',
-                  border: const OutlineInputBorder(
-                     borderRadius: BorderRadius.all(Radius.circular(25),),
+                prefixIcon: const Icon(Icons.lock),
+                labelText: 'Password',
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25),
                   ),
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                       setState( 
-                          () { 
-                            passwordVisible = !passwordVisible; 
-                          }, 
-                        ); 
-                    },
-                    icon: Icon(passwordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off),
-                  ),),
+                ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(
+                      () {
+                        passwordVisible = !passwordVisible;
+                      },
+                    );
+                  },
+                  icon: Icon(passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                ),
+              ),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please enter valid password';
+                }
+                return null;
+              },
             ),
           ),
           const SizedBox(height: 15),
           ElevatedButton(
+            onPressed: _login,
             child: const Text('Login'),
-             onPressed: (){},),
+          ),
         ],
       ),
     );
+  }
+
+  _login() async {
+    final user = await _auth.loginUserWithEmailAndPassword(
+        _mailController.text, _passwordController.text);
+    if (user != null) {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        text: 'User Login Completed Successfully!',
+      );
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const MywasteLogin()));
+    }
   }
 }
