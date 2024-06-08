@@ -1,4 +1,5 @@
 import 'package:ecowaste/auth_service.dart';
+import 'package:ecowaste/forgotpassword.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -156,6 +157,19 @@ class _MywasteLoginState extends State<MywasteLogin> {
                 return null;
               },
             ),
+          ),
+          const SizedBox(height: 5),
+           Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ForgotPasswordScreen(),
+                      )),
+                  child: const Text('Forgot password?')),
+            ],
           ),
           const SizedBox(height: 15),
           ElevatedButton(

@@ -145,6 +145,12 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                             ? Icons.visibility
                             : Icons.visibility_off),
                       )),
+                      validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please enter valid password';
+                }
+                return null;
+              },
                 ),
               ),
             ),
@@ -164,6 +170,12 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                       ),
                     ),
                   ),
+                  validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please enter valid E-mail';
+                }
+                return null;
+              },
                 ),
               ),
             ),

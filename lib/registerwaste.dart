@@ -107,6 +107,12 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                   ),
                 ),
               ),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please enter valid Username';
+                }
+                return null;
+              },
             ),
           ),
           const SizedBox(height: 10),
@@ -136,6 +142,12 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                         ? Icons.visibility
                         : Icons.visibility_off),
                   )),
+                  validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please enter valid password';
+                }
+                return null;
+              },
             ),
           ),
           const SizedBox(height: 10),
