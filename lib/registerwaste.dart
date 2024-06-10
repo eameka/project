@@ -1,6 +1,9 @@
 import 'package:custom_signin_buttons/custom_signin_buttons.dart';
 import 'package:ecowaste/auth_service.dart';
+import 'package:ecowaste/store_user.dart';
+import 'package:ecowaste/user_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
@@ -21,6 +24,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
   final _mailController = TextEditingController();
   bool passwordVisible = false;
   
+   final wasteRepo = Get.put(WasteRepository());
 
   @override
   void initState() {
@@ -165,6 +169,12 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                   ),
                 ),
               ),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please enter valid Contact';
+                }
+                return null;
+              },
             ),
           ),
           const SizedBox(height: 10),
@@ -182,6 +192,12 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                   ),
                 ),
               ),
+              validator: (value) {
+                if (value?.isEmpty ?? true) {
+                  return 'Please enter valid E-mail';
+                }
+                return null;
+              },
             ),
           ),
           const SizedBox(height: 10),
@@ -287,7 +303,16 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
             ),
           const SizedBox(height: 15),
           ElevatedButton(
-            onPressed: _signup,
+            onPressed:(){
+               final wuser =WasteModel(
+                  name: _wasteController.text,
+                  password: _passwordController.text,
+                  email: _mailController.text ,
+                  contact: _contactController.text,
+                );
+                WasteRepository.instance.createUser(wuser);
+              _signup();
+            } ,
             child: const Text('Sign up'),
           ),
           const SizedBox(height: 30),
@@ -348,4 +373,9 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
       );
     }
   }
+
+   Future<void> createUser(WasteModel wuser) async {
+    await wasteRepo.createUser(wuser);
+  }
 }
+

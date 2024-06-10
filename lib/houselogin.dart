@@ -1,6 +1,6 @@
 import 'package:ecowaste/auth_service.dart';
 import 'package:ecowaste/forgotpassword.dart';
-import 'package:ecowaste/settings.dart';
+import 'package:ecowaste/navigate.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -174,7 +174,10 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
                       MaterialPageRoute(
                         builder: (context) => const ForgotPasswordScreen(),
                       )),
-                  child: const Text('Forgot password?')),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('Forgot password?'),
+                  )),
             ],
           ),
           const SizedBox(height: 10),
@@ -196,7 +199,6 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
         type: QuickAlertType.success,
         text: 'User login Completed Successfully!',
       );
-
       Navigator.push(
           context,
           MaterialPageRoute(

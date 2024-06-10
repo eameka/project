@@ -168,7 +168,10 @@ class _MywasteLoginState extends State<MywasteLogin> {
                       MaterialPageRoute(
                         builder: (context) => const ForgotPasswordScreen(),
                       )),
-                  child: const Text('Forgot password?')),
+                  child: const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text('Forgot password?'),
+                  )),
             ],
           ),
           const SizedBox(height: 15),

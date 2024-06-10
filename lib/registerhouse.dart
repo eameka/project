@@ -1,6 +1,6 @@
 import 'package:custom_signin_buttons/custom_signin_buttons.dart';
 import 'package:ecowaste/auth_service.dart';
-import 'package:ecowaste/form.dart';
+import 'package:ecowaste/navigate.dart';
 import 'package:ecowaste/store_user.dart';
 import 'package:ecowaste/user_model.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +24,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
   final _mailController = TextEditingController();
   final _contactController = TextEditingController();
 
+  
   final userRepo = Get.put(UserRepository());
   bool passwordVisible = false;
 
@@ -301,7 +302,16 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
             ),
             const SizedBox(height: 15),
             ElevatedButton(
-              onPressed: _signup,
+              onPressed: (){
+                final user =UserModel(
+                  name: _householdController.text,
+                  password: _passwordController.text,
+                  email: _mailController.text ,
+                  contact: _contactController.text,
+                );
+                UserRepository.instance.createUser(user);
+                _signup();
+              },
               child: const Text('Sign up'),
             ),
             const SizedBox(height: 30),
@@ -358,7 +368,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
         text: 'User SignUp Completed Successfully!',
       );
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MyForm()));
+          context, MaterialPageRoute(builder: (context) => const Settings()));
     }
   }
 

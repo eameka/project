@@ -12,3 +12,12 @@ class UserRepository extends GetxController{
   }
 }
 
+class WasteRepository extends GetxController{
+  static WasteRepository get instance => Get.find();
+
+  final _wdb = FirebaseFirestore.instance;
+
+  createUser(WasteModel wuser) async{
+    await _wdb.collection('Waste Companies').add(wuser.toJson());
+  }
+}

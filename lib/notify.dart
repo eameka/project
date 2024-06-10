@@ -11,51 +11,62 @@ class _NotifyState extends State<Notify> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        title: const Text(
-          'Notify',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        ),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.green,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),*/
-      body: Center(
-        
-        child: Container(
-          width: 350,
-          height: 450,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: const Color.fromARGB(255, 156, 219, 158),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  // Call API or perform action here
-                },
-                child: const Text('Request Waste Pickup'),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Call API or perform action here
-                },
-                child: const Text('Request general cleanup'),
-              ),
-            ],
-          ),
+        backgroundColor: Colors.transparent,
+        iconTheme: const IconThemeData(
+          color:Colors.white,
         ),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Color.fromARGB(255, 202, 255, 204),
+              ),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                  ),
+                  Text('Dojo',
+                      style: TextStyle(fontSize: 18, color: Colors.black)),
+                ],
+              ),
+            ),
+            ListTile(
+              title: const Text('Mobile Number'),
+              subtitle: const Text('0507971715'),
+              leading: const Icon(Icons.phone),
+              onTap: () {
+                // Call API or perform action here
+              },
+            ),
+           
+                 ListTile(
+              title: const Text('Payment'),
+              leading: const Icon(Icons.wallet),
+              onTap: () {
+                // Call API or perform action here
+              },
+            ),
+            ListTile(
+              title: const Text('Logout'),
+              leading: const Icon(Icons.logout),
+              onTap: () {
+                // Call API or perform action here
+                 
+              },
+            ),
+          ],
+        ),
+      ),
+      body:Container(),
     );
   }
 }
