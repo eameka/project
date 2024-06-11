@@ -1,5 +1,6 @@
 import 'package:custom_signin_buttons/custom_signin_buttons.dart';
 import 'package:ecowaste/auth_service.dart';
+import 'package:ecowaste/navigatewaste.dart';
 import 'package:ecowaste/store_user.dart';
 import 'package:ecowaste/user_model.dart';
 import 'package:flutter/material.dart';
@@ -341,7 +342,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                     decoration: const BoxDecoration(
                       color: Color(0xFF070707),
                     ),
-                    width: 113,
+                    width: 111,
                     height: 1,
                   ),
                 ),
@@ -369,7 +370,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
       );
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const MyWasteSignup()),
+        MaterialPageRoute(builder: (context) => const MyWasteNavigate()),
       );
     }
   }

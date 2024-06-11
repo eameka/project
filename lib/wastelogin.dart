@@ -1,5 +1,6 @@
 import 'package:ecowaste/auth_service.dart';
 import 'package:ecowaste/forgotpassword.dart';
+import 'package:ecowaste/navigatewaste.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -194,7 +195,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
         text: 'User Login Completed Successfully!',
       );
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const MywasteLogin()));
+          MaterialPageRoute(builder: (context) => const MyWasteNavigate()));
     }
   }
 }

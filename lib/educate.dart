@@ -1,3 +1,5 @@
+import 'package:ecowaste/auth_service.dart';
+import 'package:ecowaste/houselogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -10,6 +12,7 @@ class Educate extends StatefulWidget {
 }
 
 class _EducateState extends State<Educate> {
+  final _auth = AuthService();
   double _progress = 0;
   late InAppWebViewController inAppWebViewController;
    @override
@@ -55,9 +58,14 @@ class _EducateState extends State<Educate> {
             ListTile(
               title: const Text('Logout'),
               leading: const Icon(Icons.logout),
-              onTap: () {
+              onTap: () async {
                 // Call API or perform action here
-                
+                await _auth.signout();
+                 Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MyHouseLogin(),
+          ));
               },
             ),
           ],

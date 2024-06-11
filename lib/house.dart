@@ -1,3 +1,5 @@
+import "package:ecowaste/auth_service.dart";
+import "package:ecowaste/houselogin.dart";
 import "package:flutter/material.dart";
 
 class House extends StatefulWidget {
@@ -8,6 +10,8 @@ class House extends StatefulWidget {
 }
 
 class _HouseState extends State<House> {
+
+  final _auth = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,9 +62,14 @@ class _HouseState extends State<House> {
             ListTile(
               title: const Text('Logout'),
               leading: const Icon(Icons.logout),
-              onTap: () {
+              onTap: () async {
                 // Call API or perform action here
-                 
+                  await _auth.signout();
+                 Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MyHouseLogin(),
+          ));
               },
             ),
           ],
