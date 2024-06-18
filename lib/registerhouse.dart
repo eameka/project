@@ -206,7 +206,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 showModalBottomSheet(
                   context: context,
                   builder: (context) => SizedBox(
-                    height: 200,
+                    height:  MediaQuery.of(context).size.height * 0.8,
                     child: Column(
                       children: [
                         const Text(
