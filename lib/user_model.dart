@@ -42,10 +42,11 @@ class WasteModel{
 
   toJson(){
     return{
-      "Household name": name,      
+      "Waste Company name": name,      
       "Password": password,      
       "Email": email,
       "Contact": contact,
     };
   }
 }
+

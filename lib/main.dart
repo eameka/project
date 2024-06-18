@@ -1,9 +1,12 @@
 import 'package:ecowaste/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();  
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized(); 
+   if(kIsWeb){
     await Firebase.initializeApp(
       options: const FirebaseOptions(
       apiKey:  "AIzaSyCAsrVpw981ZYnfZSBRTbm7euY6wmLcBSs", 
@@ -11,6 +14,9 @@ void main() async {
       messagingSenderId:  "523222427904", 
       projectId:  "wasteapp-1fb69")
     );
+   }else{
+    await Firebase.initializeApp();
+   }
   runApp(const MyApp());
 }
 

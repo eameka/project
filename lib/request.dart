@@ -166,7 +166,7 @@ final _db = FirebaseFirestore.instance;
                       width: MediaQuery.of(context).size.width * 0.1,
                       height: MediaQuery.of(context).size.height * 0.1,
                       decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
+                        shape: BoxShape.rectangle,
                         image: DecorationImage(
                           image: AssetImage('assets/pickup.jpeg'),
                           fit: BoxFit.fill,
@@ -195,7 +195,7 @@ final _db = FirebaseFirestore.instance;
                       width: MediaQuery.of(context).size.width * 0.1,
                       height: MediaQuery.of(context).size.height * 0.1,
                       decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
+                        shape: BoxShape.rectangle,
                         image: DecorationImage(
                           image: AssetImage('assets/cleanup.jpeg'),
                           fit: BoxFit.fill,
@@ -230,7 +230,7 @@ final _db = FirebaseFirestore.instance;
                       width: MediaQuery.of(context).size.width * 0.1,
                       height: MediaQuery.of(context).size.height * 0.1,
                       decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
+                        shape: BoxShape.rectangle,
                         image: DecorationImage(
                           image: AssetImage('assets/orders.jpeg'),
                           fit: BoxFit.fill,

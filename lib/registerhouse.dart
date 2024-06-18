@@ -206,7 +206,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 showModalBottomSheet(
                   context: context,
                   builder: (context) => SizedBox(
-                    height:  MediaQuery.of(context).size.height * 0.8,
+                    height:  MediaQuery.of(context).size.height * 1.0,
                     child: Column(
                       children: [
                         const Text(
@@ -266,7 +266,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                             ElevatedButton(
                                style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                 const Color.fromARGB(255, 103, 196, 107),
                               )),
                               onPressed: () {
@@ -278,7 +278,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                             ElevatedButton(
                                style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                 const Color.fromARGB(255, 103, 196, 107),
                               )),
                               onPressed: () {
