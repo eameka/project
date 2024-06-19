@@ -15,10 +15,12 @@ class _NotifyState extends State<Notify> {
   final _auth = AuthService();
 
 final _db = FirebaseFirestore.instance;
+final _formKey = GlobalKey<FormState>();
 
    String _mobileNumber = " ";
    String _name = " ";
     String _mail = " ";
+    String? _timeOfDay;
 
   @override
   void initState() {
@@ -42,7 +44,7 @@ final _db = FirebaseFirestore.instance;
 
     if (snapshot.exists) {
       setState(() {
-        _mobileNumber = snapshot.get('contact').toString();
+        _mobileNumber = snapshot.get('Contact').toString();
       });
     }
   }
@@ -53,7 +55,7 @@ final _db = FirebaseFirestore.instance;
 
     if (snapshot.exists) {
       setState(() {
-        _name = snapshot.get('name').toString();
+        _name = snapshot.get('Household name').toString();
       });
     }
   }
@@ -64,7 +66,7 @@ final _db = FirebaseFirestore.instance;
 
     if (snapshot.exists) {
       setState(() {
-        _mail = snapshot.get('email').toString();
+        _mail = snapshot.get('Email').toString();
       });
     }
   }
@@ -73,6 +75,7 @@ final _db = FirebaseFirestore.instance;
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: AppBar(
         title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
@@ -153,62 +156,168 @@ final _db = FirebaseFirestore.instance;
             Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.3,
-                height: MediaQuery.of(context).size.height * 0.2,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                          image: AssetImage('assets/pickup.jpeg'),
-                          fit: BoxFit.fill,
+              GestureDetector(
+                onTap:(){},
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top:20.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          decoration:  BoxDecoration(
+                             borderRadius: BorderRadius.circular(5),
+                            shape: BoxShape.rectangle,
+                            image: const DecorationImage(
+                              image: AssetImage('assets/pickup.jpeg'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                     const Center(
-                       child: Padding(
-                         padding: EdgeInsets.all(8.0),
-                         child: Text('Request Pickup'),
+                       const Center(
+                         child: Padding(
+                           padding: EdgeInsets.all(8.0),
+                           child: Text('Request Pickup', style:TextStyle(color:Colors.white)),
+                         ),
                        ),
-                     ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.3,
-                height: MediaQuery.of(context).size.height * 0.2,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                          image: AssetImage('assets/cleanup.jpeg'),
-                          fit: BoxFit.fill,
-                        ),
+              GestureDetector(
+                onTap:(){
+                   showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (context) =>
+
+               FractionallySizedBox(
+                heightFactor: MediaQuery.of(context).size.height * 0.8,
+                 child: SingleChildScrollView(
+                  child: Padding(
+                    padding: MediaQuery.of(context).viewInsets,
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                labelText: 'Location',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your location';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                labelText: 'Time of Collection',
+                                border: OutlineInputBorder(),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please select a time of collection';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          RadioListTile(
+                            title: const Text('Morning'),
+                            value: 'Morning',
+                            groupValue: _timeOfDay,
+                            onChanged: (value) {
+                              setState(() {
+                                _timeOfDay = value as String;
+                              });
+                            },
+                          ),
+                          RadioListTile(
+                            title: const Text('Afternoon'),
+                            value: 'Afternoon',
+                            groupValue: _timeOfDay,
+                            onChanged: (value) {
+                              setState(() {
+                                _timeOfDay = value as String;
+                              });
+                            },
+                          ),
+                          RadioListTile(
+                            title: const Text('Evening'),
+                            value: 'Evening',
+                            groupValue: _timeOfDay,
+                            onChanged: (value) {
+                              setState(() {
+                                _timeOfDay = value as String;
+                              });
+                            },
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                // Submit the form here
+                              }
+                            },
+                            child: const Text('Submit'),
+                          ),
+                        ],
                       ),
                     ),
-                     const Center(
-                       child: Padding(
-                         padding: EdgeInsets.all(8.0),
-                         child: Text('Request Cleanup'),
+                  ),
+                               ),
+               ),
+            );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top:20.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          decoration:  BoxDecoration(
+                             borderRadius: BorderRadius.circular(5),
+                            shape: BoxShape.rectangle,
+                            image: const DecorationImage(
+                              image: AssetImage('assets/cleanup.jpeg'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                        ),
+                      ),
+                       const Center(
+                         child: Padding(
+                           padding: EdgeInsets.all(8.0),
+                           child: Text('Request Cleanup', style:TextStyle(color:Colors.white)),
+                         ),
                        ),
-                     ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -217,33 +326,148 @@ final _db = FirebaseFirestore.instance;
           Row(
              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
              children: [
-              Container(
-                width: MediaQuery.of(context).size.width * 0.3,
-                height: MediaQuery.of(context).size.height * 0.2,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(20),
+              GestureDetector(
+                onTap:(){
+                  showModalBottomSheet(
+  context: context,
+  isScrollControlled: true, // make the sheet scrollable
+  builder: (context) {
+     TimeOfDay timeOfDay = const TimeOfDay(hour: 8, minute: 0);
+    return FractionallySizedBox(
+      heightFactor: MediaQuery.of(context).size.height * 0.8, // adjust the height based on the screen size
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Form(
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Location',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter your location';
+                    }
+                    return null;
+                  },
                 ),
-                child: Column(
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Waste Type',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the waste type';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Quantity',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Please enter the quantity';
+                    }
+                    return null;
+                  },
+                ),
+                const Text('Time of Collection:'),
+                Row(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.1,
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        image: DecorationImage(
-                          image: AssetImage('assets/orders.jpeg'),
-                          fit: BoxFit.fill,
+                    Radio(
+                      value: const TimeOfDay(hour: 8, minute: 0),
+                      groupValue: timeOfDay,
+                      onChanged: (value) {
+                        setState(() {
+                          timeOfDay = value as TimeOfDay;
+                        });
+                      },
+                    ),
+                    const Text('8:00 AM'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Radio(
+                      value: const TimeOfDay(hour: 12, minute: 0),
+                      groupValue: timeOfDay,
+                      onChanged: (value) {
+                        setState(() {
+                          timeOfDay = value as TimeOfDay;
+                        });
+                      },
+                    ),
+                    const Text('12:00 PM'),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Radio(
+                      value: const TimeOfDay(hour: 16, minute: 0),
+                      groupValue: timeOfDay,
+                      onChanged: (value) {
+                        setState(() {
+                          timeOfDay = value as TimeOfDay;
+                        });
+                      },
+                    ),
+                    const Text('4:00 PM'),
+                  ],
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    // submit the form
+                  },
+                  child: const Text('Request Waste Pickup'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  },
+);
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  height: MediaQuery.of(context).size.height * 0.2,
+                  decoration: BoxDecoration(
+                    color: Colors.green,
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top:20.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          height: MediaQuery.of(context).size.height * 0.1,
+                          decoration:  BoxDecoration(
+                             borderRadius: BorderRadius.circular(5),
+                            shape: BoxShape.rectangle,
+                            image: const DecorationImage(
+                              image: AssetImage('assets/orders.jpeg'),
+                              fit: BoxFit.fill,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                     const Center(
-                       child: Padding(
-                         padding: EdgeInsets.all(8.0),
-                         child: Text('Orders'),
+                       const Center(
+                         child: Padding(
+                           padding: EdgeInsets.all(8.0),
+                           child: Text('Orders', style:TextStyle(color:Colors.white)),
+                         ),
                        ),
-                     ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
              ],

@@ -42,7 +42,7 @@ class _HouseState extends State<House> {
 
     if (snapshot.exists) {
       setState(() {
-        _mobileNumber = snapshot.get('contact').toString();
+        _mobileNumber = snapshot.get('Contact').toString();
       });
     }
   }
@@ -53,7 +53,7 @@ class _HouseState extends State<House> {
 
     if (snapshot.exists) {
       setState(() {
-        _mail = snapshot.get('email').toString();
+        _mail = snapshot.get('Email').toString();
       });
     }
   }
@@ -64,7 +64,7 @@ class _HouseState extends State<House> {
 
     if (snapshot.exists) {
       setState(() {
-        _name = snapshot.get('name').toString();
+        _name = snapshot.get('Household name').toString();
       });
     }
   }

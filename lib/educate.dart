@@ -46,7 +46,7 @@ final _db = FirebaseFirestore.instance;
 
     if (snapshot.exists) {
       setState(() {
-        _mobileNumber = snapshot.get('contact').toString();
+        _mobileNumber = snapshot.get('Contact').toString();
       });
     }
   }
@@ -57,7 +57,7 @@ final _db = FirebaseFirestore.instance;
 
     if (snapshot.exists) {
       setState(() {
-        _name = snapshot.get('name').toString();
+        _name = snapshot.get('Household name').toString();
       });
     }
   }
@@ -68,7 +68,7 @@ final _db = FirebaseFirestore.instance;
 
     if (snapshot.exists) {
       setState(() {
-        _mail = snapshot.get('email').toString();
+        _mail = snapshot.get('Email').toString();
       });
     }
   }
@@ -97,11 +97,8 @@ final _db = FirebaseFirestore.instance;
                     radius: 50,
                     backgroundColor: Colors.white,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(_name,
-                        style: const TextStyle(fontSize: 20, color: Colors.black)),
-                  ),
+                  Text(_name,
+                      style: const TextStyle(fontSize: 18, color: Colors.black)),
                 ],
               ),
             ),

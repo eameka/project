@@ -16,6 +16,7 @@ static const LatLng _kGooglePlex = LatLng(6.6795024, -1.5734307);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
     target: _kGooglePlex,
