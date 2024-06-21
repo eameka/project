@@ -149,7 +149,18 @@ final _formKey = GlobalKey<FormState>();
             height: MediaQuery.of(context).size.height * 0.3,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(bottomLeft:Radius.circular(35), bottomRight: Radius.circular(35)),
-              color: Colors.green,
+              color: const Color.fromARGB(255, 103, 196, 107),
+            ),
+            child: Center(
+              child: Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color.fromARGB(137, 46, 45, 45)
+                ),
+              ),
             ),
            ),
            SizedBox(height: MediaQuery.of(context).size.height * 0.09),

@@ -1,6 +1,7 @@
 import 'package:ecowaste/auth_service.dart';
 import 'package:ecowaste/forgotpassword.dart';
 import 'package:ecowaste/navigatewaste.dart';
+import 'package:ecowaste/registerwaste.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -46,7 +47,11 @@ class _MywasteLoginState extends State<MywasteLogin> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
-            Navigator.pop(context);
+             Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MyWasteSignup(),
+          ));
           },
         ),
         shape: const RoundedRectangleBorder(

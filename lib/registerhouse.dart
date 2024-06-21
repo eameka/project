@@ -1,5 +1,6 @@
 import 'package:ecowaste/auth_service.dart';
 import 'package:ecowaste/navigate.dart';
+import 'package:ecowaste/register.dart';
 import 'package:ecowaste/store_user.dart';
 import 'package:ecowaste/user_model.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,11 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
-            Navigator.pop(context);
+             Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MyAccount(),
+          ));
           },
         ),
         shape: const RoundedRectangleBorder(

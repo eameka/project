@@ -92,11 +92,8 @@ class _HouseState extends State<House> {
                     radius: 50,
                     backgroundColor: Colors.white,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(_name,
-                        style: const TextStyle(fontSize: 20, color: Colors.black)),
-                  ),
+                  Text(_name,
+                      style: const TextStyle(fontSize: 20, color: Colors.black)),
                 ],
               ),
             ),
