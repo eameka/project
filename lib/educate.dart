@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecowaste/auth_service.dart';
-import 'package:ecowaste/houselogin.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:ecowaste/auth_service.dart';
+// import 'package:ecowaste/houselogin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
@@ -13,17 +13,17 @@ class Educate extends StatefulWidget {
 }
 
 class _EducateState extends State<Educate> {
-  final _auth = AuthService();
+//  final _auth = AuthService();
   double _progress = 0;
   late InAppWebViewController inAppWebViewController;
 
-final _db = FirebaseFirestore.instance;
+// final _db = FirebaseFirestore.instance;
 
-   String _mobileNumber = " ";
-   String _name = " ";
-   String _mail = " ";
+ //  String _mobileNumber = " ";
+//   String _name = " ";
+//   String _mail = " ";
 
-  @override
+  /* @override
   void initState() {
     super.initState();
     _retrieveMobileNumber();
@@ -72,7 +72,7 @@ final _db = FirebaseFirestore.instance;
       });
     }
   }
-
+*/
 
    @override
   Widget build(BuildContext context) {
@@ -83,64 +83,7 @@ final _db = FirebaseFirestore.instance;
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-             DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 202, 255, 204),
-              ),
-              child: Column(
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.white,
-                  ),
-                  Text(_name,
-                      style: const TextStyle(fontSize: 18, color: Colors.black)),
-                ],
-              ),
-            ),
-            ListTile(
-              title: const Text('Mobile Number'),
-              subtitle:  Text(_mobileNumber),
-              leading: const Icon(Icons.phone),
-              onTap: () {
-                // Call API or perform action here
-              },
-            ),
-             ListTile(
-              title: const Text('E-mail'),
-              subtitle: Text(_mail),
-              leading: const Icon(Icons.mail),
-              onTap: () {
-                // Call API or perform action here
-              },
-            ),
-            ListTile(
-              title: const Text('Payment'),
-              leading: const Icon(Icons.wallet),
-              onTap: () {
-                // Call API or perform action here
-              },
-            ),
-            ListTile(
-              title: const Text('Logout'),
-              leading: const Icon(Icons.logout),
-              onTap: () async {
-                // Call API or perform action here
-                await _auth.signout();
-                 Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const MyHouseLogin(),
-          ));
-              },
-            ),
-          ],
-        ),
-      ),
+     
         body: Stack(
           children: [
             InAppWebView(

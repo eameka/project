@@ -330,7 +330,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
               },
               child: const Text('Sign up'),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 20),
           ],
         ),
       ),

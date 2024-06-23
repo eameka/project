@@ -77,7 +77,7 @@ class _NotifyState extends State<Notify> {
       appBar: AppBar(
         title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: const Color.fromARGB(255, 202, 255, 204),
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
@@ -102,7 +102,7 @@ class _NotifyState extends State<Notify> {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                        color: Colors.white),
                   ),
                   SizedBox(
                     height: 10,
@@ -306,11 +306,12 @@ class _NotifyState extends State<Notify> {
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.1,
-                          decoration: BoxDecoration(
+                          decoration:  BoxDecoration(
+                            border: Border.all(color: Colors.grey),
                             borderRadius: BorderRadius.circular(5),
                             shape: BoxShape.rectangle,
                             image: const DecorationImage(
-                              image: AssetImage('assets/pickup.jpeg'),
+                              image: AssetImage('assets/garbage-truck.png'),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -320,7 +321,7 @@ class _NotifyState extends State<Notify> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('Request Pickup',
-                              style: TextStyle(color: Colors.white)),
+                              style: TextStyle(color: Colors.black)),
                         ),
                       ),
                     ],
@@ -432,10 +433,11 @@ class _NotifyState extends State<Notify> {
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
                             borderRadius: BorderRadius.circular(5),
                             shape: BoxShape.rectangle,
                             image: const DecorationImage(
-                              image: AssetImage('assets/cleanup.jpeg'),
+                              image: AssetImage('assets/house-keeping.png'),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -445,7 +447,7 @@ class _NotifyState extends State<Notify> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('Request Cleanup',
-                              style: TextStyle(color: Colors.white)),
+                              style: TextStyle(color: Colors.black)),
                         ),
                       ),
                     ],
@@ -477,10 +479,11 @@ class _NotifyState extends State<Notify> {
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
                             borderRadius: BorderRadius.circular(5),
                             shape: BoxShape.rectangle,
                             image: const DecorationImage(
-                              image: AssetImage('assets/orders.jpeg'),
+                              image: AssetImage('assets/purchase-orders.png'),
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -490,7 +493,7 @@ class _NotifyState extends State<Notify> {
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Text('Orders',
-                              style: TextStyle(color: Colors.white)),
+                              style: TextStyle(color: Colors.black)),
                         ),
                       ),
                     ],
