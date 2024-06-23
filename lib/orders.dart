@@ -48,7 +48,7 @@ class _OrdersState extends State<Orders> {
               ),
             Container(
             height: MediaQuery.of(context).size.height * 0.09,
-            width: MediaQuery.of(context).size.width * 0.09,
+            width: MediaQuery.of(context).size.width * 0.2,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(
                    Radius.circular(35)),
