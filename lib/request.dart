@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowaste/auth_service.dart';
 import 'package:ecowaste/houselogin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Notify extends StatefulWidget {
@@ -13,61 +14,44 @@ class Notify extends StatefulWidget {
 class _NotifyState extends State<Notify> {
   final _auth = AuthService();
 
-  final _db = FirebaseFirestore.instance;
   final _formKey = GlobalKey<FormState>();
+    final FirebaseAuth auth = FirebaseAuth.instance;
+  User? user;
+  Map<String, dynamic>? userProfile;
 
-  String _mobileNumber = " ";
-  String _name = " ";
-  String _mail = " ";
+
+
   String? _timeOfDay;
+ /* String? household =  ;
+
+  String? mobile =  ;
+
+  String? mail =  userProfile!['email'];
+*/
 
   @override
   void initState() {
     super.initState();
-    _retrieveMobileNumber();
-    _retrieveName();
-    _retrieveMail();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _retrieveMobileNumber();
-    _retrieveMail();
-    _retrieveName();
-  }
-
-  _retrieveMobileNumber() async {
-    final DocumentReference ref = _db.collection("Users").doc('id');
-    final DocumentSnapshot snapshot = await ref.get();
-
-    if (snapshot.exists) {
-      setState(() {
-        _mobileNumber = snapshot.get('Contact').toString();
-      });
+    user = auth.currentUser;
+    if (user != null) {
+      fetchUserProfile();
     }
   }
 
-  _retrieveName() async {
-    final DocumentReference ref = _db.collection("Users").doc('id');
-    final DocumentSnapshot snapshot = await ref.get();
-
-    if (snapshot.exists) {
-      setState(() {
-        _name = snapshot.get('Household name').toString();
-      });
-    }
+   Future<void> fetchUserProfile() async {
+    String uid = user!.uid;
+    Map<String, dynamic>? profile = await getUserProfile(uid);
+    setState(() {
+      userProfile = profile;
+    });
   }
 
-  _retrieveMail() async {
-    final DocumentReference ref = _db.collection("Users").doc('id');
-    final DocumentSnapshot snapshot = await ref.get();
-
-    if (snapshot.exists) {
-      setState(() {
-        _mail = snapshot.get('Email').toString();
-      });
+    Future<Map<String, dynamic>?> getUserProfile(String uid) async {
+    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('Users').doc('id').get();
+    if (userDoc.exists) {
+      return userDoc.data() as Map<String, dynamic>?;
     }
+    return null;
   }
 
   @override
@@ -127,7 +111,7 @@ class _NotifyState extends State<Notify> {
                     radius: 50,
                     backgroundColor: Colors.white,
                   ),
-                  Text(_name,
+                  Text(userProfile!['name'],
                       style:
                           const TextStyle(fontSize: 18, color: Colors.black)),
                 ],
@@ -135,7 +119,7 @@ class _NotifyState extends State<Notify> {
             ),
             ListTile(
               title: const Text('Mobile Number'),
-              subtitle: Text(_mobileNumber),
+              subtitle: Text(userProfile!['contact']),
               leading: const Icon(Icons.phone),
               onTap: () {
                 // Call API or perform action here
@@ -143,7 +127,7 @@ class _NotifyState extends State<Notify> {
             ),
             ListTile(
               title: const Text('E-mail'),
-              subtitle: Text(_mail),
+              subtitle: Text(userProfile!['email']),
               leading: const Icon(Icons.mail),
               onTap: () {
                 // Call API or perform action here
