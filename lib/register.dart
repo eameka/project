@@ -50,104 +50,152 @@ class _MyAccountState extends State<MyAccount> {
             const SizedBox(
               height: 20,
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyHouseSignup(),
-                  )),
-              style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                const Color.fromARGB(255, 103, 196, 107),
-              )),
-              child: const Text(
-                "Register Household account",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
             const SizedBox(
               height: 10,
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MyWasteSignup(),
-                  )),
-              style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-               const Color.fromARGB(255, 103, 196, 107),
-              )),
-              child: const Text(
-                "Register Waste Company account",
-                style: TextStyle(color: Colors.white),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet<void>(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return SizedBox(
-                      height: 200,
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            const Text('LOGIN'),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStateProperty.all<Color>(
-                                const Color.fromARGB(255, 103, 196, 107),
-                              )),
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const MyHouseLogin(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SizedBox(
+                          height: 200,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                const Text('REGISTER'),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MyHouseSignup(),
+                                      )),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                    const Color.fromARGB(255, 103, 196, 107),
                                   )),
-                              child: const Text('Login as Household',
-                                  style: TextStyle(color: Colors.white)),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStateProperty.all<Color>(
-                                const Color.fromARGB(255, 103, 196, 107),
-                              )),
-                              child: const Text('Login as Waste company',
-                                  style: TextStyle(color: Colors.white)),
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const MywasteLogin(),
+                                  child: const Text(
+                                    "Register Household account",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MyWasteSignup(),
+                                      )),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                    const Color.fromARGB(255, 103, 196, 107),
                                   )),
+                                  child: const Text(
+                                    "Register Waste Company account",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
                     );
                   },
-                );
-              },
-              style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                const Color.fromARGB(255, 103, 196, 107),
-              )),
-              child: const Text(
-                "Login",
-                style: TextStyle(color: Colors.white),
-              ),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          WidgetStateProperty.all<Color>(Color(0Xff0C2925))),
+                  child: const Text(
+                    "Register",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return SizedBox(
+                          height: 200,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                const Text('LOGIN'),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                    const Color.fromARGB(255, 103, 196, 107),
+                                  )),
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MyHouseLogin(),
+                                      )),
+                                  child: const Text('Login as Household',
+                                      style: TextStyle(color: Colors.white)),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                    const Color.fromARGB(255, 103, 196, 107),
+                                  )),
+                                  child: const Text('Login as Waste company',
+                                      style: TextStyle(color: Colors.white)),
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MywasteLogin(),
+                                      )),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                    const Color.fromARGB(255, 103, 196, 107),
+                  )),
+                  child: const Text(
+                    "Login",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
