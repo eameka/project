@@ -2,7 +2,7 @@ import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:ecowaste/forgotpassword.dart';
 import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
 import 'package:ecowaste/register.dart';
-
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';

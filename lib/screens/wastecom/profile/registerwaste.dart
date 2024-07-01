@@ -1,7 +1,7 @@
 import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
 import 'package:ecowaste/register.dart';
-
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'package:ecowaste/screens/wastecom/profile/store_wastecom.dart';
 import 'package:ecowaste/screens/wastecom/profile/wastecom_model.dart';
 
