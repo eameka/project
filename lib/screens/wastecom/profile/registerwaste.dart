@@ -1,8 +1,10 @@
-import 'package:ecowaste/auth_service.dart';
-import 'package:ecowaste/navigatewaste.dart';
+import 'package:ecowaste/screens/household/auth/auth_service.dart';
+import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
 import 'package:ecowaste/register.dart';
-import 'package:ecowaste/store_user.dart';
-import 'package:ecowaste/user_model.dart';
+
+import 'package:ecowaste/screens/wastecom/profile/store_wastecom.dart';
+import 'package:ecowaste/screens/wastecom/profile/wastecom_model.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -47,7 +49,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
     return Scaffold(
       appBar: AppBar(
         elevation: 15.0,
-        backgroundColor: const Color.fromARGB(255, 202, 255, 204),
+        backgroundColor: const Color.fromARGB(255, 103, 196, 107),
         title: const Text('Account Details'),
         centerTitle: true,
         leading: IconButton(
@@ -277,7 +279,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                                 ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                     const Color.fromARGB(255, 103, 196, 107),
                                   )),
                                   onPressed: () {
@@ -290,7 +292,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                                 ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
+                                          WidgetStateProperty.all<Color>(
                                     const Color.fromARGB(255, 103, 196, 107),
                                   )),
                                   onPressed: () {

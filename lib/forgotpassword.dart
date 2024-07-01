@@ -1,4 +1,4 @@
-import 'package:ecowaste/auth_service.dart';
+import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/quickalert.dart';
 

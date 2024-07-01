@@ -1,5 +1,5 @@
 import "package:cloud_firestore/cloud_firestore.dart";
-import "package:ecowaste/user_model.dart";
+import "package:ecowaste/screens/household/profile/user_model.dart";
 import "package:get/get.dart";
 
 class UserRepository extends GetxController{
@@ -12,12 +12,3 @@ class UserRepository extends GetxController{
   }
 }
 
-class WasteRepository extends GetxController{
-  static WasteRepository get instance => Get.find();
-
-  final _wdb = FirebaseFirestore.instance;
-
-  createUser(WasteModel wuser) async{
-    await _wdb.collection('Waste Companies').add(wuser.toJson());
-  }
-}

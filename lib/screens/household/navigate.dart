@@ -1,6 +1,6 @@
-import 'package:ecowaste/educate.dart';
-import 'package:ecowaste/house.dart';
-import 'package:ecowaste/request.dart';
+import 'package:ecowaste/screens/household/educate/educate.dart';
+import 'package:ecowaste/screens/household/house/house.dart';
+import 'package:ecowaste/screens/household/request/request.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecowaste/auth_service.dart';
-import 'package:ecowaste/houselogin.dart';
+import 'package:ecowaste/screens/household/auth/auth_service.dart';
+import 'package:ecowaste/screens/household/profile/houselogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,21 +13,22 @@ class Notify extends StatefulWidget {
 
 class _NotifyState extends State<Notify> {
   final _auth = AuthService();
+  String? _timeOfDay;
 
   final _formKey = GlobalKey<FormState>();
-    final FirebaseAuth auth = FirebaseAuth.instance;
+  /*  final FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
   Map<String, dynamic>? userProfile;
 
 
 
-  String? _timeOfDay;
- /* String? household =  ;
+  
+ String? household =  ;
 
   String? mobile =  ;
 
   String? mail =  userProfile!['email'];
-*/
+
 
   @override
   void initState() {
@@ -53,7 +54,7 @@ class _NotifyState extends State<Notify> {
     }
     return null;
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +62,7 @@ class _NotifyState extends State<Notify> {
       appBar: AppBar(
         title: const Text('Request', style: TextStyle(color: Colors.white)),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 202, 255, 204),
+        backgroundColor: const Color.fromARGB(255, 103, 196, 107),
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
@@ -71,7 +72,7 @@ class _NotifyState extends State<Notify> {
             bottomRight: Radius.circular(25),
           ),
         ),
-        bottom: const PreferredSize(
+        bottom:  PreferredSize(
           preferredSize: Size.fromHeight(150),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -81,16 +82,17 @@ class _NotifyState extends State<Notify> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Cash In',
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Reduce, Reuse, Recycle',
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
+                  
                 ],
               ),
             ],
@@ -111,7 +113,7 @@ class _NotifyState extends State<Notify> {
                     radius: 50,
                     backgroundColor: Colors.white,
                   ),
-                  Text(userProfile!['name'],
+                  Text("",
                       style:
                           const TextStyle(fontSize: 18, color: Colors.black)),
                 ],
@@ -119,7 +121,7 @@ class _NotifyState extends State<Notify> {
             ),
             ListTile(
               title: const Text('Mobile Number'),
-              subtitle: Text(userProfile!['contact']),
+              subtitle: Text(""),
               leading: const Icon(Icons.phone),
               onTap: () {
                 // Call API or perform action here
@@ -127,7 +129,7 @@ class _NotifyState extends State<Notify> {
             ),
             ListTile(
               title: const Text('E-mail'),
-              subtitle: Text(userProfile!['email']),
+              subtitle: Text(""),
               leading: const Icon(Icons.mail),
               onTap: () {
                 // Call API or perform action here
@@ -291,8 +293,8 @@ class _NotifyState extends State<Notify> {
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration:  BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
+                           
+                            
                             shape: BoxShape.rectangle,
                             image: const DecorationImage(
                               image: AssetImage('assets/garbage-truck.png'),
@@ -417,8 +419,6 @@ class _NotifyState extends State<Notify> {
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
                             shape: BoxShape.rectangle,
                             image: const DecorationImage(
                               image: AssetImage('assets/house-keeping.png'),
@@ -463,8 +463,7 @@ class _NotifyState extends State<Notify> {
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
+                           
                             shape: BoxShape.rectangle,
                             image: const DecorationImage(
                               image: AssetImage('assets/purchase-orders.png'),

@@ -1,10 +1,11 @@
-import 'package:ecowaste/auth_service.dart';
+import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:ecowaste/forgotpassword.dart';
-import 'package:ecowaste/navigate.dart';
-import 'package:ecowaste/registerhouse.dart';
+import 'package:ecowaste/screens/household/navigate.dart';
+import 'package:ecowaste/register.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
 class MyHouseLogin extends StatefulWidget {
   const MyHouseLogin({
@@ -50,7 +51,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
              Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const MyHouseSignup(),
+            builder: (context) => const MyAccount(),
           ));
           },
         ),

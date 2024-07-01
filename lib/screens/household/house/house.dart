@@ -1,6 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
-import "package:ecowaste/auth_service.dart";
-import "package:ecowaste/houselogin.dart";
+import "package:ecowaste/screens/household/auth/auth_service.dart";
+import "package:ecowaste/screens/household/profile/houselogin.dart";
 import "package:firebase_auth/firebase_auth.dart";
 import "package:flutter/material.dart";
 
@@ -15,7 +15,7 @@ class _HouseState extends State<House> {
 
   final _auth = AuthService();
    
-    final FirebaseAuth auth = FirebaseAuth.instance;
+ /*   final FirebaseAuth auth = FirebaseAuth.instance;
   User? user;
   Map<String, dynamic>? userProfile;
 
@@ -47,7 +47,7 @@ class _HouseState extends State<House> {
     }
     return null;
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,14 +71,14 @@ class _HouseState extends State<House> {
                     radius: 50,
                     backgroundColor: Colors.white,
                   ),
-                  Text(userProfile!['name'],
+                  Text("",
                       style: const TextStyle(fontSize: 20, color: Colors.black)),
                 ],
               ),
             ),
             ListTile(
               title: const Text('Mobile Number'),
-              subtitle:Text(userProfile!['contact']),
+              subtitle:Text(""),
               leading: const Icon(Icons.phone),
               onTap: () {
                 // Call API or perform action here
@@ -86,7 +86,7 @@ class _HouseState extends State<House> {
             ),
            ListTile(
               title: const Text('E-mail'),
-              subtitle:Text(userProfile!['email']),
+              subtitle:Text(""),
               leading: const Icon(Icons.mail),
               onTap: () {
                 // Call API or perform action here

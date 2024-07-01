@@ -14,7 +14,7 @@ class _OrdersState extends State<Orders> {
        appBar: AppBar(
         title: const Text(
           'Orders',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 103, 196, 107),
@@ -39,7 +39,7 @@ class _OrdersState extends State<Orders> {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black),
+                        color: Colors.white),
                   ),
                   SizedBox(
                     height: 10,
@@ -47,8 +47,8 @@ class _OrdersState extends State<Orders> {
                 ],
               ),
             Container(
-            height: MediaQuery.of(context).size.height * 0.09,
-            width: MediaQuery.of(context).size.width * 0.2,
+            height: MediaQuery.of(context).size.height * 0.07,
+            width: MediaQuery.of(context).size.width * 0.4,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(
                    Radius.circular(35)),

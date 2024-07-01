@@ -1,7 +1,7 @@
-import 'houselogin.dart';
-import 'registerhouse.dart';
-import 'registerwaste.dart';
-import 'wastelogin.dart';
+import 'screens/household/profile/houselogin.dart';
+import 'screens/household/profile/registerhouse.dart';
+import 'screens/wastecom/profile/registerwaste.dart';
+import 'screens/wastecom/profile/wastelogin.dart';
 import 'package:flutter/material.dart';
 
 class MyAccount extends StatefulWidget {
@@ -57,7 +57,7 @@ class _MyAccountState extends State<MyAccount> {
                     builder: (context) => const MyHouseSignup(),
                   )),
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                 const Color.fromARGB(255, 103, 196, 107),
               )),
               child: const Text(
@@ -75,7 +75,7 @@ class _MyAccountState extends State<MyAccount> {
                     builder: (context) => const MyWasteSignup(),
                   )),
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                const Color.fromARGB(255, 103, 196, 107),
               )),
               child: const Text(
@@ -105,7 +105,7 @@ class _MyAccountState extends State<MyAccount> {
                             ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                 const Color.fromARGB(255, 103, 196, 107),
                               )),
                               onPressed: () => Navigator.push(
@@ -122,7 +122,7 @@ class _MyAccountState extends State<MyAccount> {
                             ElevatedButton(
                               style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.all<Color>(
+                                      WidgetStateProperty.all<Color>(
                                 const Color.fromARGB(255, 103, 196, 107),
                               )),
                               child: const Text('Login as Waste company',
@@ -141,7 +141,7 @@ class _MyAccountState extends State<MyAccount> {
                 );
               },
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                 const Color.fromARGB(255, 103, 196, 107),
               )),
               child: const Text(

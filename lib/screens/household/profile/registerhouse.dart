@@ -1,12 +1,13 @@
-import 'package:ecowaste/auth_service.dart';
-import 'package:ecowaste/navigate.dart';
+import 'package:ecowaste/screens/household/auth/auth_service.dart';
+import 'package:ecowaste/screens/household/navigate.dart';
 import 'package:ecowaste/register.dart';
-import 'package:ecowaste/store_user.dart';
-import 'package:ecowaste/user_model.dart';
+import 'package:ecowaste/screens/household/profile/store_user.dart';
+import 'package:ecowaste/screens/household/profile/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
 class MyHouseSignup extends StatefulWidget {
   const MyHouseSignup({
@@ -47,7 +48,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
     return Scaffold(
       appBar: AppBar(
         elevation: 15.0,
-        backgroundColor: const Color.fromARGB(255, 202, 255, 204),
+        backgroundColor: const Color.fromARGB(255, 103, 196, 107),
         title: const Text('Account Details'),
         centerTitle: true,
         leading: IconButton(
@@ -165,6 +166,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                     top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
                 child: TextFormField(
                   controller: _mailController,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     labelText: 'E-mail',
                     prefixIcon: Icon(Icons.mail),
@@ -209,105 +211,102 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return DraggableScrollableSheet(
-                      maxChildSize: MediaQuery.of(context).size.height * 1.0,
-                      minChildSize: MediaQuery.of(context).size.height * 0.5,
-                      initialChildSize:
-                          MediaQuery.of(context).size.height * 0.8,
-                      builder: (context, scrollController) {
-                        return SingleChildScrollView(
-                          controller: scrollController,
-                          child: Column(
-                            children: [
-                              const Text(
-                                "Terms and Conditions",
-                                style: TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text(
-                                "1. By using this app, you agree to comply with all applicable laws and regulations regarding waste management.",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '2. The information provided in the app is for general informational purposes only and should not be considered professional advice.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '3. We are not responsible for any damages or losses incurred as a result of using the app or relying on the information provided.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '4. The app may contain links to third-party websites or services. We have no control over the content and availability of these sites and services.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '5. Your use of the app may be subject to additional terms and conditions specific to certain features or services.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '6. We reserve the right to modify or terminate the app at any time without prior notice.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '7. Any personal information you provide through the app will be handled in accordance with our privacy policy.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '8. You are solely responsible for the accuracy and legality of any content you submit through the app.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                "9. We may collect anonymous usage data to improve the app's functionality and user experience.",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '10. By using the app, you agree to indemnify and hold us harmless from any claims, damages, or liabilities arising out of your use of the app.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                     return Container(
+                          child: SingleChildScrollView(
+                            child: Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Column(
                                 children: [
-                                  ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            WidgetStateProperty.all<Color>(
-                                      const Color.fromARGB(255, 103, 196, 107),
-                                    )),
-                                    onPressed: () {
-                                      // Decline action
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("Decline",
-                                        style: TextStyle(color: Colors.white)),
+                                  const Text(
+                                    "Terms and Conditions",
+                                    style: TextStyle(
+                                        fontSize: 24, fontWeight: FontWeight.bold),
                                   ),
-                                  ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            WidgetStateProperty.all<Color>(
-                                      const Color.fromARGB(255, 103, 196, 107),
-                                    )),
-                                    onPressed: () {
-                                      // Accept action
-                                      Navigator.pop(context);
-                                      // Add your logic here to handle the acceptance of terms and conditions
-                                    },
-                                    child: const Text("Accept",
-                                        style: TextStyle(color: Colors.white)),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  const Text(
+                                    "1. By using this app, you agree to comply with all applicable laws and regulations regarding waste management.",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const Text(
+                                    '2. The information provided in the app is for general informational purposes only and should not be considered professional advice.',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const Text(
+                                    '3. We are not responsible for any damages or losses incurred as a result of using the app or relying on the information provided.',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const Text(
+                                    '4. The app may contain links to third-party websites or services. We have no control over the content and availability of these sites and services.',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const Text(
+                                    '5. Your use of the app may be subject to additional terms and conditions specific to certain features or services.',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const Text(
+                                    '6. We reserve the right to modify or terminate the app at any time without prior notice.',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const Text(
+                                    '7. Any personal information you provide through the app will be handled in accordance with our privacy policy.',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const Text(
+                                    '8. You are solely responsible for the accuracy and legality of any content you submit through the app.',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const Text(
+                                    "9. We may collect anonymous usage data to improve the app's functionality and user experience.",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const Text(
+                                    '10. By using the app, you agree to indemnify and hold us harmless from any claims, damages, or liabilities arising out of your use of the app.',
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                WidgetStateProperty.all<Color>(
+                                          const Color.fromARGB(255, 103, 196, 107),
+                                        )),
+                                        onPressed: () {
+                                          // Decline action
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Decline",
+                                            style: TextStyle(color: Colors.white)),
+                                      ),
+                                      ElevatedButton(
+                                        style: ButtonStyle(
+                                            backgroundColor:
+                                                WidgetStateProperty.all<Color>(
+                                          const Color.fromARGB(255, 103, 196, 107),
+                                        )),
+                                        onPressed: () {
+                                          // Accept action
+                                          Navigator.pop(context);
+                                          // Add your logic here to handle the acceptance of terms and conditions
+                                        },
+                                        child: const Text("Accept",
+                                            style: TextStyle(color: Colors.white)),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         );
-                      },
-                    );
+                      
                   },
                 );
               },

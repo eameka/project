@@ -1,5 +1,5 @@
-import 'package:ecowaste/maps.dart';
-import 'package:ecowaste/orders.dart';
+import 'package:ecowaste/screens/wastecom/maps/maps.dart';
+import 'package:ecowaste/screens/wastecom/orders/orders.dart';
 import 'package:flutter/material.dart';
 
 class MyWasteNavigate extends StatefulWidget {

@@ -1,7 +1,8 @@
-import 'package:ecowaste/auth_service.dart';
+import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:ecowaste/forgotpassword.dart';
-import 'package:ecowaste/navigatewaste.dart';
-import 'package:ecowaste/registerwaste.dart';
+import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
+import 'package:ecowaste/register.dart';
+
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -43,14 +44,14 @@ class _MywasteLoginState extends State<MywasteLogin> {
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 202, 255, 204),
+        backgroundColor: const Color.fromARGB(255, 103, 196, 107),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
              Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const MyWasteSignup(),
+            builder: (context) => const MyAccount(),
           ));
           },
         ),
