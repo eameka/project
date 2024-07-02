@@ -121,13 +121,13 @@ class _MyAccountState extends State<MyAccount> {
                   },
                   style: ButtonStyle(
                       backgroundColor:
-                          WidgetStateProperty.all<Color>(Color(0Xff0C2925))),
+                          WidgetStateProperty.all<Color>(const Color(0Xff0C2925))),
                   child: const Text(
                     "Register",
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 ElevatedButton(

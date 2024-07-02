@@ -1,6 +1,6 @@
 import "package:cloud_firestore/cloud_firestore.dart";
-import "package:ecowaste/screens/household/profile/user_model.dart";
 import "package:get/get.dart";
+import "user_model.dart";
 
 class UserRepository extends GetxController{
   static UserRepository get instance => Get.find();

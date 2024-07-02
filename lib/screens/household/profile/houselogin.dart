@@ -270,11 +270,6 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
         _mailController.text, _passwordController.text);
 
     if (user != null) {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.success,
-        text: 'User login Completed Successfully!',
-      );
       Navigator.push(
         context,
         MaterialPageRoute(

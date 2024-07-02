@@ -21,6 +21,28 @@ class _MywasteLoginState extends State<MywasteLogin> {
   bool passwordVisible = false;
   final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
+   final formKey = GlobalKey<FormState>();
+
+  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
+
+   bool validateAndSave() {
+    final form = formKey.currentState;
+    if (form!.validate()) {
+      form.save();
+
+      setState(() {
+        autoValidateMode = AutovalidateMode.disabled;
+      });
+
+      return true;
+    } else {
+      setState(() {
+        autoValidateMode = AutovalidateMode.onUserInteraction;
+      });
+      return false;
+    }
+  }
+
 
   @override
   void initState() {
@@ -94,114 +116,168 @@ class _MywasteLoginState extends State<MywasteLogin> {
           ),
         ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const SizedBox(height: 10),
-          const Text(
-            'Heya! Welcome Back',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            'Healthy Environment means Good Health',
-            style: TextStyle(color: Colors.black),
-          ),
-          const SizedBox(height: 10),
-          const Text(
-            'Your health your environment',
-            style: TextStyle(color: Colors.black),
-          ),
-          const SizedBox(height: 25),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
-            child: TextFormField(
-              controller: _mailController,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.mail),
-                labelText: 'E-mail',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                ),
-              ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 10),
+            const Text(
+              'Heya! Welcome Back',
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
             ),
-          ),
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
-            child: TextFormField(
-              obscureText: true,
-              controller: _passwordController,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.lock),
-                labelText: 'Password',
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(25),
-                  ),
-                ),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(
-                      () {
-                        passwordVisible = !passwordVisible;
+            const SizedBox(height: 10),
+            const Text(
+              'Healthy Environment means Good Health',
+              style: TextStyle(color: Colors.black),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'Your health your environment',
+              style: TextStyle(color: Colors.black),
+            ),
+            const SizedBox(height: 25),
+            Form(
+               key: formKey,
+              autovalidateMode: autoValidateMode,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
+                    child: TextFormField(
+                      controller: _mailController,
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.mail),
+                        labelText: 'E-mail',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Please enter valid E-mail';
+                        }
+                        return null;
                       },
-                    );
-                  },
-                  icon: Icon(passwordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off),
-                ),
+                    ),
+                  ),
+                   Padding(
+                    padding: const EdgeInsets.only(
+                        top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
+                    child: TextFormField(
+                      obscureText: passwordVisible,
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.lock),
+                          labelText: 'Password',
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(25),
+                            ),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(
+                                () {
+                                  passwordVisible = !passwordVisible;
+                                },
+                              );
+                            },
+                            icon: Icon(passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off),
+                          )),
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Please enter valid password';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
               ),
-              validator: (value) {
-                if (value?.isEmpty ?? true) {
-                  return 'Please enter valid password';
-                }
-                return null;
-              },
             ),
-          ),
-          const SizedBox(height: 5),
-           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ForgotPasswordScreen(),
-                      )),
-                  child: const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Forgot password?'),
-                  )),
-            ],
-          ),
-          const SizedBox(height: 15),
-          ElevatedButton(
-            onPressed: _login,
-            child: const Text('Login'),
-          ),
-        ],
+            const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 35,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ForgotPasswordScreen(),
+                                )),
+                            child: const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: Text('Forgot password?'),
+                            )),
+                      ],
+                    ),
+                  ),
+            const SizedBox(height: 15),
+            ElevatedButton(
+              onPressed:(){
+                 if (validateAndSave()) {
+                        _login();
+                      }
+                    },
+                   
+             style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                        const Color(0Xff0C2925),
+                      ),
+                    ),
+                    child: const Text(
+                      'Login',
+                      style: TextStyle(color: Colors.white),
+                    ),
+  
+            ),
+          ],
+        ),
       ),
     );
   }
 
   _login() async {
+     OverlayLoadingProgress.start(
+      context,
+      barrierDismissible: true,
+      widget: Container(
+        height: 100,
+        width: 100,
+        decoration: BoxDecoration(
+          color: Colors.black38,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: const Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
     final user = await _auth.loginUserWithEmailAndPassword(
         _mailController.text, _passwordController.text);
     if (user != null) {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.success,
-        text: 'User Login Completed Successfully!',
-      );
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const MyWasteNavigate()));
+    } else {
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        text: 'Invalid credentials',
+      );
+      OverlayLoadingProgress.stop();
     }
   }
 }
