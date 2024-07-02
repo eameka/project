@@ -270,6 +270,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
         _mailController.text, _passwordController.text);
 
     if (user != null) {
+       OverlayLoadingProgress.stop();
       Navigator.push(
         context,
         MaterialPageRoute(

@@ -115,7 +115,48 @@ class _HouseState extends State<House> {
           ],
         ),
       ),
-      body:Container(),
+      body:ListView(
+        children:<Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ExpansionTile(
+              title: const Text("Zoomlion"),
+              collapsedIconColor:Colors.white,
+              collapsedTextColor:Colors.white,
+              collapsedBackgroundColor: Colors.green,
+              collapsedShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: const BorderSide(color: Colors.black),
+              ),
+              children:<Widget>[
+                ListTile(
+                  title: Text("Zoomlion company"),
+                ),
+              ],
+            ),
+          ),
+           
+           Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: ExpansionTile(
+              title: const Text("SmartWaste"),
+              collapsedIconColor:Colors.white,
+              collapsedTextColor:Colors.white,
+              collapsedBackgroundColor: Colors.green,
+              collapsedShape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                side: const BorderSide(color: Colors.black),
+              ),
+              children:<Widget>[
+                ListTile(
+                  title: Text("SmartWaste"),
+                ),
+              ],
+            ),
+          ),
+          
+        ],
+      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'package:ecowaste/screens/wastecom/orders/cleanup_orders.dart';
+import 'package:ecowaste/screens/wastecom/orders/pickup_orders.dart';
 import 'package:flutter/material.dart';
 
 class Orders extends StatefulWidget {
@@ -71,7 +73,14 @@ class _OrdersState extends State<Orders> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
-                onTap:() {},
+                onTap:() {
+                   Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const PickupWaste(),
+        ),
+      );
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.3,
                   height: MediaQuery.of(context).size.height * 0.2,
@@ -107,7 +116,14 @@ class _OrdersState extends State<Orders> {
                 ),
               ),
               GestureDetector(
-                onTap:(){},
+                onTap:(){
+                   Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CleanWaste(),
+        ),
+      );
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.3,
                   height: MediaQuery.of(context).size.height * 0.2,
