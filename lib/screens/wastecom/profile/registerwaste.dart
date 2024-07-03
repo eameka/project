@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
 import 'package:ecowaste/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'package:ecowaste/screens/wastecom/profile/store_wastecom.dart';
 import 'package:ecowaste/screens/wastecom/profile/wastecom_model.dart';
@@ -8,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyWasteSignup extends StatefulWidget {
   const MyWasteSignup({
@@ -24,11 +30,14 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
   final _passwordController = TextEditingController();
   final _contactController = TextEditingController();
   final _mailController = TextEditingController();
+  final _locationController = TextEditingController();
   bool passwordVisible = false;
+  String? availableDays;
 
   final wasteRepo = Get.put(WasteRepository());
 
   final formKey = GlobalKey<FormState>();
+  int _currentStep = 0;
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
 
@@ -90,7 +99,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
           ),
         ),
         bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(200),
+          preferredSize: Size.fromHeight(100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -124,259 +133,282 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
       ),
       body: Form(
         key: formKey,
-        autovalidateMode: autoValidateMode,
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
-              child: TextFormField(
-                controller: _wasteController,
-                decoration: const InputDecoration(
-                  labelText: 'Waste Company Username',
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please enter valid Username';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            const SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
-              child: TextFormField(
-                controller: _mailController,
-                decoration: const InputDecoration(
-                  labelText: 'E-mail',
-                  prefixIcon: Icon(Icons.phone),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please enter valid E-mail';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            const SizedBox(height: 10),
-             Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
-              child: TextFormField(
-                controller: _contactController,
-                decoration: const InputDecoration(
-                  labelText: 'Contact',
-                  prefixIcon: Icon(Icons.phone),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                  ),
-                ),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please enter valid Contact';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            const SizedBox(height: 10),
-             Padding(
-              padding: const EdgeInsets.only(
-                  top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
-              child: TextFormField(
-                controller: _passwordController,
-                obscureText: passwordVisible,
-                decoration: InputDecoration(
-                    labelText: 'Password',
-                    prefixIcon: const Icon(Icons.lock),
-                    border: const OutlineInputBorder(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: Stepper(
+          // currentStep: _currentStep,
+          // onStepContinue: () {
+          //   log("Continue pressed");
+          //   _currentStep < 3 ? _nextStep : _signup;
+          // },
+          // onStepCancel: _currentStep > 0 ? _previousStep : null,
+          currentStep: _currentStep,
+          onStepCancel: () {
+            if (_currentStep > 0) {
+              setState(() {
+                _currentStep -= 1;
+              });
+            }
+          },
+          onStepContinue: () {
+            if (_currentStep < 3) {
+              setState(() {
+                _currentStep += 1;
+              });
+            } else if (_currentStep == 3) {
+              if (formKey.currentState!.validate()) {
+                showDialog(
+                  context: context,
+                  builder: (builder) {
+                    return CupertinoAlertDialog(
+                      title: const Text("Info"),
+                      content: const Text(
+                          "Would you like to proceed with the registration?"),
+                      actions: [
+                        CupertinoDialogAction(
+                          child: const Text("No"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        CupertinoDialogAction(
+                          isDestructiveAction: false,
+                          onPressed: () async {
+                            Navigator.pop(context);
+                            _signup();
+                          },
+                          child: const Text("Yes"),
+                        )
+                      ],
+                    );
+                  },
+                );
+              }
+            }
+          },
+          onStepTapped: (int index) {
+            setState(() {
+              _currentStep = index;
+            });
+          },
+          steps: [
+            Step(
+              title: Text('Company Name'),
+              content: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextFormField(
+                  controller: _wasteController,
+                  decoration: const InputDecoration(
+                    labelText: 'Company Name',
+                    prefixIcon: Icon(Icons.business),
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(25),
                       ),
                     ),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(
-                          () {
-                            passwordVisible = !passwordVisible;
-                          },
-                        );
-                      },
-                      icon: Icon(passwordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off),
-                    )),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please enter valid password';
-                  }
-                  return null;
-                },
-              ),
-            ),
-            const SizedBox(height: 10),
-           
-            
-            GestureDetector(
-              onTap: () {
-                // Your action here
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) {
-                    return DraggableScrollableSheet(
-                      initialChildSize:
-                          MediaQuery.of(context).size.height * 0.8,
-                      minChildSize: MediaQuery.of(context).size.height * 0.5,
-                      maxChildSize: MediaQuery.of(context).size.height * 1.0,
-                      builder: (context, scrollCOntroller) {
-                        return SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              const Text(
-                                "Terms and Conditions",
-                                style: TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              const Text(
-                                "1. By using this app, you agree to comply with all applicable laws and regulations regarding waste management.",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '2. The information provided in the app is for general informational purposes only and should not be considered professional advice.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '3. We are not responsible for any damages or losses incurred as a result of using the app or relying on the information provided.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '4. The app may contain links to third-party websites or services. We have no control over the content and availability of these sites and services.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '5. Your use of the app may be subject to additional terms and conditions specific to certain features or services.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '6. We reserve the right to modify or terminate the app at any time without prior notice.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '7. Any personal information you provide through the app will be handled in accordance with our privacy policy.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '8. You are solely responsible for the accuracy and legality of any content you submit through the app.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                "9. We may collect anonymous usage data to improve the app's functionality and user experience.",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Text(
-                                '10. By using the app, you agree to indemnify and hold us harmless from any claims, damages, or liabilities arising out of your use of the app.',
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            WidgetStateProperty.all<Color>(
-                                      const Color.fromARGB(255, 103, 196, 107),
-                                    )),
-                                    onPressed: () {
-                                      // Decline action
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("Decline",
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                  ElevatedButton(
-                                    style: ButtonStyle(
-                                        backgroundColor:
-                                            WidgetStateProperty.all<Color>(
-                                      const Color.fromARGB(255, 103, 196, 107),
-                                    )),
-                                    onPressed: () {
-                                      // Accept action
-                                      Navigator.pop(context);
-                                      // Add your logic here to handle the acceptance of terms and conditions
-                                    },
-                                    child: const Text("Accept",
-                                        style: TextStyle(color: Colors.white)),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    );
+                  ),
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Please enter a valid company name';
+                    }
+                    return null;
                   },
-                );
-              },
-              child: const Text(
-                "I accept the terms and conditions",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 103, 196, 107),
                 ),
               ),
+              isActive: _currentStep >= 0,
             ),
-            const SizedBox(height: 15),
-            ElevatedButton(
-              onPressed: () {
-                final wuser = WasteModel(
-                  name: _wasteController.text,
-                  password: _passwordController.text,
-                  email: _mailController.text,
-                  contact: _contactController.text,
-                );
-                WasteRepository.instance.createUser(wuser);
-                 if (validateAndSave()) {
-                        _signup();
-                      }
-              },
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(
-                  const Color(0Xff0C2925),
+            Step(
+              title: Text('Email and Phone'),
+              content: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextFormField(
+                      controller: _mailController,
+                      decoration: const InputDecoration(
+                        labelText: 'E-mail',
+                        prefixIcon: Icon(Icons.email),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Please enter your email';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextFormField(
+                      controller: _contactController,
+                      decoration: const InputDecoration(
+                        labelText: 'Contact',
+                        prefixIcon: Icon(Icons.phone),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Please enter a valid contact';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              isActive: _currentStep >= 1,
+            ),
+            Step(
+              title: Text('Location and Available Days'),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextFormField(
+                      controller: _locationController,
+                      decoration: const InputDecoration(
+                        labelText: 'Location',
+                        prefixIcon: Icon(Icons.location_on),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Please enter the company location';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Select Available Days'),
+                        SizedBox(height: 10),
+                        DropdownButtonFormField<String>(
+                          items: <String>[
+                            'Monday',
+                            'Tuesday',
+                            'Wednesday',
+                            'Thursday',
+                            'Friday',
+                            'Saturday',
+                            'Sunday',
+                            'Everyday',
+                            'Weekdays',
+                            'Weekends'
+                          ].map((value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.black,
+                          ),
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black),
+                          value: availableDays,
+                          onChanged: (newVal) {
+                            setState(() {
+                              availableDays = newVal;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'This is required *';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              isActive: _currentStep >= 2,
+            ),
+            Step(
+              title: Text('Password'),
+              content: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: TextFormField(
+                  controller: _passwordController,
+                  obscureText: !passwordVisible,
+                  decoration: InputDecoration(
+                      labelText: 'Password',
+                      prefixIcon: const Icon(Icons.lock),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(25),
+                        ),
+                      ),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                        icon: Icon(
+                          passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                      )),
+                  validator: (value) {
+                    if (value?.isEmpty ?? true) {
+                      return 'Please enter a valid password';
+                    }
+                    return null;
+                  },
                 ),
               ),
-              child: const Text('Sign up', style: TextStyle(color: Colors.white)),
+              isActive: _currentStep >= 3,
             ),
-            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 
+  void _nextStep() {
+    log("_nextStep");
+    if (formKey.currentState!.validate()) {
+      log("Workinngggg");
+      setState(() {
+        _currentStep++;
+      });
+    } else {
+      log("Issue dey");
+    }
+  }
+
+  void _previousStep() {
+    setState(() {
+      _currentStep--;
+    });
+  }
+
   _signup() async {
+    // Initialized Shared Preferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     OverlayLoadingProgress.start(
       context,
       barrierDismissible: true,
@@ -395,12 +427,46 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
       ),
     );
     final user = await _auth.createUserWithEmailAndPassword(
-        _mailController.text, _passwordController.text);
+        _mailController.text.trim(), _passwordController.text);
     if (user != null) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MyWasteNavigate()),
+      User? currentUser = FirebaseAuth.instance.currentUser;
+      FirebaseFirestore.instance
+          .collection('waste_company')
+          .doc(currentUser!.uid)
+          .set({
+        'company_name': _wasteController.text,
+        'email': _mailController.text.trim(),
+        'contact': _contactController.text,
+        'location': _locationController.text,
+        'available_days': availableDays,
+        'role': 'Waste Company'
+      });
+
+      // Save user details in Shared preferences
+      await prefs.setString(
+        'company_name',
+        _wasteController.text,
       );
+      await prefs.setString(
+        'company_email',
+        _mailController.text,
+      );
+      await prefs.setString(
+        'company_contact',
+        _contactController.text,
+      );
+
+      OverlayLoadingProgress.stop();
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+        builder: (context) {
+          return MyWasteNavigate();
+        },
+      ), (Route<dynamic> route) => false);
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => const MyWasteNavigate()),
+      // );
     } else {
       QuickAlert.show(
         context: context,

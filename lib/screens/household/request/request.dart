@@ -4,6 +4,8 @@ import 'package:ecowaste/screens/household/profile/houselogin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import '../../../widgets.dart/drawer_widget.dart';
+
 class Notify extends StatefulWidget {
   const Notify({super.key});
 
@@ -72,7 +74,7 @@ class _NotifyState extends State<Notify> {
             bottomRight: Radius.circular(25),
           ),
         ),
-        bottom:  PreferredSize(
+        bottom: PreferredSize(
           preferredSize: Size.fromHeight(150),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -92,72 +94,13 @@ class _NotifyState extends State<Notify> {
                           color: Colors.white),
                     ),
                   ),
-                  
                 ],
               ),
             ],
           ),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 202, 255, 204),
-              ),
-              child: Column(
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundColor: Colors.white,
-                  ),
-                  Text("",
-                      style:
-                          const TextStyle(fontSize: 18, color: Colors.black)),
-                ],
-              ),
-            ),
-            ListTile(
-              title: const Text('Mobile Number'),
-              subtitle: Text(""),
-              leading: const Icon(Icons.phone),
-              onTap: () {
-                // Call API or perform action here
-              },
-            ),
-            ListTile(
-              title: const Text('E-mail'),
-              subtitle: Text(""),
-              leading: const Icon(Icons.mail),
-              onTap: () {
-                // Call API or perform action here
-              },
-            ),
-            ListTile(
-              title: const Text('Payment'),
-              leading: const Icon(Icons.wallet),
-              onTap: () {
-                // Call API or perform action here
-              },
-            ),
-            ListTile(
-              title: const Text('Logout'),
-              leading: const Icon(Icons.logout),
-              onTap: () async {
-                // Call API or perform action here
-                await _auth.signout();
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const MyHouseLogin(),
-                    ));
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: drawerWidget(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -292,9 +235,7 @@ class _NotifyState extends State<Notify> {
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.1,
-                          decoration:  BoxDecoration(
-                           
-                            
+                          decoration: BoxDecoration(
                             shape: BoxShape.rectangle,
                             image: const DecorationImage(
                               image: AssetImage('assets/garbage-truck.png'),
@@ -445,9 +386,7 @@ class _NotifyState extends State<Notify> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               GestureDetector(
-                onTap: () {
-                  
-                },
+                onTap: () {},
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.3,
                   height: MediaQuery.of(context).size.height * 0.2,
@@ -463,7 +402,6 @@ class _NotifyState extends State<Notify> {
                           width: MediaQuery.of(context).size.width * 0.1,
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: BoxDecoration(
-                           
                             shape: BoxShape.rectangle,
                             image: const DecorationImage(
                               image: AssetImage('assets/purchase-orders.png'),

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:ecowaste/forgotpassword.dart';
 import 'package:ecowaste/screens/household/navigate.dart';
@@ -6,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyHouseLogin extends StatefulWidget {
   const MyHouseLogin({
@@ -18,6 +22,7 @@ class MyHouseLogin extends StatefulWidget {
 
 class _MyHouseLoginState extends State<MyHouseLogin> {
   final _auth = AuthService();
+  dynamic data;
   bool passwordVisible = false;
   final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -249,6 +254,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
   }
 
   _login() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     OverlayLoadingProgress.start(
       context,
       barrierDismissible: true,
@@ -266,17 +272,41 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
         ),
       ),
     );
+
+    // Perform User Signin
     final user = await _auth.loginUserWithEmailAndPassword(
-        _mailController.text, _passwordController.text);
+        _mailController.text.trim(), _passwordController.text);
 
     if (user != null) {
-       OverlayLoadingProgress.stop();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Settings(),
-        ),
-      );
+      // Get users collection
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+
+      // Get the logged in users data from the users collection
+      users.doc(user.uid).get().then((snapshot) async {
+        if (snapshot.exists) {
+          final data = snapshot.data() as Map<String, dynamic>;
+
+          log("snapshot.data(): ${data.toString()}");
+
+          if (data != null) {
+            await prefs.setString('house_name', data["name"] ?? '');
+            await prefs.setString('house_email', data["email"] ?? '');
+            await prefs.setString('house_contact', data["contact"] ?? '');
+          }
+        } else {
+          log("No data found for user: ${user.uid}");
+        }
+      }).catchError((error) {
+        log("Error fetching user data: $error");
+      });
+
+      OverlayLoadingProgress.stop();
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+        builder: (context) {
+          return NavigateHouseHold();
+        },
+      ), (Route<dynamic> route) => false);
     } else {
       QuickAlert.show(
         context: context,
