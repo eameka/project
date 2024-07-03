@@ -49,6 +49,7 @@ dependencies:
   google_maps_flutter: ^2.7.0
   google_sign_in: ^6.2.1
   overlay_loading_progress: ^1.0.1
+  flutter_paystack: ^1.0.7
 
 dev_dependencies:
   flutter_test:

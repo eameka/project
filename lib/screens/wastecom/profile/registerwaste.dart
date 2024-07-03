@@ -174,7 +174,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
               ),
             ),
             const SizedBox(height: 10),
-             Padding(
+            Padding(
               padding: const EdgeInsets.only(
                   top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
               child: TextFormField(
@@ -197,7 +197,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
               ),
             ),
             const SizedBox(height: 10),
-             Padding(
+            Padding(
               padding: const EdgeInsets.only(
                   top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
               child: TextFormField(
@@ -232,8 +232,6 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
               ),
             ),
             const SizedBox(height: 10),
-           
-            
             GestureDetector(
               onTap: () {
                 // Your action here
@@ -252,7 +250,10 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                               const Text(
                                 "Terms and Conditions",
                                 style: TextStyle(
-                                    fontSize: 24, fontWeight: FontWeight.bold),
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                 
+                                ),
                               ),
                               const SizedBox(
                                 height: 5,
@@ -344,7 +345,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
               child: const Text(
                 "I accept the terms and conditions",
                 style: TextStyle(
-                  color: Color.fromARGB(255, 103, 196, 107),
+                  color: Color(0Xff0C2925),
                 ),
               ),
             ),
@@ -358,16 +359,17 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                   contact: _contactController.text,
                 );
                 WasteRepository.instance.createUser(wuser);
-                 if (validateAndSave()) {
-                        _signup();
-                      }
+                if (validateAndSave()) {
+                  _signup();
+                }
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all<Color>(
                   const Color(0Xff0C2925),
                 ),
               ),
-              child: const Text('Sign up', style: TextStyle(color: Colors.white)),
+              child:
+                  const Text('Sign up', style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(height: 20),
           ],

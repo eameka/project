@@ -348,7 +348,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 },
                 child: const Text(
                   "I accept the terms and conditions",
-                  style: TextStyle(color: Color.fromARGB(255, 137, 253, 156)),
+                  style: TextStyle(color: Color(0Xff0C2925)),
                 ),
               ),
               const SizedBox(height: 15),

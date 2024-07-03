@@ -1,5 +1,6 @@
 import 'package:ecowaste/screens/wastecom/maps/maps.dart';
 import 'package:ecowaste/screens/wastecom/orders/orders.dart';
+import 'package:ecowaste/screens/wastecom/profile/wasteprofile.dart';
 import 'package:flutter/material.dart';
 
 class MyWasteNavigate extends StatefulWidget {
@@ -16,6 +17,7 @@ class _MyWasteNavigateState extends State<MyWasteNavigate> {
   static final List<Widget> _widgetOptions = <Widget>[
     const MyMaps(),
     const Orders(),
+    const Wasteprofile(),
   ];
 
   void _onItemTapped(int index) {
@@ -59,6 +61,10 @@ class _MyWasteNavigateState extends State<MyWasteNavigate> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.notification_add, color: Colors.white,),
                 label: 'Orders',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle, color: Colors.white,),
+                label: 'Profile',
               ),
             ],
             currentIndex: _selectedIndex,
