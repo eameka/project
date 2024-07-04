@@ -3,6 +3,7 @@
         "appspot",
         "ARGB",
         "Autovalidate",
+        "cleanuprequest",
         "cupertino",
         "dojoavatar",
         "ecowaste",
@@ -18,6 +19,7 @@
         "Mywaste",
         "MyWasteSignup",
         "navigatewaste",
+        "prefs",
         "Qrflv",
         "quickalert",
         "registerhouse",
@@ -32,6 +34,7 @@
         "wastecom",
         "wastelogin",
         "Wasteprofile",
+        "wastetype",
         "wuser",
         "Zoomlion",
         "ZSBR"

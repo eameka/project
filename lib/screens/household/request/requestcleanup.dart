@@ -1,86 +1,47 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecowaste/screens/household/auth/auth_service.dart';
-import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
-import 'package:ecowaste/register.dart';
+import 'package:ecowaste/screens/household/request/request.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:overlay_loading_progress/overlay_loading_progress.dart';
-import 'package:ecowaste/screens/wastecom/profile/store_wastecom.dart';
-import 'package:ecowaste/screens/wastecom/profile/wastecom_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 
-class MyWasteSignup extends StatefulWidget {
-  const MyWasteSignup({
-    super.key,
-  });
+class RequestCleanup extends StatefulWidget {
+  const RequestCleanup({super.key});
 
   @override
-  State<MyWasteSignup> createState() => _MyWasteSignupState();
+  State<RequestCleanup> createState() => _RequestCleanupState();
 }
 
-class _MyWasteSignupState extends State<MyWasteSignup> {
-  final _auth = AuthService();
-  final _wasteController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _contactController = TextEditingController();
-  final _mailController = TextEditingController();
+class _RequestCleanupState extends State<RequestCleanup> {
   final _locationController = TextEditingController();
-  bool passwordVisible = false;
-  String? availableDays;
+   final  _name = TextEditingController();
+   final _contact = TextEditingController();
+   final  _wastetype = TextEditingController();
+   final  _extraInfo = TextEditingController();
 
-  final wasteRepo = Get.put(WasteRepository());
-
-  final formKey = GlobalKey<FormState>();
+final formKey = GlobalKey<FormState>();
+String?  availableDays;
+String?  availableCompanies;
+ 
   int _currentStep = 0;
 
-  AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
-
-  bool validateAndSave() {
-    final form = formKey.currentState;
-    if (form!.validate()) {
-      form.save();
-
-      setState(() {
-        autoValidateMode = AutovalidateMode.disabled;
-      });
-
-      return true;
-    } else {
-      setState(() {
-        autoValidateMode = AutovalidateMode.onUserInteraction;
-      });
-      return false;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    passwordVisible = true;
-  }
-
-  @override
+   @override
   void dispose() {
     super.dispose();
-    _wasteController.dispose();
-    _passwordController.dispose();
-    _contactController.dispose();
-    _mailController.dispose();
+    _name.dispose();
+    _contact.dispose();
+    _wastetype.dispose();
+    _extraInfo.dispose();
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar:  AppBar(
         elevation: 15.0,
         backgroundColor: const Color.fromARGB(255, 103, 196, 107),
-        title: const Text('Account Details'),
+        title: const Text('Request Waste Pickup'),
         centerTitle: true,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
@@ -88,7 +49,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const MyAccount(),
+                  builder: (context) => const Notify(),
                 ));
           },
         ),
@@ -98,9 +59,9 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
             bottomRight: Radius.circular(25),
           ),
         ),
-        bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(100),
-          child: Column(
+        bottom:  PreferredSize(
+          preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -108,20 +69,13 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    'Create Account',
-                    style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
                   SizedBox(
                     height: 20,
                   ),
                 ],
               ),
               Text(
-                ' Fill in your details to join',
+                ' Fill in details to request cleanup',
                 style: TextStyle(fontSize: 15, color: Colors.black),
               ),
               SizedBox(
@@ -131,8 +85,8 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
           ),
         ),
       ),
-      
-      body: Form(
+     
+      body:Form(
         key: formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Stepper(
@@ -157,7 +111,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                     return CupertinoAlertDialog(
                       title: const Text("Info"),
                       content: const Text(
-                          "Would you like to proceed with the registration?"),
+                          "Would you like to proceed with the cleanup request?"),
                       actions: [
                         CupertinoDialogAction(
                           child: const Text("No"),
@@ -169,7 +123,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                           isDestructiveAction: false,
                           onPressed: () async {
                             Navigator.pop(context);
-                            _signup();
+                            _cleanuprequest();
                           },
                           child: const Text("Yes"),
                         )
@@ -187,14 +141,14 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
           },
           steps: [
             Step(
-              title: const Text('Company Name'),
+              title: const Text('Basic Information'),
               content: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
-                  controller: _wasteController,
+                  controller: _name,
                   decoration: const InputDecoration(
-                    labelText: 'Company Name',
-                    prefixIcon: Icon(Icons.business),
+                    labelText: 'Name',
+                    prefixIcon: Icon(Icons.person),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(25),
@@ -203,7 +157,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                   ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Please enter a valid company name';
+                      return 'Please enter a valid name';
                     }
                     return null;
                   },
@@ -212,16 +166,16 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
               isActive: _currentStep >= 0,
             ),
             Step(
-              title: const Text('Email and Phone'),
+              title: const Text('Location'),
               content: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextFormField(
-                      controller: _mailController,
+                      controller: _locationController,
                       decoration: const InputDecoration(
-                        labelText: 'E-mail',
-                        prefixIcon: Icon(Icons.email),
+                        labelText: 'Location',
+                        prefixIcon: Icon(Icons.location_on),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(25),
@@ -230,7 +184,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                       ),
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'Please enter your email';
+                          return 'Please enter your location';
                         }
                         return null;
                       },
@@ -239,7 +193,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextFormField(
-                      controller: _contactController,
+                      controller: _contact,
                       decoration: const InputDecoration(
                         labelText: 'Contact',
                         prefixIcon: Icon(Icons.phone),
@@ -262,17 +216,18 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
               isActive: _currentStep >= 1,
             ),
             Step(
-              title: const Text('Location and Available Days'),
+              title: const Text('Cleanup Details'),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextFormField(
-                      controller: _locationController,
+                      controller: _wastetype,
                       decoration: const InputDecoration(
-                        labelText: 'Location',
-                        prefixIcon: Icon(Icons.location_on),
+                        labelText: 'Type of waste',
+                        hintText: 'trash/recyclables',
+                        prefixIcon: Icon(Icons.delete),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                             Radius.circular(25),
@@ -281,7 +236,7 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                       ),
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
-                          return 'Please enter the company location';
+                          return 'Please enter type of waste';
                         }
                         return null;
                       },
@@ -336,41 +291,79 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
                       ],
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Select Available Companies'),
+                        const SizedBox(height: 10),
+                        DropdownButtonFormField<String>(
+                          items: <String>[
+                            'Monday',
+                            'Tuesday',
+                            'Wednesday',
+                            'Thursday',
+                            'Friday',
+                            'Saturday',
+                            'Sunday',
+                            'Everyday',
+                            'Weekdays',
+                            'Weekends'
+                          ].map((value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                          icon: const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.black,
+                          ),
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black),
+                          value: availableCompanies,
+                          onChanged: (newVal) {
+                            setState(() {
+                              availableCompanies = newVal;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null) {
+                              return 'This is required *';
+                            }
+                            return null;
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                
                 ],
               ),
               isActive: _currentStep >= 2,
             ),
             Step(
-              title: const Text('Password'),
+              title: const Text('Additional Information'),
               content: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: TextFormField(
-                  controller: _passwordController,
-                  obscureText: !passwordVisible,
-                  decoration: InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: const Icon(Icons.lock),
-                      border: const OutlineInputBorder(
+                  controller: _extraInfo,
+                  decoration: const InputDecoration(
+                      labelText: 'Info',
+                      hintText: 'Enter any additional information',
+                      prefixIcon: Icon(Icons.lock),
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(25),
                         ),
                       ),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            passwordVisible = !passwordVisible;
-                          });
-                        },
-                        icon: Icon(
-                          passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                        ),
-                      )),
+                    ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
-                      return 'Please enter a valid password';
+                      return 'Please enter any additional info';
                     }
                     return null;
                   },
@@ -382,16 +375,10 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
         ),
       ),
    
-    
     );
   }
 
-
-
-
-  _signup() async {
-    // Initialized Shared Preferences
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+  _cleanuprequest() {
     OverlayLoadingProgress.start(
       context,
       barrierDismissible: true,
@@ -409,58 +396,17 @@ class _MyWasteSignupState extends State<MyWasteSignup> {
         ),
       ),
     );
-    final user = await _auth.createUserWithEmailAndPassword(
-        _mailController.text.trim(), _passwordController.text);
-    if (user != null) {
-      User? currentUser = FirebaseAuth.instance.currentUser;
-      FirebaseFirestore.instance
-          .collection('waste_company')
-          .doc(currentUser!.uid)
-          .set({
-        'company_name': _wasteController.text,
-        'email': _mailController.text.trim(),
-        'contact': _contactController.text,
+       User? currentUser = FirebaseAuth.instance.currentUser;
+     FirebaseFirestore.instance.collection('cleanup_orders').doc(currentUser!.uid).set({
+        'contact': _contact.text,
+        'name': _name.text,
         'location': _locationController.text,
-        'available_days': availableDays,
-        'role': 'Waste Company'
+        'Additional info': _extraInfo.text,
+        'Waste type': _wastetype.text,
+        'Available Days': availableDays,
+        'Available Companies': availableCompanies,
       });
-
-      // Save user details in Shared preferences
-      await prefs.setString(
-        'company_name',
-        _wasteController.text,
-      );
-      await prefs.setString(
-        'company_email',
-        _mailController.text,
-      );
-      await prefs.setString(
-        'company_contact',
-        _contactController.text,
-      );
-
       OverlayLoadingProgress.stop();
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
-        builder: (context) {
-          return const MyWasteNavigate();
-        },
-      ), (Route<dynamic> route) => false);
-
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => const MyWasteNavigate()),
-      // );
-    } else {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        text: 'Invalid credentials',
-      );
-      OverlayLoadingProgress.stop();
-    }
-  }
-
-  Future<void> createUser(WasteModel wuser) async {
-    await wasteRepo.createUser(wuser);
+      Navigator.pop(context);
   }
 }

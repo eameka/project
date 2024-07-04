@@ -3,14 +3,14 @@ import 'package:ecowaste/screens/household/house/house.dart';
 import 'package:ecowaste/screens/household/request/request.dart';
 import 'package:flutter/material.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({super.key});
+class NavigateHouseHold extends StatefulWidget {
+  const NavigateHouseHold({super.key});
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<NavigateHouseHold> createState() => _NavigateHouseHoldState();
 }
 
-class _SettingsState extends State<Settings> {
+class _NavigateHouseHoldState extends State<NavigateHouseHold> {
   int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = <Widget>[
@@ -35,42 +35,48 @@ class _SettingsState extends State<Settings> {
       ),
       bottomNavigationBar: Container(
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-        decoration: BoxDecoration(
-         
-          boxShadow:[
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              blurRadius:30,
-              offset: const Offset(0, 20),
-            ),
-          ]
-        ), 
-          child: ClipRRect(
-             borderRadius: BorderRadius.circular(50),
-            child: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              elevation: 5,
-              backgroundColor: const Color.fromARGB(255, 103, 196, 107),
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.home, color: Colors.white,),
-                  label: 'Home',
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            blurRadius: 30,
+            offset: const Offset(0, 20),
+          ),
+        ]),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(50),
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            elevation: 5,
+            backgroundColor: const Color.fromARGB(255, 103, 196, 107),
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.white,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.notification_add, color: Colors.white,),
-                  label: 'Request',
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.notification_add,
+                  color: Colors.white,
                 ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.school, color: Colors.white,),
-                  label: 'Educate',
+                label: 'Request',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.school,
+                  color: Colors.white,
                 ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: Colors.black,
-              onTap: _onItemTapped,
-            ),
+                label: 'Educate',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.black,
+            onTap: _onItemTapped,
           ),
         ),
+      ),
     );
   }
 }
