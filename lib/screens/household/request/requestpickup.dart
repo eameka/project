@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
+import 'package:geolocator/geolocator.dart';
 
 class RequestPickup extends StatefulWidget {
   const RequestPickup({super.key});

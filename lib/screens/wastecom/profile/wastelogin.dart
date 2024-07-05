@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:ecowaste/forgotpassword.dart';
 import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
@@ -6,6 +7,9 @@ import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:developer';
+
 
 class MywasteLogin extends StatefulWidget {
   const MywasteLogin({
@@ -249,6 +253,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
   }
 
   _login() async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
      OverlayLoadingProgress.start(
       context,
       barrierDismissible: true,
@@ -269,6 +274,27 @@ class _MywasteLoginState extends State<MywasteLogin> {
     final user = await _auth.loginUserWithEmailAndPassword(
         _mailController.text, _passwordController.text);
     if (user != null) {
+          CollectionReference users =
+          FirebaseFirestore.instance.collection('waste_company');
+
+       users.doc(user.uid).get().then((snapshot) async {
+        if (snapshot.exists) {
+          final data = snapshot.data() as Map<String, dynamic>;
+
+          log("snapshot.data(): ${data.toString()}");
+
+          if (data != null) {
+            await prefs.setString('company_name', data["name"] ?? '');
+            await prefs.setString('company_email', data["email"] ?? '');
+            await prefs.setString('company_contact', data["contact"] ?? '');
+          }
+        } else {
+          log("No data found for user: ${user.uid}");
+        }
+      }).catchError((error) {
+        log("Error fetching user data: $error");
+      });
+      OverlayLoadingProgress.stop();
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => const MyWasteNavigate()));
     } else {

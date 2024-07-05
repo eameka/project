@@ -21,45 +21,8 @@ class _NotifyState extends State<Notify> {
   String? _timeOfDay;
 
   final _formKey = GlobalKey<FormState>();
-  /*  final FirebaseAuth auth = FirebaseAuth.instance;
-  User? user;
-  Map<String, dynamic>? userProfile;
-
-
-
   
- String? household =  ;
-
-  String? mobile =  ;
-
-  String? mail =  userProfile!['email'];
-
-
-  @override
-  void initState() {
-    super.initState();
-    user = auth.currentUser;
-    if (user != null) {
-      fetchUserProfile();
-    }
-  }
-
-   Future<void> fetchUserProfile() async {
-    String uid = user!.uid;
-    Map<String, dynamic>? profile = await getUserProfile(uid);
-    setState(() {
-      userProfile = profile;
-    });
-  }
-
-    Future<Map<String, dynamic>?> getUserProfile(String uid) async {
-    DocumentSnapshot userDoc = await FirebaseFirestore.instance.collection('Users').doc('id').get();
-    if (userDoc.exists) {
-      return userDoc.data() as Map<String, dynamic>?;
-    }
-    return null;
-  }
-*/
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

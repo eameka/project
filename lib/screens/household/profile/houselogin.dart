@@ -236,7 +236,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
                     },
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(
-                        Color(0Xff0C2925),
+                        const Color(0Xff0C2925),
                       ),
                     ),
                     child: const Text(
@@ -304,7 +304,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
       OverlayLoadingProgress.stop();
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
         builder: (context) {
-          return NavigateHouseHold();
+          return const NavigateHouseHold();
         },
       ), (Route<dynamic> route) => false);
     } else {
