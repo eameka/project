@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecowaste/screens/household/auth/auth_service.dart';
-import 'package:ecowaste/screens/household/profile/houselogin.dart';
-import 'package:ecowaste/screens/household/request/house_orders.dart';
 import 'package:ecowaste/screens/household/request/requestcleanup.dart';
 import 'package:ecowaste/screens/household/request/requestpickup.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../../widgets.dart/drawer_widget.dart';
@@ -17,12 +14,12 @@ class Notify extends StatefulWidget {
 }
 
 class _NotifyState extends State<Notify> {
-  final _auth = AuthService();
+  
   String? _timeOfDay;
 
   final _formKey = GlobalKey<FormState>();
   
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

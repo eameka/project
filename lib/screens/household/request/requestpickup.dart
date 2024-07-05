@@ -152,6 +152,15 @@ class _RequestPickupState extends State<RequestPickup> {
                       ),
                     ),
                   ),
+                   readOnly: true,
+                      onTap: () async {
+                        Position? position = await updateLocation();
+                        if (position != null) {
+                          _address.text =
+                              '${position.latitude}, ${position.longitude}';
+                          setState(() {});
+                        }
+                      },
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Please enter a valid address';
@@ -481,5 +490,45 @@ class _RequestPickupState extends State<RequestPickup> {
       });
       OverlayLoadingProgress.stop();
       Navigator.pop(context);
+  }
+
+   Future updateLocation() async {
+    Position? newPosition;
+
+    LocationPermission res = await Geolocator.requestPermission();
+
+    if (res.name == 'always' || res.name == 'whileInUse') {
+      try {
+        OverlayLoadingProgress.start(
+          context,
+          widget: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.black38,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+
+        newPosition = await Geolocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.best)
+            .timeout(const Duration(seconds: 30));
+
+        OverlayLoadingProgress.stop();
+      } catch (e) {
+        OverlayLoadingProgress.stop();
+        print('GPS Error: ${e.toString()}');
+
+        // errorSnackBar('Kindly check your internet connection');
+      }
+    }
+
+    return newPosition;
   }
 }

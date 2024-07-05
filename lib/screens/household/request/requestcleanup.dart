@@ -15,18 +15,18 @@ class RequestCleanup extends StatefulWidget {
 
 class _RequestCleanupState extends State<RequestCleanup> {
   final _locationController = TextEditingController();
-   final  _name = TextEditingController();
-   final _contact = TextEditingController();
-   final  _wastetype = TextEditingController();
-   final  _extraInfo = TextEditingController();
+  final _name = TextEditingController();
+  final _contact = TextEditingController();
+  final _wastetype = TextEditingController();
+  final _extraInfo = TextEditingController();
 
-final formKey = GlobalKey<FormState>();
-String?  availableDays;
-String?  availableCompanies;
- 
+  final formKey = GlobalKey<FormState>();
+  String? availableDays;
+  String? availableCompanies;
+
   int _currentStep = 0;
 
-   @override
+  @override
   void dispose() {
     super.dispose();
     _name.dispose();
@@ -35,11 +35,10 @@ String?  availableCompanies;
     _extraInfo.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
+      appBar: AppBar(
         elevation: 15.0,
         backgroundColor: const Color.fromARGB(255, 103, 196, 107),
         title: const Text('Request Waste Pickup'),
@@ -60,8 +59,9 @@ String?  availableCompanies;
             bottomRight: Radius.circular(25),
           ),
         ),
-        bottom:  PreferredSize(
-          preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
+        bottom: PreferredSize(
+          preferredSize:
+              Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -86,8 +86,7 @@ String?  availableCompanies;
           ),
         ),
       ),
-     
-      body:Form(
+      body: Form(
         key: formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Stepper(
@@ -183,6 +182,15 @@ String?  availableCompanies;
                           ),
                         ),
                       ),
+                      readOnly: true,
+                      onTap: () async {
+                        Position? position = await updateLocation();
+                        if (position != null) {
+                          _locationController.text =
+                              '${position.latitude}, ${position.longitude}';
+                          setState(() {});
+                        }
+                      },
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return 'Please enter your location';
@@ -341,7 +349,6 @@ String?  availableCompanies;
                       ],
                     ),
                   ),
-               
                 ],
               ),
               isActive: _currentStep >= 2,
@@ -353,15 +360,15 @@ String?  availableCompanies;
                 child: TextFormField(
                   controller: _extraInfo,
                   decoration: const InputDecoration(
-                      labelText: 'Info',
-                      hintText: 'Enter any additional information',
-                      prefixIcon: Icon(Icons.lock),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(25),
-                        ),
+                    labelText: 'Info',
+                    hintText: 'Enter any additional information',
+                    prefixIcon: Icon(Icons.lock),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(25),
                       ),
                     ),
+                  ),
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Please enter any additional info';
@@ -375,7 +382,6 @@ String?  availableCompanies;
           ],
         ),
       ),
-   
     );
   }
 
@@ -397,17 +403,60 @@ String?  availableCompanies;
         ),
       ),
     );
-       User? currentUser = FirebaseAuth.instance.currentUser;
-     FirebaseFirestore.instance.collection('cleanup_orders').doc(currentUser!.uid).set({
-        'contact': _contact.text,
-        'name': _name.text,
-        'location': _locationController.text,
-        'Additional info': _extraInfo.text,
-        'Waste type': _wastetype.text,
-        'Available Days': availableDays,
-        'Available Companies': availableCompanies,
-      });
-      OverlayLoadingProgress.stop();
-      Navigator.pop(context);
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('cleanup_orders')
+        .doc(currentUser!.uid)
+        .set({
+      'contact': _contact.text,
+      'name': _name.text,
+      'location': _locationController.text,
+      'Additional info': _extraInfo.text,
+      'Waste type': _wastetype.text,
+      'Available Days': availableDays,
+      'Available Companies': availableCompanies,
+    });
+    OverlayLoadingProgress.stop();
+    Navigator.pop(context);
+  }
+
+  Future updateLocation() async {
+    Position? newPosition;
+
+    LocationPermission res = await Geolocator.requestPermission();
+
+    if (res.name == 'always' || res.name == 'whileInUse') {
+      try {
+        OverlayLoadingProgress.start(
+          context,
+          widget: Container(
+            height: 100,
+            width: 100,
+            decoration: BoxDecoration(
+              color: Colors.black38,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: const Center(
+              child: CircularProgressIndicator(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+
+        newPosition = await Geolocator.getCurrentPosition(
+                desiredAccuracy: LocationAccuracy.best)
+            .timeout(const Duration(seconds: 30));
+
+        OverlayLoadingProgress.stop();
+      } catch (e) {
+        OverlayLoadingProgress.stop();
+        print('GPS Error: ${e.toString()}');
+
+        // errorSnackBar('Kindly check your internet connection');
+      }
+    }
+
+    return newPosition;
   }
 }
