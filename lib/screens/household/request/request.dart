@@ -14,11 +14,9 @@ class Notify extends StatefulWidget {
 }
 
 class _NotifyState extends State<Notify> {
-  
   String? _timeOfDay;
 
   final _formKey = GlobalKey<FormState>();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +36,7 @@ class _NotifyState extends State<Notify> {
           ),
         ),
         bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(150),
+          preferredSize: Size.fromHeight(100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,7 +50,7 @@ class _NotifyState extends State<Notify> {
                     child: Text(
                       'Reduce, Reuse, Recycle',
                       style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
@@ -183,11 +181,15 @@ class _NotifyState extends State<Notify> {
                   //     );
                   //   },
                   // );
-                
-                Navigator.push(context,  MaterialPageRoute(builder: (context) => const RequestPickup()),);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RequestPickup()),
+                  );
                 },
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.height * 0.2,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
@@ -309,11 +311,15 @@ class _NotifyState extends State<Notify> {
                   //     ),
                   //   ),
                   // );
-                
-                 Navigator.push(context,  MaterialPageRoute(builder: (context) => const RequestCleanup()),);
+
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const RequestCleanup()),
+                  );
                 },
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
+                  width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.height * 0.2,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),

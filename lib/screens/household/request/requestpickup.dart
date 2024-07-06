@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
-import 'package:geolocator/geolocator.dart';
+// import 'package:geolocator/geolocator.dart';
 
 class RequestPickup extends StatefulWidget {
   const RequestPickup({super.key});
@@ -14,26 +14,21 @@ class RequestPickup extends StatefulWidget {
 }
 
 class _RequestPickupState extends State<RequestPickup> {
- final _address = TextEditingController();
-   final  _name = TextEditingController();
-   final _contact = TextEditingController();
-   final  _quantityController = TextEditingController();
-   final  _specialController = TextEditingController();
-
-
+  final _address = TextEditingController();
+  final _name = TextEditingController();
+  final _contact = TextEditingController();
+  final _quantityController = TextEditingController();
+  final _specialController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
- 
-  int _currentStep = 0;
-  String?  waste;
-  String?  availableDays;
-  String?  availableTime;
-   
 
+  int _currentStep = 0;
+  String? waste;
+  String? availableDays;
+  String? availableTime;
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       appBar: AppBar(
         elevation: 15.0,
@@ -56,8 +51,8 @@ class _RequestPickupState extends State<RequestPickup> {
             bottomRight: Radius.circular(25),
           ),
         ),
-        bottom:  PreferredSize(
-          preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.09),
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(100),
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -82,7 +77,6 @@ class _RequestPickupState extends State<RequestPickup> {
           ),
         ),
       ),
-     
       body: Form(
         key: formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -96,7 +90,7 @@ class _RequestPickupState extends State<RequestPickup> {
             }
           },
           onStepContinue: () {
-            if (_currentStep < 3) {
+            if (_currentStep < 2) {
               setState(() {
                 _currentStep += 1;
               });
@@ -152,15 +146,15 @@ class _RequestPickupState extends State<RequestPickup> {
                       ),
                     ),
                   ),
-                   readOnly: true,
-                      onTap: () async {
-                        Position? position = await updateLocation();
-                        if (position != null) {
-                          _address.text =
-                              '${position.latitude}, ${position.longitude}';
-                          setState(() {});
-                        }
-                      },
+                  readOnly: true,
+                  onTap: () async {
+                    // Position? position = await updateLocation();
+                    // if (position != null) {
+                    //   _address.text =
+                    //       '${position.latitude}, ${position.longitude}';
+                    //   setState(() {});
+                    // }
+                  },
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Please enter a valid address';
@@ -171,56 +165,57 @@ class _RequestPickupState extends State<RequestPickup> {
               ),
               isActive: _currentStep >= 0,
             ),
-            Step(
-              title: const Text('Name and Phone'),
-              content: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TextFormField(
-                      controller: _name,
-                      decoration: const InputDecoration(
-                        labelText: 'Name',
-                        prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(25),
-                          ),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Please enter your name';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TextFormField(
-                      controller: _contact,
-                      decoration: const InputDecoration(
-                        labelText: 'Contact',
-                        prefixIcon: Icon(Icons.phone),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(25),
-                          ),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Please enter a valid contact';
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              isActive: _currentStep >= 1,
-            ),
+            // Step(
+            //   title: const Text('Name and Phone'),
+            //   content: Column(
+            //     children: [
+            //       Padding(
+            //         padding: const EdgeInsets.all(10.0),
+            //         child: TextFormField(
+            //           controller: _name,
+            //           decoration: const InputDecoration(
+            //             labelText: 'Name',
+            //             prefixIcon: Icon(Icons.person),
+            //             border: OutlineInputBorder(
+            //               borderRadius: BorderRadius.all(
+            //                 Radius.circular(25),
+            //               ),
+            //             ),
+            //           ),
+            //           validator: (value) {
+            //             if (value?.isEmpty ?? true) {
+            //               return 'Please enter your name';
+            //             }
+            //             return null;
+            //           },
+            //         ),
+            //       ),
+            //       Padding(
+            //         padding: const EdgeInsets.all(10.0),
+            //         child: TextFormField(
+            //           controller: _contact,
+            //           decoration: const InputDecoration(
+            //             labelText: 'Contact',
+            //             prefixIcon: Icon(Icons.phone),
+            //             border: OutlineInputBorder(
+            //               borderRadius: BorderRadius.all(
+            //                 Radius.circular(25),
+            //               ),
+            //             ),
+            //           ),
+            //           validator: (value) {
+            //             if (value?.isEmpty ?? true) {
+            //               return 'Please enter a valid contact';
+            //             }
+            //             return null;
+            //           },
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            //   isActive: _currentStep >= 1,
+            // ),
+
             Step(
               title: const Text('Waste Details'),
               content: Column(
@@ -291,7 +286,7 @@ class _RequestPickupState extends State<RequestPickup> {
                       ],
                     ),
                   ),
-                   Padding(
+                  Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextFormField(
                       controller: _specialController,
@@ -370,7 +365,7 @@ class _RequestPickupState extends State<RequestPickup> {
                       ],
                     ),
                   ),
-               Padding(
+                  Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,7 +407,7 @@ class _RequestPickupState extends State<RequestPickup> {
                       ],
                     ),
                   ),
-               
+
                   // Padding(
                   //   padding: const EdgeInsets.all(10.0),
                   //   child: TextFormField(
@@ -446,7 +441,6 @@ class _RequestPickupState extends State<RequestPickup> {
                   //     },
                   //   ),
                   // ),
-               
                 ],
               ),
               isActive: _currentStep >= 3,
@@ -454,11 +448,10 @@ class _RequestPickupState extends State<RequestPickup> {
           ],
         ),
       ),
-   
     );
   }
 
-   _pickuprequest() {
+  _pickuprequest() {
     OverlayLoadingProgress.start(
       context,
       barrierDismissible: true,
@@ -476,59 +469,61 @@ class _RequestPickupState extends State<RequestPickup> {
         ),
       ),
     );
-       User? currentUser = FirebaseAuth.instance.currentUser;
-     FirebaseFirestore.instance.collection('pickup_orders').doc(currentUser!.uid).set({
-        'contact': _contact.text,
-        'name': _name.text,
-        'location': _address.text,
-        'Additional Info': _specialController.text,
-        'Quantity': _quantityController.text,
-        'Available Days': availableDays,
-        'Available Times': availableTime,
-        'Waste type': waste,
-
-      });
-      OverlayLoadingProgress.stop();
-      Navigator.pop(context);
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    FirebaseFirestore.instance
+        .collection('pickup_orders')
+        .doc(currentUser!.uid)
+        .set({
+      'contact': _contact.text,
+      'name': _name.text,
+      'location': _address.text,
+      'Additional Info': _specialController.text,
+      'Quantity': _quantityController.text,
+      'Available Days': availableDays,
+      'Available Times': availableTime,
+      'Waste type': waste,
+    });
+    OverlayLoadingProgress.stop();
+    Navigator.pop(context);
   }
 
-   Future updateLocation() async {
-    Position? newPosition;
+  //  Future updateLocation() async {
+  //   Position? newPosition;
 
-    LocationPermission res = await Geolocator.requestPermission();
+  //   LocationPermission res = await Geolocator.requestPermission();
 
-    if (res.name == 'always' || res.name == 'whileInUse') {
-      try {
-        OverlayLoadingProgress.start(
-          context,
-          widget: Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              color: Colors.black38,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: const Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        );
+  //   if (res.name == 'always' || res.name == 'whileInUse') {
+  //     try {
+  //       OverlayLoadingProgress.start(
+  //         context,
+  //         widget: Container(
+  //           height: 100,
+  //           width: 100,
+  //           decoration: BoxDecoration(
+  //             color: Colors.black38,
+  //             borderRadius: BorderRadius.circular(15),
+  //           ),
+  //           child: const Center(
+  //             child: CircularProgressIndicator(
+  //               color: Colors.white,
+  //             ),
+  //           ),
+  //         ),
+  //       );
 
-        newPosition = await Geolocator.getCurrentPosition(
-                desiredAccuracy: LocationAccuracy.best)
-            .timeout(const Duration(seconds: 30));
+  //       newPosition = await Geolocator.getCurrentPosition(
+  //               desiredAccuracy: LocationAccuracy.best)
+  //           .timeout(const Duration(seconds: 30));
 
-        OverlayLoadingProgress.stop();
-      } catch (e) {
-        OverlayLoadingProgress.stop();
-        print('GPS Error: ${e.toString()}');
+  //       OverlayLoadingProgress.stop();
+  //     } catch (e) {
+  //       OverlayLoadingProgress.stop();
+  //       print('GPS Error: ${e.toString()}');
 
-        // errorSnackBar('Kindly check your internet connection');
-      }
-    }
+  //       // errorSnackBar('Kindly check your internet connection');
+  //     }
+  //   }
 
-    return newPosition;
-  }
+  //   return newPosition;
+  // }
 }

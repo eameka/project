@@ -51,7 +51,7 @@ dependencies:
   overlay_loading_progress: ^1.0.1
   shared_preferences: ^2.2.3
   flutter_paystack: ^1.0.7
-  geolocator: ^12.0.0
+  # geolocator: ^12.0.0
 
 dev_dependencies:
   flutter_test:
