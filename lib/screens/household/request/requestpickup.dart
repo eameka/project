@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart';
+
 
 class RequestPickup extends StatefulWidget {
   const RequestPickup({super.key});
@@ -19,6 +20,7 @@ class _RequestPickupState extends State<RequestPickup> {
    final _contact = TextEditingController();
    final  _quantityController = TextEditingController();
    final  _specialController = TextEditingController();
+    Location _location = Location();
 
 
 
@@ -154,12 +156,27 @@ class _RequestPickupState extends State<RequestPickup> {
                   ),
                    readOnly: true,
                       onTap: () async {
-                        Position? position = await updateLocation();
-                        if (position != null) {
-                          _address.text =
-                              '${position.latitude}, ${position.longitude}';
-                          setState(() {});
-                        }
+                         bool _serviceEnabled;
+                       PermissionStatus _permissionGranted;
+
+                        _serviceEnabled = await _location.serviceEnabled();
+                  if (!_serviceEnabled) {
+                    _serviceEnabled = await _location.requestService();
+                    if (!_serviceEnabled) {
+                      return;
+                    }
+                  }
+
+                    _permissionGranted = await _location.hasPermission();
+                  if (_permissionGranted == PermissionStatus.denied) {
+                    _permissionGranted = await _location.requestPermission();
+                    if (_permissionGranted != PermissionStatus.granted) {
+                      return;
+                    }
+                  }
+                   final _locationData = await _location.getLocation();
+                  _address.text =
+                      '${_locationData.latitude}, ${_locationData.longitude}';
                       },
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
@@ -492,43 +509,5 @@ class _RequestPickupState extends State<RequestPickup> {
       Navigator.pop(context);
   }
 
-   Future updateLocation() async {
-    Position? newPosition;
-
-    LocationPermission res = await Geolocator.requestPermission();
-
-    if (res.name == 'always' || res.name == 'whileInUse') {
-      try {
-        OverlayLoadingProgress.start(
-          context,
-          widget: Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              color: Colors.black38,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: const Center(
-              child: CircularProgressIndicator(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        );
-
-        newPosition = await Geolocator.getCurrentPosition(
-                desiredAccuracy: LocationAccuracy.best)
-            .timeout(const Duration(seconds: 30));
-
-        OverlayLoadingProgress.stop();
-      } catch (e) {
-        OverlayLoadingProgress.stop();
-        print('GPS Error: ${e.toString()}');
-
-        // errorSnackBar('Kindly check your internet connection');
-      }
-    }
-
-    return newPosition;
-  }
+  
 }

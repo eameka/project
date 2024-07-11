@@ -28,7 +28,7 @@ class _HouseState extends State<House> {
         centerTitle: true,
         // backgroundColor: Colors.transparent,
       ),
-      drawer: drawerWidget(),
+      drawer: const drawerWidget(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +69,7 @@ class _HouseState extends State<House> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         color:
-                                            Color.fromARGB(37, 142, 250, 155)),
+                                            const Color.fromARGB(37, 142, 250, 155)),
                                     child: const Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -86,7 +86,7 @@ class _HouseState extends State<House> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
+                                  const Text(
                                     'Requests',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -130,7 +130,7 @@ class _HouseState extends State<House> {
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
                                         color:
-                                            Color.fromARGB(37, 142, 250, 155)),
+                                            const Color.fromARGB(37, 142, 250, 155)),
                                     child: const Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -147,7 +147,7 @@ class _HouseState extends State<House> {
                                   const SizedBox(
                                     height: 10,
                                   ),
-                                  Text(
+                                  const Text(
                                     'Requests',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
@@ -166,8 +166,8 @@ class _HouseState extends State<House> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
               child: Text(
                 'Available Waste Companies',
                 style: TextStyle(
@@ -181,8 +181,8 @@ class _HouseState extends State<House> {
                     stream: companies.snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        return const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(
                               'An error ocuurred while fetching data',
@@ -196,7 +196,7 @@ class _HouseState extends State<House> {
                       }
 
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Column(
+                        return const Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Center(
@@ -237,22 +237,22 @@ class _HouseState extends State<House> {
                               ),
                               children: <Widget>[
                                 ListTile(
-                                  title: Text("Location"),
+                                  title: const Text("Location"),
                                   subtitle: Text(
                                     snapshot.data!.docs[index]["location"],
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                        const TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 ListTile(
-                                  title: Text(
+                                  title: const Text(
                                     "Available Days",
                                   ),
                                   subtitle: Text(
                                     snapshot.data!.docs[index]
                                         ["available_days"],
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                        const TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
@@ -260,7 +260,7 @@ class _HouseState extends State<House> {
                           );
                         },
                         separatorBuilder: (context, builder) {
-                          return Divider(
+                          return const Divider(
                             height: 0,
                             color: Color.fromARGB(255, 235, 234, 234),
                           );
