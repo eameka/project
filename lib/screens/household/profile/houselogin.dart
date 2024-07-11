@@ -90,7 +90,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
           ),
         ),
         bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(150),
+          preferredSize: Size.fromHeight(100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,7 +126,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 30),
+            const SizedBox(height: 70),
             const Text(
               'Heya! Welcome Back',
               style:
