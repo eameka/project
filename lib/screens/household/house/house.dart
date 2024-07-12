@@ -22,11 +22,10 @@ class _HouseState extends State<House> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('Home', style: TextStyle(color: Colors.black)),
         centerTitle: true,
-        // backgroundColor: Colors.transparent,
+        
       ),
       drawer: const drawerWidget(),
       body: SingleChildScrollView(
@@ -43,12 +42,7 @@ class _HouseState extends State<House> {
                 children: [
                   InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   CupertinoPageRoute(
-                      //     builder: (context) => const MartTellerProducts(),
-                      //   ),
-                      // );
+                      
                     },
                     child: Card(
                       elevation: 1,
@@ -185,7 +179,7 @@ class _HouseState extends State<House> {
                           padding: EdgeInsets.all(8.0),
                           child: Center(
                             child: Text(
-                              'An error ocuurred while fetching data',
+                              'An error ocurred while fetching data',
                               style: TextStyle(
                                 color: Colors.red,
                                 fontSize: 20,
@@ -270,46 +264,7 @@ class _HouseState extends State<House> {
           ],
         ),
       ),
-      // body: ListView(
-      //   children: <Widget>[
-      //     Padding(
-      //       padding: const EdgeInsets.all(16.0),
-      //       child: ExpansionTile(
-      //         title: const Text("Zoomlion"),
-      //         collapsedIconColor: Colors.white,
-      //         collapsedTextColor: Colors.white,
-      //         collapsedBackgroundColor: Colors.green,
-      //         collapsedShape: RoundedRectangleBorder(
-      //           borderRadius: BorderRadius.circular(10.0),
-      //           side: const BorderSide(color: Colors.black),
-      //         ),
-      //         children: <Widget>[
-      //           ListTile(
-      //             title: Text("Zoomlion company"),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //     Padding(
-      //       padding: const EdgeInsets.all(16.0),
-      //       child: ExpansionTile(
-      //         title: const Text("SmartWaste"),
-      //         collapsedIconColor: Colors.white,
-      //         collapsedTextColor: Colors.white,
-      //         collapsedBackgroundColor: Colors.green,
-      //         collapsedShape: RoundedRectangleBorder(
-      //           borderRadius: BorderRadius.circular(10.0),
-      //           side: const BorderSide(color: Colors.black),
-      //         ),
-      //         children: <Widget>[
-      //           ListTile(
-      //             title: Text("SmartWaste"),
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
+     
     );
   }
 }

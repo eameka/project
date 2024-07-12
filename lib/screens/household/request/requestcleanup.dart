@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecowaste/screens/household/request/request.dart';
+import 'package:ecowaste/screens/household/navigate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
-import 'package:location/location.dart';
+//import 'package:location/location.dart';
 
 class RequestCleanup extends StatefulWidget {
   const RequestCleanup({super.key});
@@ -14,12 +14,16 @@ class RequestCleanup extends StatefulWidget {
 }
 
 class _RequestCleanupState extends State<RequestCleanup> {
+  String? selectedcompany;
   final _locationController = TextEditingController();
   final _name = TextEditingController();
   final _contact = TextEditingController();
   final _wastetype = TextEditingController();
   final _extraInfo = TextEditingController();
-    Location _location = Location();
+ // Location _location = Location();
+
+  CollectionReference companies =
+      FirebaseFirestore.instance.collection('waste_company');
 
   final formKey = GlobalKey<FormState>();
   String? availableDays;
@@ -50,7 +54,7 @@ class _RequestCleanupState extends State<RequestCleanup> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Notify(),
+                  builder: (context) => const NavigateHouseHold(),
                 ));
           },
         ),
@@ -183,31 +187,6 @@ class _RequestCleanupState extends State<RequestCleanup> {
                           ),
                         ),
                       ),
-                      readOnly: true,
-                      onTap: () async {
-                        bool _serviceEnabled;
-                       PermissionStatus _permissionGranted;
-
-                        _serviceEnabled = await _location.serviceEnabled();
-                  if (!_serviceEnabled) {
-                    _serviceEnabled = await _location.requestService();
-                    if (!_serviceEnabled) {
-                      return;
-                    }
-                  }
-
-                    _permissionGranted = await _location.hasPermission();
-                  if (_permissionGranted == PermissionStatus.denied) {
-                    _permissionGranted = await _location.requestPermission();
-                    if (_permissionGranted != PermissionStatus.granted) {
-                      return;
-                    }
-                  }
-
-                     final _locationData = await _location.getLocation();
-                  _locationController.text =
-                      '${_locationData.latitude}, ${_locationData.longitude}';
-                      },
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return 'Please enter your location';
@@ -324,45 +303,52 @@ class _RequestCleanupState extends State<RequestCleanup> {
                       children: [
                         const Text('Select Available Companies'),
                         const SizedBox(height: 10),
-                        DropdownButtonFormField<String>(
-                          items: <String>[
-                            'Monday',
-                            'Tuesday',
-                            'Wednesday',
-                            'Thursday',
-                            'Friday',
-                            'Saturday',
-                            'Sunday',
-                            'Everyday',
-                            'Weekdays',
-                            'Weekends'
-                          ].map((value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          icon: const Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Colors.black,
-                          ),
-                          style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black),
-                          value: availableCompanies,
-                          onChanged: (newVal) {
-                            setState(() {
-                              availableCompanies = newVal;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null) {
-                              return 'This is required *';
+                        StreamBuilder<QuerySnapshot>(
+                          stream: companies.snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text(
+                                    "Some error occurred ${snapshot.error}"),
+                              );
                             }
-                            return null;
+                            List<DropdownMenuItem> companyitems = [];
+                            if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              final selectcompanies =
+                                  snapshot.data?.docs.reversed.toList();
+                              if (selectcompanies != null) {
+                                for (var company in selectcompanies) {
+                                  companyitems.add(DropdownMenuItem(
+                                    value: company.id,
+                                      child: Text(
+                                    company['company_name'],
+                                  )));
+                                }
+                              }
+                            }
+                            
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                right:15.0,
+                                left:15.0,
+                                ),
+                              child: DropdownButtonFormField(
+                                isExpanded: true,
+                                hint: const Text("Select available companies"),
+                                value: selectedcompany,
+                                items: companyitems,
+                                onChanged: (newVal) {
+                                  setState(() {
+                                    selectedcompany = newVal;
+                                  });
+                                },
+                              ),
+                            );
                           },
-                        ),
+                        )
+                      
                       ],
                     ),
                   ),
@@ -432,10 +418,9 @@ class _RequestCleanupState extends State<RequestCleanup> {
       'Waste type': _wastetype.text,
       'Available Days': availableDays,
       'Available Companies': availableCompanies,
+      'Selected company': selectedcompany,
     });
     OverlayLoadingProgress.stop();
     Navigator.pop(context);
   }
-
-  
 }

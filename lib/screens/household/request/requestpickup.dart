@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecowaste/screens/household/request/request.dart';
+import 'package:ecowaste/screens/household/navigate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
-import 'package:location/location.dart';
+//import 'package:location/location.dart';
 
 
 class RequestPickup extends StatefulWidget {
@@ -15,14 +15,16 @@ class RequestPickup extends StatefulWidget {
 }
 
 class _RequestPickupState extends State<RequestPickup> {
+  String? selectedcompany;
  final _address = TextEditingController();
    final  _name = TextEditingController();
    final _contact = TextEditingController();
    final  _quantityController = TextEditingController();
    final  _specialController = TextEditingController();
-    Location _location = Location();
+   // Location _location = Location();
 
-
+   CollectionReference companies =
+      FirebaseFirestore.instance.collection('waste_company');
 
   final formKey = GlobalKey<FormState>();
 
@@ -45,7 +47,7 @@ class _RequestPickupState extends State<RequestPickup> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Notify(),
+                  builder: (context) => const NavigateHouseHold(),
                 ));
           },
         ),
@@ -55,9 +57,9 @@ class _RequestPickupState extends State<RequestPickup> {
             bottomRight: Radius.circular(25),
           ),
         ),
-        bottom: PreferredSize(
+        bottom: const PreferredSize(
           preferredSize: Size.fromHeight(100),
-          child: const Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -150,30 +152,6 @@ class _RequestPickupState extends State<RequestPickup> {
                       ),
                     ),
                   ),
-                   readOnly: true,
-                      onTap: () async {
-                         bool _serviceEnabled;
-                       PermissionStatus _permissionGranted;
-
-                        _serviceEnabled = await _location.serviceEnabled();
-                  if (!_serviceEnabled) {
-                    _serviceEnabled = await _location.requestService();
-                    if (!_serviceEnabled) {
-                      return;
-                    }
-                  }
-
-                    _permissionGranted = await _location.hasPermission();
-                  if (_permissionGranted == PermissionStatus.denied) {
-                    _permissionGranted = await _location.requestPermission();
-                    if (_permissionGranted != PermissionStatus.granted) {
-                      return;
-                    }
-                  }
-                   final _locationData = await _location.getLocation();
-                  _address.text =
-                      '${_locationData.latitude}, ${_locationData.longitude}';
-                      },
                   validator: (value) {
                     if (value?.isEmpty ?? true) {
                       return 'Please enter a valid address';
@@ -184,57 +162,6 @@ class _RequestPickupState extends State<RequestPickup> {
               ),
               isActive: _currentStep >= 0,
             ),
-            // Step(
-            //   title: const Text('Name and Phone'),
-            //   content: Column(
-            //     children: [
-            //       Padding(
-            //         padding: const EdgeInsets.all(10.0),
-            //         child: TextFormField(
-            //           controller: _name,
-            //           decoration: const InputDecoration(
-            //             labelText: 'Name',
-            //             prefixIcon: Icon(Icons.person),
-            //             border: OutlineInputBorder(
-            //               borderRadius: BorderRadius.all(
-            //                 Radius.circular(25),
-            //               ),
-            //             ),
-            //           ),
-            //           validator: (value) {
-            //             if (value?.isEmpty ?? true) {
-            //               return 'Please enter your name';
-            //             }
-            //             return null;
-            //           },
-            //         ),
-            //       ),
-            //       Padding(
-            //         padding: const EdgeInsets.all(10.0),
-            //         child: TextFormField(
-            //           controller: _contact,
-            //           decoration: const InputDecoration(
-            //             labelText: 'Contact',
-            //             prefixIcon: Icon(Icons.phone),
-            //             border: OutlineInputBorder(
-            //               borderRadius: BorderRadius.all(
-            //                 Radius.circular(25),
-            //               ),
-            //             ),
-            //           ),
-            //           validator: (value) {
-            //             if (value?.isEmpty ?? true) {
-            //               return 'Please enter a valid contact';
-            //             }
-            //             return null;
-            //           },
-            //         ),
-            //       ),
-            //     ],
-            //   ),
-            //   isActive: _currentStep >= 1,
-            // ),
-
             Step(
               title: const Text('Waste Details'),
               content: Column(
@@ -335,6 +262,62 @@ class _RequestPickupState extends State<RequestPickup> {
               title: const Text('Pickup Preferences'),
               content: Column(
                 children: [
+                   Padding(
+                     padding: const EdgeInsets.all(10.0),
+                     child: Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                       children: [
+                         StreamBuilder<QuerySnapshot>(
+                                stream: companies.snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) {
+                                    return Center(
+                                      child: Text(
+                                          "Some error occurred ${snapshot.error}"),
+                                    );
+                                  }
+                                  List<DropdownMenuItem> companyitems = [];
+                                  if (!snapshot.hasData) {
+                                    return const CircularProgressIndicator();
+                                  } else {
+                                    final selectcompanies =
+                                        snapshot.data?.docs.reversed.toList();
+                                    if (selectcompanies != null) {
+                                      for (var company in selectcompanies) {
+                                        companyitems.add(DropdownMenuItem(
+                                          value: company.id,
+                                            child: Text(
+                                          company['company_name'],
+                                        )));
+                                      }
+                                    }
+                                  }
+                                  
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      right:15.0,
+                                      left:15.0,
+                                      ),
+                                    child: DropdownButtonFormField(
+                                      isExpanded: true,
+                                      hint: const Text("Select available companies"),
+                                      value: selectedcompany,
+                                      items: companyitems,
+                                      onChanged: (newVal) {
+                                        setState(() {
+                                          selectedcompany = newVal;
+                                        });
+                                      },
+                                      autovalidateMode: 
+                                      AutovalidateMode.onUserInteraction,
+                                    ),
+                                  );
+                                },
+                              ),
+                       ],
+                     ),
+                   ),
+                      
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
@@ -426,40 +409,6 @@ class _RequestPickupState extends State<RequestPickup> {
                       ],
                     ),
                   ),
-
-                  // Padding(
-                  //   padding: const EdgeInsets.all(10.0),
-                  //   child: TextFormField(
-                  //     controller: _passwordController,
-                  //     obscureText: !passwordVisible,
-                  //     decoration: InputDecoration(
-                  //         labelText: 'Password',
-                  //         prefixIcon: const Icon(Icons.lock),
-                  //         border: const OutlineInputBorder(
-                  //           borderRadius: BorderRadius.all(
-                  //             Radius.circular(25),
-                  //           ),
-                  //         ),
-                  //         suffixIcon: IconButton(
-                  //           onPressed: () {
-                  //             setState(() {
-                  //               passwordVisible = !passwordVisible;
-                  //             });
-                  //           },
-                  //           icon: Icon(
-                  //             passwordVisible
-                  //                 ? Icons.visibility
-                  //                 : Icons.visibility_off,
-                  //           ),
-                  //         )),
-                  //     validator: (value) {
-                  //       if (value?.isEmpty ?? true) {
-                  //         return 'Please enter a valid password';
-                  //       }
-                  //       return null;
-                  //     },
-                  //   ),
-                  // ),
                 ],
               ),
               isActive: _currentStep >= 3,
@@ -501,6 +450,7 @@ class _RequestPickupState extends State<RequestPickup> {
       'Available Days': availableDays,
       'Available Times': availableTime,
       'Waste type': waste,
+      'Selected company': selectedcompany,
     });
     OverlayLoadingProgress.stop();
     Navigator.pop(context);
