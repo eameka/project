@@ -51,7 +51,6 @@ dependencies:
   overlay_loading_progress: ^1.0.1
   shared_preferences: ^2.2.3
   flutter_paystack: ^1.0.7
-  location: ^6.0.2
 
   
 

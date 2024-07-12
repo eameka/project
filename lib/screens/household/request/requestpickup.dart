@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 //import 'package:location/location.dart';
 
-
 class RequestPickup extends StatefulWidget {
   const RequestPickup({super.key});
 
@@ -16,14 +15,14 @@ class RequestPickup extends StatefulWidget {
 
 class _RequestPickupState extends State<RequestPickup> {
   String? selectedcompany;
- final _address = TextEditingController();
-   final  _name = TextEditingController();
-   final _contact = TextEditingController();
-   final  _quantityController = TextEditingController();
-   final  _specialController = TextEditingController();
-   // Location _location = Location();
+  final _address = TextEditingController();
+  final _name = TextEditingController();
+  final _contact = TextEditingController();
+  final _quantityController = TextEditingController();
+  final _specialController = TextEditingController();
+  // Location _location = Location();
 
-   CollectionReference companies =
+  CollectionReference companies =
       FirebaseFirestore.instance.collection('waste_company');
 
   final formKey = GlobalKey<FormState>();
@@ -100,7 +99,7 @@ class _RequestPickupState extends State<RequestPickup> {
               setState(() {
                 _currentStep += 1;
               });
-            } else if (_currentStep == 3) {
+            } else if (_currentStep == 2) {
               if (formKey.currentState!.validate()) {
                 showDialog(
                   context: context,
@@ -119,8 +118,8 @@ class _RequestPickupState extends State<RequestPickup> {
                         CupertinoDialogAction(
                           isDestructiveAction: false,
                           onPressed: () async {
-                            Navigator.pop(context);
                             _pickuprequest();
+                            // Navigator.pop(context);
                           },
                           child: const Text("Yes"),
                         )
@@ -246,12 +245,12 @@ class _RequestPickupState extends State<RequestPickup> {
                           ),
                         ),
                       ),
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Please enter a special request';
-                        }
-                        return null;
-                      },
+                      // validator: (value) {
+                      //   if (value?.isEmpty ?? true) {
+                      //     return 'Please enter a special request';
+                      //   }
+                      //   return null;
+                      // },
                     ),
                   ),
                 ],
@@ -262,62 +261,76 @@ class _RequestPickupState extends State<RequestPickup> {
               title: const Text('Pickup Preferences'),
               content: Column(
                 children: [
-                   Padding(
-                     padding: const EdgeInsets.all(10.0),
-                     child: Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                       children: [
-                         StreamBuilder<QuerySnapshot>(
-                                stream: companies.snapshots(),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    return Center(
-                                      child: Text(
-                                          "Some error occurred ${snapshot.error}"),
-                                    );
-                                  }
-                                  List<DropdownMenuItem> companyitems = [];
-                                  if (!snapshot.hasData) {
-                                    return const CircularProgressIndicator();
-                                  } else {
-                                    final selectcompanies =
-                                        snapshot.data?.docs.reversed.toList();
-                                    if (selectcompanies != null) {
-                                      for (var company in selectcompanies) {
-                                        companyitems.add(DropdownMenuItem(
-                                          value: company.id,
-                                            child: Text(
-                                          company['company_name'],
-                                        )));
-                                      }
-                                    }
-                                  }
-                                  
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                      right:15.0,
-                                      left:15.0,
-                                      ),
-                                    child: DropdownButtonFormField(
-                                      isExpanded: true,
-                                      hint: const Text("Select available companies"),
-                                      value: selectedcompany,
-                                      items: companyitems,
-                                      onChanged: (newVal) {
-                                        setState(() {
-                                          selectedcompany = newVal;
-                                        });
-                                      },
-                                      autovalidateMode: 
-                                      AutovalidateMode.onUserInteraction,
-                                    ),
-                                  );
-                                },
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Select Pickup Company'),
+                        const SizedBox(height: 10),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: companies.snapshots(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return Center(
+                                child: Text(
+                                    "Some error occurred ${snapshot.error}"),
+                              );
+                            }
+
+                            List<DropdownMenuItem<String>>? companyitems = [];
+                            if (!snapshot.hasData) {
+                              return const CircularProgressIndicator();
+                            } else {
+                              final selectcompanies =
+                                  snapshot.data?.docs.reversed.toList();
+                              if (selectcompanies != null) {
+                                for (var company in selectcompanies) {
+                                  companyitems.add(DropdownMenuItem(
+                                    value: company['email'],
+                                    child: Text(company['company_name']),
+                                  ));
+                                }
+                              }
+                            }
+
+                            // Ensure selectedcompany is set to a valid value
+                            if (companyitems.isNotEmpty &&
+                                (selectedcompany == null ||
+                                    !companyitems.any((item) =>
+                                        item.value == selectedcompany))) {
+                              selectedcompany = companyitems.first.value;
+                            }
+
+                            return DropdownButtonFormField<String>(
+                              items: companyitems,
+                              onChanged: (newVal) {
+                                setState(() {
+                                  selectedcompany = newVal;
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.keyboard_arrow_down,
+                                color: Colors.black,
                               ),
-                       ],
-                     ),
-                   ),
-                      
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black,
+                              ),
+                              value: selectedcompany,
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'This is required *';
+                                }
+                                return null;
+                              },
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
@@ -420,6 +433,7 @@ class _RequestPickupState extends State<RequestPickup> {
   }
 
   _pickuprequest() {
+    print('_pickuprequest');
     OverlayLoadingProgress.start(
       context,
       barrierDismissible: true,
@@ -440,7 +454,6 @@ class _RequestPickupState extends State<RequestPickup> {
     User? currentUser = FirebaseAuth.instance.currentUser;
     FirebaseFirestore.instance
         .collection('pickup_orders')
-        .doc(currentUser!.uid)
         .set({
       'contact': _contact.text,
       'name': _name.text,
@@ -451,10 +464,9 @@ class _RequestPickupState extends State<RequestPickup> {
       'Available Times': availableTime,
       'Waste type': waste,
       'Selected company': selectedcompany,
+    }).then((done) {
+      OverlayLoadingProgress.stop();
+      Navigator.pop(context);
     });
-    OverlayLoadingProgress.stop();
-    Navigator.pop(context);
   }
-
-  
 }
