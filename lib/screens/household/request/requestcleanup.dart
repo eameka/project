@@ -407,12 +407,14 @@ class _RequestCleanupState extends State<RequestCleanup> {
       ),
     );
     User? currentUser = FirebaseAuth.instance.currentUser;
-    FirebaseFirestore.instance
+    if (currentUser != null){
+    FirebaseFirestore.instance   
+        .collection('users')
+        .doc(currentUser.uid)
         .collection('cleanup_orders')
-        .doc(currentUser!.uid)
-        .set({
-      'contact': _contact.text,
-      'name': _name.text,
+        .add({
+      'Name': _name.text,
+     'Contact': _contact.text,
       'location': _locationController.text,
       'Additional info': _extraInfo.text,
       'Waste type': _wastetype.text,
@@ -423,4 +425,5 @@ class _RequestCleanupState extends State<RequestCleanup> {
     OverlayLoadingProgress.stop();
     Navigator.pop(context);
   }
+}
 }

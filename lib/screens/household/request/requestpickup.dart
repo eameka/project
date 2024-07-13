@@ -452,11 +452,12 @@ class _RequestPickupState extends State<RequestPickup> {
       ),
     );
     User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
     FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser.uid)
         .collection('pickup_orders')
-        .set({
-      'contact': _contact.text,
-      'name': _name.text,
+        .add({
       'location': _address.text,
       'Additional Info': _specialController.text,
       'Quantity': _quantityController.text,
@@ -469,4 +470,5 @@ class _RequestPickupState extends State<RequestPickup> {
       Navigator.pop(context);
     });
   }
+}
 }

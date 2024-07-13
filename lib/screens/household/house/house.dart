@@ -1,5 +1,7 @@
 import "package:cloud_firestore/cloud_firestore.dart";
 import "package:ecowaste/screens/household/auth/auth_service.dart";
+import "package:ecowaste/screens/household/house/cleanupmade.dart";
+import "package:ecowaste/screens/household/house/pickupmade.dart";
 import "package:ecowaste/screens/household/profile/houselogin.dart";
 import "package:ecowaste/widgets.dart/drawer_widget.dart";
 import "package:firebase_auth/firebase_auth.dart";
@@ -42,7 +44,12 @@ class _HouseState extends State<House> {
                 children: [
                   InkWell(
                     onTap: () {
-                      
+                       Navigator.push(
+                         context,
+                         CupertinoPageRoute(
+                           builder: (context) => Pickupmade(FirebaseAuth.instance.currentUser),
+                         ),
+                       );
                     },
                     child: Card(
                       elevation: 1,
@@ -98,12 +105,12 @@ class _HouseState extends State<House> {
                   ),
                   InkWell(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   CupertinoPageRoute(
-                      //     builder: (context) => const MartTellerProducts(),
-                      //   ),
-                      // );
+                       Navigator.push(
+                         context,
+                         CupertinoPageRoute(
+                           builder: (context) => CleanupOrdersList(FirebaseAuth.instance.currentUser),
+                         ),
+                       );
                     },
                     child: Card(
                       elevation: 1,
