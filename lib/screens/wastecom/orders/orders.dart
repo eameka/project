@@ -77,7 +77,7 @@ class _OrdersState extends State<Orders> {
                    Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const PickupWaste(),
+          builder: (context) => const WastePickupOrdersPage(),
         ),
       );
                 },
@@ -120,7 +120,7 @@ class _OrdersState extends State<Orders> {
                    Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const CleanWaste(),
+          builder: (context) => const WasteCleanupOrdersPage(),
         ),
       );
                 },
