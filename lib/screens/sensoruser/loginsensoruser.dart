@@ -1,27 +1,24 @@
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:ecowaste/forgotpassword.dart';
-import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
 import 'package:ecowaste/register.dart';
-import 'package:overlay_loading_progress/overlay_loading_progress.dart';
+import 'package:ecowaste/screens/household/auth/auth_service.dart';
+import 'package:ecowaste/screens/sensoruser/Sensorscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:developer';
 
-
-class MywasteLogin extends StatefulWidget {
-  const MywasteLogin({
-    super.key,
-  });
+class Sensorlogin extends StatefulWidget {
+  const Sensorlogin({super.key});
 
   @override
-  State<MywasteLogin> createState() => _MywasteLoginState();
+  State<Sensorlogin> createState() => _SensorloginState();
 }
 
-class _MywasteLoginState extends State<MywasteLogin> {
-  final _auth = AuthService();
+class _SensorloginState extends State<Sensorlogin> {
+   final _auth = AuthService();
   bool passwordVisible = false;
   final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -46,21 +43,6 @@ class _MywasteLoginState extends State<MywasteLogin> {
       return false;
     }
   }
-
-
-  @override
-  void initState() {
-    super.initState();
-    passwordVisible = true;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _mailController.dispose();
-    _passwordController.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,7 +80,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Login as Waste company',
+                    'Login as Sensor Household',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -120,7 +102,6 @@ class _MywasteLoginState extends State<MywasteLogin> {
           ),
         ),
       ),
-     
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -277,7 +258,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
         _mailController.text, _passwordController.text);
     if (user != null) {
           CollectionReference users =
-          FirebaseFirestore.instance.collection('waste_company');
+          FirebaseFirestore.instance.collection('Sensor_Household');
 
        users.doc(user.uid).get().then((snapshot) async {
         if (snapshot.exists) {
@@ -298,7 +279,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
       });
       OverlayLoadingProgress.stop();
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const MyWasteNavigate()));
+          MaterialPageRoute(builder: (context) => const SensorScreen()));
     } else {
       QuickAlert.show(
         context: context,

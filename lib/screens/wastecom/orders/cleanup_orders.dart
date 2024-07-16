@@ -12,15 +12,15 @@ class WasteCleanupOrdersPage extends StatefulWidget {
 class _WasteCleanupOrdersPageState extends State<WasteCleanupOrdersPage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  List<DocumentSnapshot> _orders = [];
+  List<DocumentSnapshot>  _cleanupOrders = [];
 
   @override
   void initState() {
     super.initState();
-    _loadOrders();
+    _loadCleanupOrders();
   }
 
-  Future<void> _loadOrders() async {
+ /* Future<void> _loadOrders() async {
     final currentUser = _auth.currentUser;
     if (currentUser!= null) {
       final querySnapshot = await _firestore
@@ -34,6 +34,28 @@ class _WasteCleanupOrdersPageState extends State<WasteCleanupOrdersPage> {
       });
     }
   }
+*/
+
+
+Future<void> _loadCleanupOrders() async {
+  final currentUser = _auth.currentUser;
+  if (currentUser!= null) {
+    final cleanupOrdersCollection = _firestore
+       .collection('users')
+       .doc(currentUser.uid)
+       .collection('cleanup_orders');
+
+    cleanupOrdersCollection
+       .where('Selected company', isEqualTo: currentUser.uid)
+       .get()
+       .then((querySnapshot) {
+           querySnapshot.docs.forEach((document) {
+        _cleanupOrders.add(document);
+      });
+      setState(() {}); // Notify the framework that the widget needs to be rebuilt
+    });
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +63,14 @@ class _WasteCleanupOrdersPageState extends State<WasteCleanupOrdersPage> {
       appBar: AppBar(
         title: const Text('Waste Cleanup Orders'),
       ),
-      body: _orders.isEmpty
+      body:  _cleanupOrders.isEmpty
          ? const Center(
               child: Text('No orders found'),
             )
           : ListView.builder(
-              itemCount: _orders.length,
+              itemCount:  _cleanupOrders.length,
               itemBuilder: (context, index) {
-                final order = _orders[index];
+                final order =  _cleanupOrders[index];
                 return Card(
                   child: ListTile(
                     title: Text(order['Name']),

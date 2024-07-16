@@ -112,6 +112,23 @@ class _MyAccountState extends State<MyAccount> {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                ElevatedButton(
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MyWasteSignup(),
+                                      )),
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                    const Color.fromARGB(255, 103, 196, 107),
+                                  )),
+                                  child: const Text(
+                                    "Register Sensor Household account",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -171,6 +188,24 @@ class _MyAccountState extends State<MyAccount> {
                                     const Color.fromARGB(255, 103, 196, 107),
                                   )),
                                   child: const Text('Login as Waste company',
+                                      style: TextStyle(color: Colors.white)),
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MywasteLogin(),
+                                      )),
+                                ),
+                                 const SizedBox(
+                                  height: 10,
+                                ),
+                                ElevatedButton(
+                                  style: ButtonStyle(
+                                      backgroundColor:
+                                          WidgetStateProperty.all<Color>(
+                                    const Color.fromARGB(255, 103, 196, 107),
+                                  )),
+                                  child: const Text('Login as Sensor Household',
                                       style: TextStyle(color: Colors.white)),
                                   onPressed: () => Navigator.push(
                                       context,
