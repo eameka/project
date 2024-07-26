@@ -103,7 +103,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Create Account',
+                    'Create Household Account',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
@@ -383,6 +383,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
         ),
       ),
     );
+  
   }
 
   _signup() async {
@@ -452,6 +453,7 @@ class _MyHouseSignupState extends State<MyHouseSignup> {
       OverlayLoadingProgress.stop();
     }
   }
+
 
   Future<void> createUser(UserModel user) async {
     await userRepo.createUser(user);

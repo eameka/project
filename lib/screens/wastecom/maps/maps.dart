@@ -17,6 +17,7 @@ class _MyMapsState extends State<MyMaps> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: const Text(
           'Home',
           style: TextStyle(
@@ -26,13 +27,14 @@ class _MyMapsState extends State<MyMaps> {
         ),
         centerTitle: true,
       ),
-      drawer: CompanyDrawer(),
+      drawer: const CompanyDrawer(),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
           target: _kGooglePlex,
           zoom: 14.4746,
         ),
       ),
+   
     );
   }
 }

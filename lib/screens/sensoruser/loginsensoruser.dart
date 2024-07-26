@@ -267,9 +267,9 @@ class _SensorloginState extends State<Sensorlogin> {
           log("snapshot.data(): ${data.toString()}");
 
           if (data != null) {
-            await prefs.setString('company_name', data["name"] ?? '');
-            await prefs.setString('company_email', data["email"] ?? '');
-            await prefs.setString('company_contact', data["contact"] ?? '');
+            await prefs.setString('sensor_name', data["name"] ?? '');
+            await prefs.setString('sensor_email', data["email"] ?? '');
+            await prefs.setString('sensor_contact', data["contact"] ?? '');
           }
         } else {
           log("No data found for user: ${user.uid}");

@@ -1,19 +1,18 @@
+import 'package:ecowaste/screens/sensoruser/loginsensoruser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../screens/household/auth/auth_service.dart';
-import '../screens/household/profile/houselogin.dart';
 
-class drawerWidget extends StatefulWidget {
-  const drawerWidget({super.key});
+class SensordrawerWidget extends StatefulWidget {
+  const SensordrawerWidget({super.key});
 
   @override
-  State<drawerWidget> createState() => _drawerWidgetState();
+  State<SensordrawerWidget> createState() => _SensordrawerWidgetState();
 }
 
-class _drawerWidgetState extends State<drawerWidget> {
+class _SensordrawerWidgetState extends State<SensordrawerWidget> {
   String name = '';
   String contact = '';
   String email = '';
@@ -27,9 +26,9 @@ class _drawerWidgetState extends State<drawerWidget> {
   _getUserDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      name = prefs.getString("house_name")!;
-      contact = prefs.getString("house_contact")!;
-      email = prefs.getString("house_email")!;
+      name = prefs.getString("sensor_name")!;
+      contact = prefs.getString("sensor_contact")!;
+      email = prefs.getString("sensor_email")!;
     });
   }
 
@@ -54,7 +53,7 @@ class _drawerWidgetState extends State<drawerWidget> {
                     size: 30,
                   )),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Text(
@@ -118,7 +117,7 @@ class _drawerWidgetState extends State<drawerWidget> {
                             await FirebaseAuth.instance.signOut().then((value) {
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                  builder: (context) => MyHouseLogin(),
+                                  builder: (context) => const Sensorlogin(),
                                 ),
                                 (Route<dynamic> route) => false,
                               );
@@ -130,6 +129,7 @@ class _drawerWidgetState extends State<drawerWidget> {
                     );
                   },
                 );
+                
               }),
         ],
       ),

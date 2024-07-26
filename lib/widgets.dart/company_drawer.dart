@@ -54,7 +54,7 @@ class _CompanyDrawerState extends State<CompanyDrawer> {
                     size: 30,
                   )),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Text(
@@ -118,7 +118,7 @@ class _CompanyDrawerState extends State<CompanyDrawer> {
                             await FirebaseAuth.instance.signOut().then((value) {
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                  builder: (context) => MyAccount(),
+                                  builder: (context) => const MyAccount(),
                                 ),
                                 (Route<dynamic> route) => false,
                               );
