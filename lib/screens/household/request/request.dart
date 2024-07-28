@@ -200,7 +200,7 @@ class _NotifyState extends State<Notify> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.1,
+                          width: MediaQuery.of(context).size.width * 0.2,
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: const BoxDecoration(
                             shape: BoxShape.rectangle,
@@ -224,8 +224,6 @@ class _NotifyState extends State<Notify> {
               ),
               GestureDetector(
                 onTap: () {
-                       
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -244,7 +242,7 @@ class _NotifyState extends State<Notify> {
                       Padding(
                         padding: const EdgeInsets.only(top: 20.0),
                         child: Container(
-                          width: MediaQuery.of(context).size.width * 0.1,
+                          width: MediaQuery.of(context).size.width * 0.2,
                           height: MediaQuery.of(context).size.height * 0.1,
                           decoration: const BoxDecoration(
                             shape: BoxShape.rectangle,

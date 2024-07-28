@@ -62,7 +62,7 @@ class _MyAccountState extends State<MyAccount> {
                       context: context,
                       builder: (BuildContext context) {
                         return SizedBox(
-                          height: 200,
+                          height: 250,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -137,8 +137,8 @@ class _MyAccountState extends State<MyAccount> {
                     );
                   },
                   style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(const Color(0Xff0C2925))),
+                      backgroundColor: WidgetStateProperty.all<Color>(
+                          const Color(0Xff0C2925))),
                   child: const Text(
                     "Register",
                     style: TextStyle(color: Colors.white),
@@ -153,7 +153,7 @@ class _MyAccountState extends State<MyAccount> {
                       context: context,
                       builder: (BuildContext context) {
                         return SizedBox(
-                          height: 200,
+                          height: 250,
                           child: Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -196,7 +196,7 @@ class _MyAccountState extends State<MyAccount> {
                                             const MywasteLogin(),
                                       )),
                                 ),
-                                 const SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
                                 ElevatedButton(

@@ -51,6 +51,8 @@ dependencies:
   overlay_loading_progress: ^1.0.1
   shared_preferences: ^2.2.3
   flutter_paystack: ^1.0.7
+  animated_snack_bar: ^0.4.0
+  intl: ^0.17.0
   
 
   

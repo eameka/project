@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowaste/screens/household/navigate.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 //import 'package:location/location.dart';
 
 class RequestPickup extends StatefulWidget {
@@ -433,7 +437,7 @@ class _RequestPickupState extends State<RequestPickup> {
   }
 
   _pickuprequest() {
-    print('_pickuprequest');
+    log('_pickuprequest');
     OverlayLoadingProgress.start(
       context,
       barrierDismissible: true,
@@ -453,22 +457,36 @@ class _RequestPickupState extends State<RequestPickup> {
     );
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(currentUser.uid)
-        .collection('pickup_orders')
-        .add({
-      'location': _address.text,
-      'Additional Info': _specialController.text,
-      'Quantity': _quantityController.text,
-      'Available Days': availableDays,
-      'Available Times': availableTime,
-      'Waste type': waste,
-      'Selected company': selectedcompany,
-    }).then((done) {
-      OverlayLoadingProgress.stop();
-      Navigator.pop(context);
-    });
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUser.uid)
+          .collection('pickup_orders')
+          .add({
+        'location': _address.text,
+        'Additional Info': _specialController.text,
+        'Quantity': _quantityController.text,
+        'Available Days': availableDays,
+        'Available Times': availableTime,
+        'Waste type': waste,
+        'Selected company': selectedcompany,
+        'isPickedUp': false,
+        'requesttimestamp': FieldValue.serverTimestamp(),
+      }).then((done) {
+        log('Completed');
+        OverlayLoadingProgress.stop();
+        Navigator.pop(context);
+        QuickAlert.show(
+            context: context,
+            type: QuickAlertType.success,
+            text: 'Request submitted successfully',
+            onConfirmBtnTap: () {
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+                builder: (context) {
+                  return const NavigateHouseHold();
+                },
+              ), (Route<dynamic> route) => false);
+            });
+      });
+    }
   }
-}
 }

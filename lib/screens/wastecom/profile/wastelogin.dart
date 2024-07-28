@@ -10,7 +10,6 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer';
 
-
 class MywasteLogin extends StatefulWidget {
   const MywasteLogin({
     super.key,
@@ -25,11 +24,11 @@ class _MywasteLoginState extends State<MywasteLogin> {
   bool passwordVisible = false;
   final _mailController = TextEditingController();
   final _passwordController = TextEditingController();
-   final formKey = GlobalKey<FormState>();
+  final formKey = GlobalKey<FormState>();
 
   AutovalidateMode autoValidateMode = AutovalidateMode.disabled;
 
-   bool validateAndSave() {
+  bool validateAndSave() {
     final form = formKey.currentState;
     if (form!.validate()) {
       form.save();
@@ -46,7 +45,6 @@ class _MywasteLoginState extends State<MywasteLogin> {
       return false;
     }
   }
-
 
   @override
   void initState() {
@@ -74,11 +72,11 @@ class _MywasteLoginState extends State<MywasteLogin> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new),
           onPressed: () {
-             Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const MyAccount(),
-          ));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const MyAccount(),
+                ));
           },
         ),
         shape: const RoundedRectangleBorder(
@@ -88,7 +86,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
           ),
         ),
         bottom: const PreferredSize(
-          preferredSize: Size.fromHeight(200),
+          preferredSize: Size.fromHeight(100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,7 +98,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
                   Text(
                     'Login as Waste company',
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.black),
                   ),
@@ -120,15 +118,15 @@ class _MywasteLoginState extends State<MywasteLogin> {
           ),
         ),
       ),
-     
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 10),
+            const SizedBox(height: 70),
             const Text(
               'Heya! Welcome Back',
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
             ),
             const SizedBox(height: 10),
             const Text(
@@ -142,7 +140,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
             ),
             const SizedBox(height: 25),
             Form(
-               key: formKey,
+              key: formKey,
               autovalidateMode: autoValidateMode,
               child: Column(
                 children: [
@@ -168,7 +166,7 @@ class _MywasteLoginState extends State<MywasteLogin> {
                       },
                     ),
                   ),
-                   Padding(
+                  Padding(
                     padding: const EdgeInsets.only(
                         top: 8.0, bottom: 8.0, left: 35.0, right: 35.0),
                     child: TextFormField(
@@ -207,56 +205,52 @@ class _MywasteLoginState extends State<MywasteLogin> {
               ),
             ),
             const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 35,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        GestureDetector(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const ForgotPasswordScreen(),
-                                )),
-                            child: const Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text('Forgot password?'),
-                            )),
-                      ],
-                    ),
-                  ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 35,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen(),
+                          )),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Forgot password?'),
+                      )),
+                ],
+              ),
+            ),
             const SizedBox(height: 15),
             ElevatedButton(
-              onPressed:(){
-                 if (validateAndSave()) {
-                        _login();
-                      }
-                    },
-                   
-             style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all<Color>(
-                        const Color(0Xff0C2925),
-                      ),
-                    ),
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(color: Colors.white),
-                    ),
-  
+              onPressed: () {
+                if (validateAndSave()) {
+                  _login();
+                }
+              },
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all<Color>(
+                  const Color(0Xff0C2925),
+                ),
+              ),
+              child: const Text(
+                'Login',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
       ),
-    
     );
   }
 
   _login() async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-     OverlayLoadingProgress.start(
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    OverlayLoadingProgress.start(
       context,
       barrierDismissible: true,
       widget: Container(
@@ -274,12 +268,12 @@ class _MywasteLoginState extends State<MywasteLogin> {
       ),
     );
     final user = await _auth.loginUserWithEmailAndPassword(
-        _mailController.text, _passwordController.text);
+        _mailController.text.trim(), _passwordController.text.trim());
     if (user != null) {
-          CollectionReference users =
+      CollectionReference users =
           FirebaseFirestore.instance.collection('waste_company');
 
-       users.doc(user.uid).get().then((snapshot) async {
+      users.doc(user.uid).get().then((snapshot) async {
         if (snapshot.exists) {
           final data = snapshot.data() as Map<String, dynamic>;
 
@@ -297,8 +291,11 @@ class _MywasteLoginState extends State<MywasteLogin> {
         log("Error fetching user data: $error");
       });
       OverlayLoadingProgress.stop();
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const MyWasteNavigate()));
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+        builder: (context) {
+          return const MyWasteNavigate();
+        },
+      ), (Route<dynamic> route) => false);
     } else {
       QuickAlert.show(
         context: context,

@@ -21,13 +21,48 @@ class _HouseState extends State<House> {
   CollectionReference companies =
       FirebaseFirestore.instance.collection('waste_company');
 
+  int pickupRequestsCount = 0;
+  int cleanupRequestsCount = 0;
+  bool isLoadingRequests = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchRequestsCount();
+  }
+
+  Future<void> _fetchRequestsCount() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        final pickupSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .collection('pickup_orders')
+            .get();
+        final cleanupSnapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .collection('cleanup_orders')
+            .get();
+
+        setState(() {
+          pickupRequestsCount = pickupSnapshot.docs.length;
+          cleanupRequestsCount = cleanupSnapshot.docs.length;
+          isLoadingRequests = false;
+        });
+      }
+    } catch (e) {
+      print("Error fetching requests count: $e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home', style: TextStyle(color: Colors.black)),
         centerTitle: true,
-        
       ),
       drawer: const drawerWidget(),
       body: SingleChildScrollView(
@@ -44,12 +79,14 @@ class _HouseState extends State<House> {
                 children: [
                   InkWell(
                     onTap: () {
-                       Navigator.push(
-                         context,
-                         CupertinoPageRoute(
-                           builder: (context) => Pickupmade(FirebaseAuth.instance.currentUser),
-                         ),
-                       );
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => Pickupmade(
+                            currentUser: FirebaseAuth.instance.currentUser!,
+                          ),
+                        ),
+                      );
                     },
                     child: Card(
                       elevation: 1,
@@ -69,18 +106,21 @@ class _HouseState extends State<House> {
                                     height: 120,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
-                                        color:
-                                            const Color.fromARGB(37, 142, 250, 155)),
-                                    child: const Column(
+                                        color: const Color.fromARGB(
+                                            37, 142, 250, 155)),
+                                    child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          "14",
-                                          style: TextStyle(
-                                              fontSize: 60,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                        isLoadingRequests
+                                            ? CupertinoActivityIndicator()
+                                            : Text(
+                                                "$pickupRequestsCount",
+                                                style: TextStyle(
+                                                    fontSize: 60,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                       ],
                                     ),
                                   ),
@@ -88,10 +128,10 @@ class _HouseState extends State<House> {
                                     height: 10,
                                   ),
                                   const Text(
-                                    'Requests',
+                                    'Pickup Requests',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w300,
                                     ),
                                   ),
@@ -105,12 +145,13 @@ class _HouseState extends State<House> {
                   ),
                   InkWell(
                     onTap: () {
-                       Navigator.push(
-                         context,
-                         CupertinoPageRoute(
-                           builder: (context) => CleanupOrdersList(FirebaseAuth.instance.currentUser),
-                         ),
-                       );
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => CleanupOrdersList(
+                              FirebaseAuth.instance.currentUser),
+                        ),
+                      );
                     },
                     child: Card(
                       elevation: 1,
@@ -130,18 +171,21 @@ class _HouseState extends State<House> {
                                     height: 120,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
-                                        color:
-                                            const Color.fromARGB(37, 142, 250, 155)),
-                                    child: const Column(
+                                        color: const Color.fromARGB(
+                                            37, 142, 250, 155)),
+                                    child: Column(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        Text(
-                                          "14",
-                                          style: TextStyle(
-                                              fontSize: 60,
-                                              fontWeight: FontWeight.bold),
-                                        ),
+                                        isLoadingRequests
+                                            ? CupertinoActivityIndicator()
+                                            : Text(
+                                                "$cleanupRequestsCount",
+                                                style: TextStyle(
+                                                    fontSize: 60,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
                                       ],
                                     ),
                                   ),
@@ -149,10 +193,10 @@ class _HouseState extends State<House> {
                                     height: 10,
                                   ),
                                   const Text(
-                                    'Requests',
+                                    'Cleanup Requests',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.w300,
                                     ),
                                   ),
@@ -241,8 +285,8 @@ class _HouseState extends State<House> {
                                   title: const Text("Location"),
                                   subtitle: Text(
                                     snapshot.data!.docs[index]["location"],
-                                    style:
-                                        const TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                                 ListTile(
@@ -252,8 +296,8 @@ class _HouseState extends State<House> {
                                   subtitle: Text(
                                     snapshot.data!.docs[index]
                                         ["available_days"],
-                                    style:
-                                        const TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ],
@@ -271,7 +315,6 @@ class _HouseState extends State<House> {
           ],
         ),
       ),
-     
     );
   }
 }
