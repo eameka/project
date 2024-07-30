@@ -100,7 +100,7 @@ class _MyHouseLoginState extends State<MyHouseLogin> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Login',
+                    'Login as Household',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,

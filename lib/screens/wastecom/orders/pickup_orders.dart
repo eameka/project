@@ -101,7 +101,7 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                   DateFormat('yyyy-MM-dd – hh:mm a').format(dateTime);
 
               return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 elevation: 3,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -113,57 +113,57 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                     children: [
                       Text(
                         'Quantity: ${order['Quantity']}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         'Household Name: ${order['householdName']}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black54,
                         ),
                       ),
                       Text(
                         'User Contact: ${order['userContact']}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black54,
                         ),
                       ),
                       Text(
                         'Location: ${order['location']}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black54,
                         ),
                       ),
                       Text(
                         'Available Day: ${order['Available Days']}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black54,
                         ),
                       ),
                       Text(
                         'Available Time: ${order['Available Times']}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black54,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Text(
                         'Request Time: $formattedDate',
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black54,
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
@@ -189,7 +189,7 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                                 style: TextStyle(color: Colors.white),
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                     ],
                   ),
                 ),
@@ -198,6 +198,7 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
           );
         },
       ),
+    
     );
   }
 }
