@@ -470,7 +470,9 @@ class _RequestPickupState extends State<RequestPickup> {
         'Waste type': waste,
         'Selected company': selectedcompany,
         'isPickedUp': false,
+        'amount': null,
         'requesttimestamp': FieldValue.serverTimestamp(),
+        'pickuptimestamp': null,
       }).then((done) {
         log('Completed');
         OverlayLoadingProgress.stop();

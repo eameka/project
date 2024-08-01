@@ -1,10 +1,15 @@
 import 'dart:developer';
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'package:pay_with_paystack/pay_with_paystack.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class WastePickupOrdersPage extends StatefulWidget {
   const WastePickupOrdersPage({super.key});
@@ -14,6 +19,7 @@ class WastePickupOrdersPage extends StatefulWidget {
 }
 
 class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
+  final _amount = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<List<Map<String, dynamic>>> getCompanyOrders() async {
@@ -35,6 +41,7 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
           'userId': userDoc.id,
           'householdName': userDoc.data()['name'],
           'userContact': userDoc.data()['contact'],
+          'userEmail': userDoc.data()['email'],
           'orderId': orderDoc.id,
           ...orderDoc.data(),
         });
@@ -159,13 +166,15 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                         ),
                       ),
                       SizedBox(height: 8),
-                      Text(
-                        'Request Time: $formattedDate',
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.bold),
-                      ),
+                      isPickedUp
+                          ? Text(
+                              'Amount Paid: GHS${order['amount']}0',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold),
+                            )
+                          : SizedBox(),
                       SizedBox(height: 8),
                       Align(
                         alignment: Alignment.centerRight,
@@ -180,27 +189,88 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                       ),
                       SizedBox(height: isPickedUp ? 8 : 28),
                       !isPickedUp
+                          ? TextFormField(
+                              controller: _amount,
+                              decoration: const InputDecoration(
+                                labelText: 'Enter amount',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(25),
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value?.isEmpty ?? true) {
+                                  return 'Please enter a valid address';
+                                }
+                                return null;
+                              },
+                            )
+                          : SizedBox(),
+                      SizedBox(height: isPickedUp ? 8 : 10),
+                      !isPickedUp
                           ? ElevatedButton(
                               onPressed: () {
-                                final uniqueTransRef =
-                                    PayWithPayStack().generateUuidV4();
-
-                                PayWithPayStack().now(
-                                    context: context,
-                                    secretKey:
-                                        "sk_test_245e639a97b3cb55b3574dfe01e8646369d5fbca",
-                                    customerEmail: "developermajesty@gmail.com",
-                                    reference: uniqueTransRef,
-                                    currency: "GHS",
-                                    amount: 20.0,
-                                    callbackUrl: '',
-                                    paymentChannel: ["mobile_money"],
-                                    transactionCompleted: () {
-                                      log("Transaction Successful");
-                                    },
-                                    transactionNotCompleted: () {
-                                      log("Transaction Not Successful!");
-                                    });
+                                if (_amount.text == '') {
+                                  AnimatedSnackBar.material(
+                                    'Please enter the cost of the pickup',
+                                    type: AnimatedSnackBarType.error,
+                                  ).show(context);
+                                } else {
+                                  final uniqueTransRef =
+                                      PayWithPayStack().generateUuidV4();
+                                  PayWithPayStack().now(
+                                      context: context,
+                                      secretKey:
+                                          "sk_test_245e639a97b3cb55b3574dfe01e8646369d5fbca",
+                                      customerEmail: order['userEmail'],
+                                      reference: uniqueTransRef,
+                                      currency: "GHS",
+                                      amount: double.parse(_amount.text),
+                                      callbackUrl:
+                                          'https://turbineslimited.com/',
+                                      paymentChannel: ["mobile_money", 'card'],
+                                      transactionCompleted: () {
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .doc(order['userId'])
+                                            .collection('pickup_orders')
+                                            .doc(order['orderId'])
+                                            .update({
+                                          'amount': double.parse(_amount.text),
+                                          'isPickedUp': true,
+                                          'pickuptimestamp':
+                                              FieldValue.serverTimestamp()
+                                        }).then((done) {
+                                          log('Completed');
+                                          // OverlayLoadingProgress.stop();
+                                          // Navigator.pop(context);
+                                          QuickAlert.show(
+                                              context: context,
+                                              type: QuickAlertType.success,
+                                              text:
+                                                  'Pickup completed successfully',
+                                              onConfirmBtnTap: () {
+                                                // Navigator.pop(context);
+                                                Navigator.of(context)
+                                                    .pushAndRemoveUntil(
+                                                        MaterialPageRoute(
+                                                  builder: (context) {
+                                                    return const MyWasteNavigate();
+                                                  },
+                                                ),
+                                                        (Route<dynamic>
+                                                                route) =>
+                                                            false);
+                                              });
+                                        });
+                                        ;
+                                      },
+                                      transactionNotCompleted: () {
+                                        print("Transaction Not Successful!");
+                                        log("Transaction Not Successful!");
+                                      });
+                                }
                               },
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all<Color>(
