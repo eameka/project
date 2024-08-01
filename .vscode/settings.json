@@ -33,6 +33,7 @@
         "registerwaste",
         "requestcleanup",
         "requestpickup",
+        "requesttimestamp",
         "Schyler",
         "selectcompanies",
         "selectedcompany",
