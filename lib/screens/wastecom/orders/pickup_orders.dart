@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:pay_with_paystack/pay_with_paystack.dart';
 
 class WastePickupOrdersPage extends StatefulWidget {
   const WastePickupOrdersPage({super.key});
@@ -178,7 +181,27 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                       SizedBox(height: isPickedUp ? 8 : 28),
                       !isPickedUp
                           ? ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                final uniqueTransRef =
+                                    PayWithPayStack().generateUuidV4();
+
+                                PayWithPayStack().now(
+                                    context: context,
+                                    secretKey:
+                                        "sk_test_245e639a97b3cb55b3574dfe01e8646369d5fbca",
+                                    customerEmail: "developermajesty@gmail.com",
+                                    reference: uniqueTransRef,
+                                    currency: "GHS",
+                                    amount: 20.0,
+                                    callbackUrl: '',
+                                    paymentChannel: ["mobile_money"],
+                                    transactionCompleted: () {
+                                      log("Transaction Successful");
+                                    },
+                                    transactionNotCompleted: () {
+                                      log("Transaction Not Successful!");
+                                    });
+                              },
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all<Color>(
                                   const Color(0Xff0C2925),
