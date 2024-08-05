@@ -419,7 +419,6 @@ class _RequestCleanupState extends State<RequestCleanup> {
       'Additional info': _extraInfo.text,
       'Waste type': _wastetype.text,
       'Available Days': availableDays,
-      
       'Selected company': selectedcompany,
     });
     OverlayLoadingProgress.stop();

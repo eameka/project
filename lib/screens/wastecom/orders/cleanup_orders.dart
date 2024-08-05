@@ -1,7 +1,14 @@
+import 'dart:developer';
+import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
+import 'package:overlay_loading_progress/overlay_loading_progress.dart';
+import 'package:pay_with_paystack/pay_with_paystack.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class WasteCleanupOrdersPage extends StatefulWidget {
   const WasteCleanupOrdersPage({super.key});
@@ -11,6 +18,7 @@ class WasteCleanupOrdersPage extends StatefulWidget {
 }
 
 class _WasteCleanupOrdersPageState extends State<WasteCleanupOrdersPage> {
+  final _amount = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<List<Map<String, dynamic>>> getCleanupOrders() async {
@@ -174,7 +182,7 @@ class _WasteCleanupOrdersPageState extends State<WasteCleanupOrdersPage> {
                       SizedBox(height: isPickedUp ? 8 : 28),
                       !isPickedUp
                           ? ElevatedButton(
-                              onPressed: () {},
+                               onPressed: (){},
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all<Color>(
                                   const Color(0Xff0C2925),

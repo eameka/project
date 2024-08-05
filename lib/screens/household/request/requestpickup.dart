@@ -249,12 +249,7 @@ class _RequestPickupState extends State<RequestPickup> {
                           ),
                         ),
                       ),
-                      // validator: (value) {
-                      //   if (value?.isEmpty ?? true) {
-                      //     return 'Please enter a special request';
-                      //   }
-                      //   return null;
-                      // },
+                     
                     ),
                   ),
                 ],
@@ -488,7 +483,8 @@ class _RequestPickupState extends State<RequestPickup> {
                 },
               ), (Route<dynamic> route) => false);
             });
-      });
+      }
+      );
     }
   }
 }

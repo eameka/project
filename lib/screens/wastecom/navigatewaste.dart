@@ -17,7 +17,7 @@ class _MyWasteNavigateState extends State<MyWasteNavigate> {
   static final List<Widget> _widgetOptions = <Widget>[
     const MyMaps(),
     const Orders(),
-    const Wasteprofile(),
+   // const Wasteprofile(),
   ];
 
   void _onItemTapped(int index) {

@@ -1,3 +1,4 @@
+import 'package:ecowaste/screens/household/house/receipt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -54,7 +55,7 @@ class _drawerWidgetState extends State<drawerWidget> {
                     size: 30,
                   )),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 15,
                 ),
                 Text(
@@ -72,7 +73,7 @@ class _drawerWidgetState extends State<drawerWidget> {
               // Call API or perform action here
             },
           ),
-          ListTile(
+          ListTile(  
             title: const Text('E-mail'),
             subtitle: Text(email),
             leading: const Icon(Icons.mail),
@@ -84,7 +85,10 @@ class _drawerWidgetState extends State<drawerWidget> {
             title: const Text('Payment'),
             leading: const Icon(Icons.wallet),
             onTap: () {
-              // Call API or perform action here
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ReceiptsScreen()),
+              );
             },
           ),
           ListTile(
@@ -118,7 +122,7 @@ class _drawerWidgetState extends State<drawerWidget> {
                             await FirebaseAuth.instance.signOut().then((value) {
                               Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                  builder: (context) => MyHouseLogin(),
+                                  builder: (context) => const MyHouseLogin(),
                                 ),
                                 (Route<dynamic> route) => false,
                               );

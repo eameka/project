@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowaste/screens/wastecom/orders/cleanup_orders.dart';
 import 'package:ecowaste/screens/wastecom/orders/pickup_orders.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Orders extends StatefulWidget {
@@ -10,6 +12,28 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
+  
+Future<double> getSumOfAmounts() async {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final _currentUserEmail = FirebaseAuth.instance.currentUser?.email;
+
+  final QuerySnapshot snapshot = await _firestore
+      .collection('users')
+      .doc(_currentUserEmail)
+      .collection('pickup_orders')
+      .where('Selected company', isEqualTo: _currentUserEmail)
+      .where('isPickedUp', isEqualTo: true)
+      .get();
+
+  double sum = 0.0;
+  snapshot.docs.forEach((doc) {
+   sum += (doc.data() as Map<String, dynamic>)['amount'];
+   
+  });
+  return sum;
+}
+ 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,13 +72,21 @@ class _OrdersState extends State<Orders> {
                   ),
                 ],
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.07,
-                width: MediaQuery.of(context).size.width * 0.4,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(35)),
-                  color: Colors.white,
-                ),
+              FutureBuilder<double>(
+                future: getSumOfAmounts(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      'Balance: GH¢ ${snapshot.data!.toStringAsFixed(2)}',
+                      style: const TextStyle(fontSize: 24, color:Colors.white),
+                    );
+                  } else {
+                    return const Text(
+                      'Loading wallet amount...',
+                      style: TextStyle(fontSize: 24, color:Colors.white),
+                    );
+                  }
+                },
               ),
               const SizedBox(
                 height: 30,

@@ -165,17 +165,17 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                           color: Colors.black54,
                         ),
                       ),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       isPickedUp
                           ? Text(
                               'Amount Paid: GHS${order['amount']}0',
-                              style: TextStyle(
+                              style: const TextStyle(
                                   fontSize: 14,
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold),
                             )
-                          : SizedBox(),
-                      SizedBox(height: 8),
+                          : const SizedBox(),
+                      const SizedBox(height: 8),
                       const SizedBox(height: 8),
                       Text(
                         'Request Time: $formattedDate',
@@ -215,7 +215,7 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                                 return null;
                               },
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       SizedBox(height: isPickedUp ? 8 : 10),
                       !isPickedUp
                           ? ElevatedButton(
@@ -252,15 +252,14 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                                               FieldValue.serverTimestamp()
                                         }).then((done) {
                                           log('Completed');
-                                          // OverlayLoadingProgress.stop();
-                                          // Navigator.pop(context);
+                                          
                                           QuickAlert.show(
                                               context: context,
                                               type: QuickAlertType.success,
                                               text:
                                                   'Pickup completed successfully',
                                               onConfirmBtnTap: () {
-                                                // Navigator.pop(context);
+                                                
                                                 Navigator.of(context)
                                                     .pushAndRemoveUntil(
                                                         MaterialPageRoute(
@@ -281,6 +280,7 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                                       });
                                 }
                               },
+                             
                               style: ButtonStyle(
                                 backgroundColor: WidgetStateProperty.all<Color>(
                                   const Color(0Xff0C2925),
