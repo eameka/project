@@ -1,21 +1,23 @@
-import 'package:ecowaste/screens/wastecom/maps/maps.dart';
-import 'package:ecowaste/screens/wastecom/orders/orders.dart';
+
+import 'package:ecowaste/screens/sensoruser/sensor/sensorpickup.dart';
+import 'package:ecowaste/screens/sensoruser/sensorscreen.dart';
 import 'package:flutter/material.dart';
 
-class MyWasteNavigate extends StatefulWidget {
-  const MyWasteNavigate({super.key});
+class MySensorNavigate extends StatefulWidget {
+  const MySensorNavigate({super.key});
 
   @override
-  State<MyWasteNavigate> createState() => _MyWasteNavigateState();
+  State<MySensorNavigate> createState() => _MySensorNavigateState();
 }
 
-class _MyWasteNavigateState extends State<MyWasteNavigate> {
+class _MySensorNavigateState extends State<MySensorNavigate> {
 
  int _selectedIndex = 0;
 
   static final List<Widget> _widgetOptions = <Widget>[
-    const MyMaps(),
-    const Orders(),
+    const SensorScreen(),
+    const SensorPickup(),
+   
   ];
 
   void _onItemTapped(int index) {
@@ -58,9 +60,8 @@ class _MyWasteNavigateState extends State<MyWasteNavigate> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.notification_add, color: Colors.white,),
-                label: 'Orders',
+                label: 'Order',
               ),
-             
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: Colors.black,

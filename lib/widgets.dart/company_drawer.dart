@@ -80,13 +80,7 @@ class _CompanyDrawerState extends State<CompanyDrawer> {
               // Call API or perform action here
             },
           ),
-          ListTile(
-            title: const Text('Payment'),
-            leading: const Icon(Icons.wallet),
-            onTap: () {
-              // Call API or perform action here
-            },
-          ),
+         
           ListTile(
               title: const Text('Logout'),
               leading: const Icon(Icons.logout),

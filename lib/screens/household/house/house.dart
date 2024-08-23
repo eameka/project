@@ -142,7 +142,9 @@ class _HouseState extends State<House> {
                         ),
                       ),
                     ),
+                 
                   ),
+                  
                   InkWell(
                     onTap: () {
                       Navigator.push(

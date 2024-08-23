@@ -1,24 +1,23 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ecowaste/screens/household/navigate.dart';
+import 'package:ecowaste/screens/sensoruser/sensor/sensorpickup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
-//import 'package:location/location.dart';
 
-class RequestPickup extends StatefulWidget {
-  const RequestPickup({super.key});
+class PickupForm extends StatefulWidget {
+  const PickupForm({super.key});
 
   @override
-  State<RequestPickup> createState() => _RequestPickupState();
+  State<PickupForm> createState() => _PickupFormState();
 }
 
-class _RequestPickupState extends State<RequestPickup> {
-  String? selectedcompany;
+class _PickupFormState extends State<PickupForm> {
+   String? selectedcompany;
   final _address = TextEditingController();
   final _name = TextEditingController();
   final _contact = TextEditingController();
@@ -35,7 +34,6 @@ class _RequestPickupState extends State<RequestPickup> {
   String? waste;
   String? availableDays;
   String? availableTime;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +48,7 @@ class _RequestPickupState extends State<RequestPickup> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const NavigateHouseHold(),
+                  builder: (context) => const SensorPickup(),
                 ));
           },
         ),
@@ -60,7 +58,6 @@ class _RequestPickupState extends State<RequestPickup> {
             bottomRight: Radius.circular(25),
           ),
         ),
-        
         bottom: const PreferredSize(
           preferredSize: Size.fromHeight(100),
           child: Column(
@@ -77,7 +74,7 @@ class _RequestPickupState extends State<RequestPickup> {
                 ],
               ),
               Text(
-                ' Fill in details to request pickup',
+                ' Fill in details to request manual pickup',
                 style: TextStyle(fontSize: 15, color: Colors.black),
               ),
               SizedBox(
@@ -86,10 +83,8 @@ class _RequestPickupState extends State<RequestPickup> {
             ],
           ),
         ),
-     
       ),
-    
-      body: Form(
+     body: Form(
         key: formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: Stepper(
@@ -125,7 +120,7 @@ class _RequestPickupState extends State<RequestPickup> {
                         CupertinoDialogAction(
                           isDestructiveAction: false,
                           onPressed: () async {
-                            _pickuprequest();
+                            _sensorpickuprequest();
                             // Navigator.pop(context);
                           },
                           child: const Text("Yes"),
@@ -434,8 +429,7 @@ class _RequestPickupState extends State<RequestPickup> {
   
     );
   }
-
-  _pickuprequest() {
+   _sensorpickuprequest() {
     log('_pickuprequest');
     OverlayLoadingProgress.start(
       context,
@@ -459,7 +453,7 @@ class _RequestPickupState extends State<RequestPickup> {
       FirebaseFirestore.instance
           .collection('users')
           .doc(currentUser.uid)
-          .collection('pickup_orders')
+          .collection('sensor pickup_orders')
           .add({
         'location': _address.text,
         'Additional Info': _specialController.text,
@@ -483,7 +477,7 @@ class _RequestPickupState extends State<RequestPickup> {
             onConfirmBtnTap: () {
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
                 builder: (context) {
-                  return const NavigateHouseHold();
+                  return const SensorPickup();
                 },
               ), (Route<dynamic> route) => false);
             });
@@ -491,7 +485,6 @@ class _RequestPickupState extends State<RequestPickup> {
       );
     }
   }
-
 
 
 }

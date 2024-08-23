@@ -54,6 +54,7 @@ dependencies:
   intl: ^0.17.0
   pay_with_paystack: ^1.0.10
   webview_flutter: ^4.8.0
+  sliding_up_panel: ^2.0.0+1
   
 
   
@@ -61,6 +62,12 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/s.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

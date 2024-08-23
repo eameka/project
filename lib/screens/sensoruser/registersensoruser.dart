@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowaste/register.dart';
 import 'package:ecowaste/screens/household/auth/auth_service.dart';
+import 'package:ecowaste/screens/sensoruser/selectcompany.dart';
 import 'package:ecowaste/screens/sensoruser/sensorscreen.dart';
 import 'package:ecowaste/screens/sensoruser/store_sensor_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -101,7 +102,7 @@ class _SensorregisterState extends State<Sensorregister> {
                   Text(
                     'Create Sensor Household Account',
                     style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.black),
                   ),
@@ -418,7 +419,7 @@ class _SensorregisterState extends State<Sensorregister> {
         'contact': _contactController.text,
         'email': _mailController.text,
         'name': _householdController.text,
-        'role': 'Household'
+        'role': 'Sensor Household'
       });
 
       // Save user details in Shared preferences
@@ -437,7 +438,7 @@ class _SensorregisterState extends State<Sensorregister> {
       OverlayLoadingProgress.stop();
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
         builder: (context) {
-          return SensorScreen();
+          return Selectcompany();
         },
       ), (Route<dynamic> route) => false);
 

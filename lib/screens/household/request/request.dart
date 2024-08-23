@@ -55,12 +55,23 @@ class _NotifyState extends State<Notify> {
                           color: Colors.white),
                     ),
                   ),
+                  Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(
+                      'Clean Communities, Bright Futures: Request a Pickup today',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
             ],
           ),
         ),
       ),
+      
       drawer: const drawerWidget(),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -71,116 +82,6 @@ class _NotifyState extends State<Notify> {
             children: [
               GestureDetector(
                 onTap: () {
-                  // showModalBottomSheet(
-                  //   context: context,
-                  //   isScrollControlled: true, // make the sheet scrollable
-                  //   builder: (context) {
-                  //     TimeOfDay timeOfDay = const TimeOfDay(hour: 8, minute: 0);
-                  //     return FractionallySizedBox(
-                  //       heightFactor: MediaQuery.of(context).size.height *
-                  //           0.8, // adjust the height based on the screen size
-                  //       child: SingleChildScrollView(
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.all(8.0),
-                  //           child: Form(
-                  //             child: Column(
-                  //               children: [
-                  //                 TextFormField(
-                  //                   decoration: const InputDecoration(
-                  //                     labelText: 'Location',
-                  //                     border: OutlineInputBorder(),
-                  //                   ),
-                  //                   validator: (value) {
-                  //                     if (value!.isEmpty) {
-                  //                       return 'Please enter your location';
-                  //                     }
-                  //                     return null;
-                  //                   },
-                  //                 ),
-                  //                 TextFormField(
-                  //                   decoration: const InputDecoration(
-                  //                     labelText: 'Waste Type',
-                  //                     border: OutlineInputBorder(),
-                  //                   ),
-                  //                   validator: (value) {
-                  //                     if (value!.isEmpty) {
-                  //                       return 'Please enter the waste type';
-                  //                     }
-                  //                     return null;
-                  //                   },
-                  //                 ),
-                  //                 TextFormField(
-                  //                   decoration: const InputDecoration(
-                  //                     labelText: 'Quantity',
-                  //                     border: OutlineInputBorder(),
-                  //                   ),
-                  //                   validator: (value) {
-                  //                     if (value!.isEmpty) {
-                  //                       return 'Please enter the quantity';
-                  //                     }
-                  //                     return null;
-                  //                   },
-                  //                 ),
-                  //                 const Text('Time of Collection:'),
-                  //                 Row(
-                  //                   children: [
-                  //                     Radio(
-                  //                       value:
-                  //                           const TimeOfDay(hour: 8, minute: 0),
-                  //                       groupValue: timeOfDay,
-                  //                       onChanged: (value) {
-                  //                         setState(() {
-                  //                           timeOfDay = value as TimeOfDay;
-                  //                         });
-                  //                       },
-                  //                     ),
-                  //                     const Text('8:00 AM'),
-                  //                   ],
-                  //                 ),
-                  //                 Row(
-                  //                   children: [
-                  //                     Radio(
-                  //                       value: const TimeOfDay(
-                  //                           hour: 12, minute: 0),
-                  //                       groupValue: timeOfDay,
-                  //                       onChanged: (value) {
-                  //                         setState(() {
-                  //                           timeOfDay = value as TimeOfDay;
-                  //                         });
-                  //                       },
-                  //                     ),
-                  //                     const Text('12:00 PM'),
-                  //                   ],
-                  //                 ),
-                  //                 Row(
-                  //                   children: [
-                  //                     Radio(
-                  //                       value: const TimeOfDay(
-                  //                           hour: 16, minute: 0),
-                  //                       groupValue: timeOfDay,
-                  //                       onChanged: (value) {
-                  //                         setState(() {
-                  //                           timeOfDay = value as TimeOfDay;
-                  //                         });
-                  //                       },
-                  //                     ),
-                  //                     const Text('4:00 PM'),
-                  //                   ],
-                  //                 ),
-                  //                 ElevatedButton(
-                  //                   onPressed: () {
-                  //                     // submit the form
-                  //                   },
-                  //                   child: const Text('Request Waste Pickup'),
-                  //                 ),
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     );
-                  //   },
-                  // );
 
                   Navigator.push(
                     context,

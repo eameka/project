@@ -1,4 +1,3 @@
-import 'package:ecowaste/screens/household/house/receipt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -79,16 +78,6 @@ class _drawerWidgetState extends State<drawerWidget> {
             leading: const Icon(Icons.mail),
             onTap: () {
               // Call API or perform action here
-            },
-          ),
-          ListTile(
-            title: const Text('Payment'),
-            leading: const Icon(Icons.wallet),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const ReceiptsScreen()),
-              );
             },
           ),
           ListTile(

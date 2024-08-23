@@ -1,3 +1,6 @@
+import 'package:ecowaste/screens/sensoruser/loginsensoruser.dart';
+import 'package:ecowaste/screens/sensoruser/registersensoruser.dart';
+
 import 'screens/household/profile/houselogin.dart';
 import 'screens/household/profile/registerhouse.dart';
 import 'screens/wastecom/profile/registerwaste.dart';
@@ -82,7 +85,7 @@ class _MyAccountState extends State<MyAccount> {
                                   style: ButtonStyle(
                                       backgroundColor:
                                           WidgetStateProperty.all<Color>(
-                                    const Color.fromARGB(255, 103, 196, 107),
+                                     const Color(0Xff0C2925),
                                   )),
                                   child: const Text(
                                     "Register Household account",
@@ -102,7 +105,7 @@ class _MyAccountState extends State<MyAccount> {
                                   style: ButtonStyle(
                                       backgroundColor:
                                           WidgetStateProperty.all<Color>(
-                                    const Color.fromARGB(255, 103, 196, 107),
+                                     const Color(0Xff0C2925),
                                   )),
                                   child: const Text(
                                     "Register Waste Company account",
@@ -117,12 +120,12 @@ class _MyAccountState extends State<MyAccount> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const MyWasteSignup(),
+                                            const Sensorregister(),
                                       )),
                                   style: ButtonStyle(
                                       backgroundColor:
                                           WidgetStateProperty.all<Color>(
-                                    const Color.fromARGB(255, 103, 196, 107),
+                                     const Color(0Xff0C2925),
                                   )),
                                   child: const Text(
                                     "Register Sensor Household account",
@@ -211,7 +214,7 @@ class _MyAccountState extends State<MyAccount> {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) =>
-                                            const MywasteLogin(),
+                                            const Sensorlogin(),
                                       )),
                                 ),
                               ],

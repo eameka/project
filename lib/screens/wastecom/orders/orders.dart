@@ -12,27 +12,24 @@ class Orders extends StatefulWidget {
 }
 
 class _OrdersState extends State<Orders> {
-  
-Future<double> getSumOfAmounts() async {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final _currentUserEmail = FirebaseAuth.instance.currentUser?.email;
+  Future<double> getSumOfAmounts() async {
+    final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+    final _currentUserEmail = FirebaseAuth.instance.currentUser?.email;
 
-  final QuerySnapshot snapshot = await _firestore
-      .collection('users')
-      .doc(_currentUserEmail)
-      .collection('pickup_orders')
-      .where('Selected company', isEqualTo: _currentUserEmail)
-      .where('isPickedUp', isEqualTo: true)
-      .get();
+    final QuerySnapshot snapshot = await _firestore
+        .collection('users')
+        .doc(_currentUserEmail)
+        .collection('pickup_orders')
+        .where('Selected company', isEqualTo: _currentUserEmail)
+        .where('isPickedUp', isEqualTo: true)
+        .get();
 
-  double sum = 0.0;
-  snapshot.docs.forEach((doc) {
-   sum += (doc.data() as Map<String, dynamic>)['amount'];
-   
-  });
-  return sum;
-}
- 
+    double sum = 0.0;
+    snapshot.docs.forEach((doc) {
+      sum += (doc.data() as Map<String, dynamic>)['amount'];
+    });
+    return sum;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +75,12 @@ Future<double> getSumOfAmounts() async {
                   if (snapshot.hasData) {
                     return Text(
                       'Balance: GH¢ ${snapshot.data!.toStringAsFixed(2)}',
-                      style: const TextStyle(fontSize: 24, color:Colors.white),
+                      style: const TextStyle(fontSize: 24, color: Colors.white),
                     );
                   } else {
                     return const Text(
                       'Loading wallet amount...',
-                      style: TextStyle(fontSize: 24, color:Colors.white),
+                      style: TextStyle(fontSize: 24, color: Colors.white),
                     );
                   }
                 },
@@ -111,84 +108,103 @@ Future<double> getSumOfAmounts() async {
                     ),
                   );
                 },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('assets/serve.png'),
-                              fit: BoxFit.fill,
-                            ),
+                child: Card(
+                  elevation: 1,
+                  color: Colors.white,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.40,
+                    height: 180,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.maxFinite,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/garbaget.jpeg'),
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Text(
+                                'Pickup Orders',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                      const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('Pickup orders',
-                              style: TextStyle(color: Colors.black)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const WasteCleanupOrdersPage(),
+                      ],
                     ),
-                  );
-                },
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
-                          height: MediaQuery.of(context).size.height * 0.1,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('assets/serve.png'),
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Center(
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text('Cleanup orders',
-                              style: TextStyle(color: Colors.black)),
-                        ),
-                      ),
-                    ],
                   ),
                 ),
               ),
             ],
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const WasteCleanupOrdersPage(),
+                ),
+              );
+            },
+           child: Card(
+              elevation: 1,
+              color: Colors.white,
+              child: Container(
+                width: MediaQuery.of(context).size.width * 0.40,
+                height: 180,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            width: double.maxFinite,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              image: DecorationImage(
+                                image: AssetImage('assets/clean.jpeg'),
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            'Cleanup orders',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            
           ),
         ],
       ),
