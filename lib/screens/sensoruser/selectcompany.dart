@@ -19,7 +19,7 @@ class Selectcompany extends StatefulWidget {
 
 class _SelectcompanyState extends State<Selectcompany> {
   final CollectionReference _companiesRef =
-      FirebaseFirestore.instance.collection('waste_companies');
+      FirebaseFirestore.instance.collection('waste_company');
 
   String? _selectedCompany;
   final formKey = GlobalKey<FormState>();
@@ -68,7 +68,7 @@ class _SelectcompanyState extends State<Selectcompany> {
               ),
               Text(
                 ' Select preferred waste company',
-                style: TextStyle(fontSize: 15, color: Colors.black),
+                style: TextStyle(fontSize: 18, color: Colors.black),
               ),
               SizedBox(
                 height: 30,

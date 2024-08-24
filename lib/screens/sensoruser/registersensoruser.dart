@@ -20,7 +20,7 @@ class Sensorregister extends StatefulWidget {
 }
 
 class _SensorregisterState extends State<Sensorregister> {
-   final _auth = AuthService();
+  final _auth = AuthService();
   final _householdController = TextEditingController();
   final _passwordController = TextEditingController();
   final _mailController = TextEditingController();
@@ -48,7 +48,6 @@ class _SensorregisterState extends State<Sensorregister> {
     }
   }
 
-  
   @override
   void initState() {
     super.initState();
@@ -137,7 +136,7 @@ class _SensorregisterState extends State<Sensorregister> {
                     child: TextFormField(
                       controller: _householdController,
                       decoration: const InputDecoration(
-                        labelText: 'Household Username',
+                        labelText: 'Sensor Household Username',
                         prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
@@ -360,7 +359,6 @@ class _SensorregisterState extends State<Sensorregister> {
                 const SizedBox(height: 15),
                 ElevatedButton(
                   onPressed: () {
-                    
                     if (validateAndSave()) {
                       _signup();
                     }
@@ -380,12 +378,9 @@ class _SensorregisterState extends State<Sensorregister> {
         ),
       ),
     );
-  
-
-  
   }
 
-   _signup() async {
+  _signup() async {
     // Initialized Shared Preferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // Initialized Loader
@@ -415,7 +410,10 @@ class _SensorregisterState extends State<Sensorregister> {
       User? currentUser = FirebaseAuth.instance.currentUser;
 
       // Save the user details into the database
-      FirebaseFirestore.instance.collection('Sensor_Household').doc(currentUser!.uid).set({
+      FirebaseFirestore.instance
+          .collection('Sensor_Household')
+          .doc(currentUser!.uid)
+          .set({
         'contact': _contactController.text,
         'email': _mailController.text,
         'name': _householdController.text,
@@ -441,8 +439,6 @@ class _SensorregisterState extends State<Sensorregister> {
           return Selectcompany();
         },
       ), (Route<dynamic> route) => false);
-
-      
     } else {
       QuickAlert.show(
         context: context,
@@ -452,6 +448,4 @@ class _SensorregisterState extends State<Sensorregister> {
       OverlayLoadingProgress.stop();
     }
   }
-
-
 }

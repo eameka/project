@@ -75,7 +75,7 @@ Future<void> _fetchRequestsCount() async {
                     child: Text(
                       'Reduce, Reuse, Recycle',
                       style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
@@ -85,7 +85,7 @@ Future<void> _fetchRequestsCount() async {
                     child: Text(
                       'Tiny steps today,trash free tomorrow',
                       style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),

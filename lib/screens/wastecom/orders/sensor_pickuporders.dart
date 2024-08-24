@@ -1,25 +1,25 @@
 import 'dart:developer';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
-import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
-import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecowaste/screens/wastecom/navigatewaste.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'package:pay_with_paystack/pay_with_paystack.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 
-class WastePickupOrdersPage extends StatefulWidget {
-  const WastePickupOrdersPage({super.key});
+class SenPickuporders extends StatefulWidget {
+  const SenPickuporders({super.key});
 
   @override
-  State<WastePickupOrdersPage> createState() => _WastePickupOrdersPageState();
+  State<SenPickuporders> createState() => _SenPickupordersState();
 }
 
-class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
-  final _amount = TextEditingController();
+class _SenPickupordersState extends State<SenPickuporders> {
+
+ final _amount = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<List<Map<String, dynamic>>> getCompanyOrders() async {
@@ -32,14 +32,14 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
       final pickupOrdersSnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(userDoc.id)
-          .collection('pickup_orders')
+          .collection('sensor pickup_orders')
           .where('Selected company', isEqualTo: _auth.currentUser?.email)
           .get();
 
       for (var orderDoc in pickupOrdersSnapshot.docs) {
         companyOrders.add({
           'userId': userDoc.id,
-          'householdName': userDoc.data()['name'],
+          'Sensor householdName': userDoc.data()['name'],
           'userContact': userDoc.data()['contact'],
           'userEmail': userDoc.data()['email'],
           'orderId': orderDoc.id,
@@ -51,14 +51,15 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
     return companyOrders;
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+       appBar: AppBar(
           elevation: 15.0,
           backgroundColor: const Color.fromARGB(255, 103, 196, 107),
           title: const Text(
-            'Household Pickup Orders',
+            'Sensor Pickup Orders',
             style: TextStyle(color: Colors.white, fontSize: 17),
           ),
           centerTitle: true,
@@ -71,7 +72,6 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
               Navigator.pop(context);
             },
           )),
-     
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: getCompanyOrders(),
         builder: (context, snapshot) {
@@ -132,7 +132,7 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Household Name: ${order['householdName']}',
+                        'Sensor Household Name: ${order['householdName']}',
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black54,
@@ -244,7 +244,7 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
                                         FirebaseFirestore.instance
                                             .collection('users')
                                             .doc(order['userId'])
-                                            .collection('pickup_orders')
+                                            .collection('sensor pickup_orders')
                                             .doc(order['orderId'])
                                             .update({
                                           'amount': double.parse(_amount.text),
@@ -302,7 +302,6 @@ class _WastePickupOrdersPageState extends State<WastePickupOrdersPage> {
         },
       ),
     
-   
     );
   }
 }

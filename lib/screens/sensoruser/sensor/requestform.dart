@@ -451,7 +451,7 @@ class _PickupFormState extends State<PickupForm> {
     User? currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
       FirebaseFirestore.instance
-          .collection('users')
+          .collection('Sensor_Household')
           .doc(currentUser.uid)
           .collection('sensor pickup_orders')
           .add({
