@@ -155,115 +155,121 @@ class _OrdersState extends State<Orders> {
                 ),
               ],
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const WasteCleanupOrdersPage(),
-                  ),
-                );
-              },
-             child: Card(
-                elevation: 1,
-                color: Colors.white,
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.40,
-                  height: 180,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: double.maxFinite,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                image: DecorationImage(
-                                  image: AssetImage('assets/clean.jpeg'),
-                                  fit: BoxFit.fill,
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WasteCleanupOrdersPage(),
+                    ),
+                  );
+                },
+               child: Card(
+                  elevation: 1,
+                  color: Colors.white,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.40,
+                    height: 180,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.maxFinite,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/clean.jpeg'),
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              'Cleanup orders',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
-                          ],
+                              const Text(
+                                'Cleanup orders',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
+                
+                         
               ),
-              
-           
             ),
         
-         GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SenPickuporders(),
-                  ),
-                );
-              },
-             child: Card(
-                elevation: 1,
-                color: Colors.white,
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.40,
-                  height: 180,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          children: [
-                            Container(
-                              width: double.maxFinite,
-                              height: 120,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                image: DecorationImage(
-                                  image: AssetImage('assets/sensor.jpeg'),
-                                  fit: BoxFit.fill,
+         Padding(
+           padding: const EdgeInsets.all(12.0),
+           child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SenPickuporders(),
+                    ),
+                  );
+                },
+               child: Card(
+                  elevation: 1,
+                  color: Colors.white,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.40,
+                    height: 180,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: double.maxFinite,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/sensor.jpeg'),
+                                    fit: BoxFit.fill,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            const Text(
-                              'Sensor orders',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w300,
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
-                          ],
+                              const Text(
+                                'Sensor orders',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
+                
+             
               ),
-              
-           
-            ),
+         ),
          
           ],
         ),

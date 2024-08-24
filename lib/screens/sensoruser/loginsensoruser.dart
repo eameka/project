@@ -4,6 +4,7 @@ import 'package:ecowaste/forgotpassword.dart';
 import 'package:ecowaste/register.dart';
 import 'package:ecowaste/screens/household/auth/auth_service.dart';
 import 'package:ecowaste/screens/sensoruser/Sensorscreen.dart';
+import 'package:ecowaste/screens/sensoruser/sensor/nav.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_loading_progress/overlay_loading_progress.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -279,7 +280,7 @@ class _SensorloginState extends State<Sensorlogin> {
       });
       OverlayLoadingProgress.stop();
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const SensorScreen()));
+          MaterialPageRoute(builder: (context) => const MySensorNavigate()));
     } else {
       QuickAlert.show(
         context: context,

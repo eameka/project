@@ -55,6 +55,7 @@ dependencies:
   pay_with_paystack: ^1.0.10
   webview_flutter: ^4.8.0
   sliding_up_panel: ^2.0.0+1
+  http: ^1.2.2
   
 
   

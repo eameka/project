@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowaste/screens/sensoruser/sensor/requestform.dart';
+import 'package:ecowaste/screens/sensoruser/sensorscreen.dart';
 import 'package:ecowaste/widgets.dart/sensor_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -27,7 +28,7 @@ Future<void> _fetchRequestsCount() async {
       final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         final pickupSnapshot = await FirebaseFirestore.instance
-            .collection('users')
+            .collection('Sensor_Household')
             .doc(user.uid)
             .collection('sensor pickup_orders')
             .get();
@@ -54,6 +55,16 @@ Future<void> _fetchRequestsCount() async {
         iconTheme: const IconThemeData(
           color: Colors.white,
         ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SensorScreen(),
+                ));
+          },
+        ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(25),
@@ -70,22 +81,13 @@ Future<void> _fetchRequestsCount() async {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Reduce, Reuse, Recycle',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
-                    ),
-                  ),
+                 
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                       'Tiny steps today,trash free tomorrow',
                       style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: Colors.white),
                     ),
@@ -96,7 +98,7 @@ Future<void> _fetchRequestsCount() async {
           ),
         ),
       ),
-      drawer: const SensordrawerWidget(),
+    
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
