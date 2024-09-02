@@ -4,7 +4,6 @@ import 'package:ecowaste/widgets.dart/company_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-
 class MyMaps extends StatefulWidget {
   const MyMaps({super.key});
 
@@ -14,8 +13,55 @@ class MyMaps extends StatefulWidget {
 
 class _MyMapsState extends State<MyMaps> {
   static const LatLng _kGooglePlex = LatLng(6.6795024, -1.5734307);
-   GoogleMapController? _mapController;
+  GoogleMapController? _mapController;
   final TextEditingController _searchController = TextEditingController();
+  Set<Marker> _markers = Set();
+  Set<Polyline> _polylines = Set();
+  CameraPosition? _currentCameraPosition;
+
+  @override
+  void initState() {
+    super.initState();
+    _addMarkers();
+  }
+
+  void _addMarkers() {
+    _markers.add(
+      Marker(
+        markerId: MarkerId('marker1'),
+        position: LatLng(6.6933, -1.5642), // Brunei
+        infoWindow: InfoWindow(title: 'Brunei'),
+      ),
+    );
+    _markers.add(
+      Marker(
+        markerId: MarkerId('marker2'),
+        position: LatLng(6.6873, -1.5667), // KNUST police station
+        infoWindow: InfoWindow(title: 'KNUST police station'),
+      ),
+    );
+    _markers.add(
+      Marker(
+        markerId: MarkerId('marker3'),
+        position: LatLng(6.6842, -1.5719), // Sun city
+        infoWindow: InfoWindow(title: 'Sun city'),
+      ),
+    );
+    _markers.add(
+      Marker(
+        markerId: MarkerId('marker4'),
+        position: LatLng(6.6803, -1.5744), // Glokezz Apartments
+        infoWindow: InfoWindow(title: 'Glokezz Apartments'),
+      ),
+    );
+    _markers.add(
+      Marker(
+        markerId: MarkerId('marker5'),
+        position: LatLng(6.6833, -1.5733), // CSIR Kumasi
+        infoWindow: InfoWindow(title: 'CSIR Kumasi'),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +86,16 @@ class _MyMapsState extends State<MyMaps> {
               target: _kGooglePlex,
               zoom: 14.4746,
             ),
-             onMapCreated: (GoogleMapController controller) {
+            onCameraMove: (CameraPosition cameraPosition) {
+              _currentCameraPosition = cameraPosition;
+            },
+            onMapCreated: (GoogleMapController controller) {
               _mapController = controller;
             },
+            markers: _markers,
+            polylines: _polylines,
           ),
-           Positioned(
+          Positioned(
             top: 10,
             left: 10,
             right: 10,
@@ -72,19 +123,15 @@ class _MyMapsState extends State<MyMaps> {
           ),
         ],
       ),
-   
     );
   }
-   void _searchLocation() async {
+
+  void _searchLocation() async {
     final String query = _searchController.text;
     final GoogleMapController? controller = _mapController;
     if (controller != null) {
       final LatLngBounds bounds = await controller.getVisibleRegion();
 
-      // You need to use the Google Places API to search for places
-      // You can't use the Google Maps Flutter package to search for places
-      // You need to make a separate API request to the Google Places API
-      // Here's an example using the http package
       final response = await http.get(Uri.parse(
         'https://maps.googleapis.com/maps/api/place/textsearch/json?query=$query&key=AIzaSyB2Xp6uM1mERY6cXHnUbQrflvXTeobAjHE',
       ));
@@ -95,7 +142,8 @@ class _MyMapsState extends State<MyMaps> {
 
         if (places.isNotEmpty) {
           final place = places.first;
-          final LatLng location = LatLng(place['geometry']['location']['lat'], place['geometry']['location']['lng']);
+          final LatLng location = LatLng(place['geometry']['location']['lat'],
+              place['geometry']['location']['lng']);
 
           controller.animateCamera(
             CameraUpdate.newCameraPosition(
@@ -105,9 +153,46 @@ class _MyMapsState extends State<MyMaps> {
               ),
             ),
           );
+
+          _calculateShortestPath(location);
         }
+      } else {
+        print('Error searching location: ${response.statusCode}');
       }
     }
   }
 
+  void _calculateShortestPath(LatLng destination) async {
+    final GoogleMapController? controller = _mapController;
+    if (controller != null && _currentCameraPosition != null) {
+      final LatLng currentLocation = _currentCameraPosition!.target;
+
+      final response = await http.get(Uri.parse(
+        'https://maps.googleapis.com/maps/api/directions/json?origin=${currentLocation.latitude},${currentLocation.longitude}&destination=${destination.latitude},${destination.longitude}&mode=driving&key=AIzaSyB2Xp6uM1mERY6cXHnUbQrflvXTeobAjHE',
+      ));
+
+      if (response.statusCode == 200) {
+        final jsonData = jsonDecode(response.body);
+        final routes = jsonData['routes'];
+
+        if (routes.isNotEmpty) {
+          final route = routes.first;
+          final polylinePoints = route['overview_polyline']['points'];
+
+          final polyline = Polyline(
+            polylineId: PolylineId('route'),
+            points: polylinePoints
+                .map((point) => LatLng(point['lat'], point['lng']))
+                .toList(),
+            color: Colors.blue,
+            width: 5,
+          );
+
+          setState(() {
+            _polylines.add(polyline);
+          });
+        }
+      }
+    }
+  }
 }

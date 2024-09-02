@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecowaste/screens/sensoruser/sensor/nav.dart';
 import 'package:ecowaste/screens/sensoruser/sensor/requestform.dart';
-import 'package:ecowaste/screens/sensoruser/sensorscreen.dart';
 import 'package:ecowaste/widgets.dart/sensor_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -61,7 +61,7 @@ Future<void> _fetchRequestsCount() async {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const SensorScreen(),
+                  builder: (context) => const MySensorNavigate(),
                 ));
           },
         ),
@@ -98,7 +98,7 @@ Future<void> _fetchRequestsCount() async {
           ),
         ),
       ),
-    
+    drawer: const SensordrawerWidget(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

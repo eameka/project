@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
-//import 'package:location/location.dart';
+import 'package:location/location.dart';
 
 class SensorScreen extends StatefulWidget {
   const SensorScreen({super.key});
@@ -15,8 +15,9 @@ class SensorScreen extends StatefulWidget {
 }
 
 class _SensorScreenState extends State<SensorScreen> {
-  // Location _locationController = new Location();
+   Location _locationController = new Location();
   List<dynamic> _thingSpeakData = [];
+   Set<Marker> _markers = {};
 
   Future<List<dynamic>> fetchThingSpeakData() async {
     final apiKey = 'DZA4VZY1MOXZYRHJ';
@@ -41,6 +42,23 @@ class _SensorScreenState extends State<SensorScreen> {
     return data;
   }
 
+  void _addMarkers() {
+  if (_thingSpeakData.isNotEmpty) {
+    for (var i = 0; i < _thingSpeakData[0].length; i++) {
+      _markers.add(
+        Marker(
+          markerId: MarkerId('marker$i'),
+          position: LatLng(
+            double.parse(_thingSpeakData[0][i]['field1']), // Latitude
+            double.parse(_thingSpeakData[0][i]['field2']), // Longitude
+          ),
+          infoWindow: InfoWindow(title: 'Sensor $i'),
+        ),
+      );
+    }
+  }
+}
+
   @override
   void initState() {
     super.initState();
@@ -48,11 +66,13 @@ class _SensorScreenState extends State<SensorScreen> {
       // Display the data in the card widgets
       setState(() {
         _thingSpeakData = data;
+        _addMarkers();
       });
     });
   }
 
   static const LatLng _kGooglePlex = LatLng(6.6795024, -1.5734307);
+  // static const LatLng _kCoSPlex = LatLng(6.6740, -1.6160);
   final PanelController _panelController = PanelController();
 
   @override
@@ -79,6 +99,16 @@ class _SensorScreenState extends State<SensorScreen> {
               target: _kGooglePlex,
               zoom: 14.4746,
             ),
+            markers: _markers,
+             /* {
+              Marker( 
+                markerId: MarkerId('marker'),
+                icon: BitmapDescriptor.defaultMarker,
+                position: _kCoSPlex,
+                zIndex: 100,
+                visible: true,  
+              ),
+            }*/
           ),
           SlidingUpPanel(
             controller: _panelController,
@@ -143,7 +173,7 @@ class _SensorScreenState extends State<SensorScreen> {
                       ),
                     ),
                     SizedBox(height: 5),
-                     _thingSpeakData.isNotEmpty
+                    _thingSpeakData.isNotEmpty
                         ? Text(
                             'Latitude: ${_thingSpeakData[0][0]['field1']}',
                             style: TextStyle(
@@ -173,6 +203,7 @@ class _SensorScreenState extends State<SensorScreen> {
                               color: Colors.white,
                             ),
                         )
+                        
                   ],
                 ),
               ),
@@ -218,11 +249,25 @@ class _SensorScreenState extends State<SensorScreen> {
     );
   }
 
-  /*Future<void> getLocationUpdates() async {
+  Future<void> getLocationUpdates() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
 
     _serviceEnabled = await _locationController.serviceEnabled();
+    if (_serviceEnabled) {
+      // When service is enabled request for permission
+      _serviceEnabled = await _locationController.requestService();
+    } else {
+      return;
+    }
+
+    _permissionGranted = await _locationController.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _locationController.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted){
+        return;
+      }
+    }
+     
   }
-  */
 }

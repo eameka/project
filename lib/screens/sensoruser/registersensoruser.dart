@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecowaste/register.dart';
 import 'package:ecowaste/screens/household/auth/auth_service.dart';
+import 'package:ecowaste/screens/sensoruser/getbinlocation.dart';
 import 'package:ecowaste/screens/sensoruser/selectcompany.dart';
 import 'package:ecowaste/screens/sensoruser/sensorscreen.dart';
 import 'package:ecowaste/screens/sensoruser/store_sensor_user.dart';
@@ -436,7 +437,7 @@ class _SensorregisterState extends State<Sensorregister> {
       OverlayLoadingProgress.stop();
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
         builder: (context) {
-          return Selectcompany();
+          return BinLocation();
         },
       ), (Route<dynamic> route) => false);
     } else {

@@ -34,28 +34,30 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
-  animated_splash_screen: ^1.3.0
-  page_transition: ^2.1.0
-  custom_signin_buttons: ^1.0.2
-  flutter_inappwebview: ^6.0.0
-  firebase_core: ^2.32.0
-  firebase_auth: ^4.20.0
-  firebase_storage: ^11.7.7
-  provider: ^6.1.2 
-  quickalert: ^1.1.0
-  cloud_firestore: 4.17.5
-  get: ^4.6.6
-  google_maps_flutter: ^2.7.0
-  google_sign_in: ^6.2.1
-  overlay_loading_progress: ^1.0.1
-  shared_preferences: ^2.2.3
-  animated_snack_bar: ^0.4.0
-  intl: ^0.17.0
-  pay_with_paystack: ^1.0.10
-  webview_flutter: ^4.8.0
-  sliding_up_panel: ^2.0.0+1
-  http: ^1.2.2
+  cupertino_icons: 
+  animated_splash_screen: 
+  page_transition: 
+  custom_signin_buttons: 
+  flutter_inappwebview: 
+  firebase_core: 
+  firebase_auth: 
+  firebase_storage: 
+  provider:  
+  quickalert: 
+  cloud_firestore: 
+  get: 
+  google_maps_flutter: 
+  google_sign_in:
+  overlay_loading_progress: 
+  shared_preferences: 
+  animated_snack_bar: 
+  intl:  
+  webview_flutter: 
+  sliding_up_panel: 
+  http: 
+  location:
+  geolocator: 
+  pay_with_paystack: 
   
 
   
